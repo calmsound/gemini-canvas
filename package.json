@@ -1,0 +1,9 @@
+{
+  "name": "gemini-canvas",
+  "version": "1.0.0",
+  "description": "Nathan's Digital Canvas with English Filenames and Index",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
