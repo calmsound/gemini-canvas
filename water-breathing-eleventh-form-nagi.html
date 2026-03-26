@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水之呼吸・十一之型：凪</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #0f172a; /* Dark Slate */
+            color: #e2e8f0;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Background Water Gradient */
+        .water-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 80%);
+            z-index: -2;
+            transition: opacity 2s ease;
+        }
+
+        /* The "Zone" Circle */
+        .nagi-zone {
+            position: absolute;
+            width: 60vh;
+            height: 60vh;
+            border-radius: 50%;
+            border: 2px solid rgba(56, 189, 248, 0.1); /* Sky blue tint */
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 1s ease-in-out;
+        }
+
+        /* Breathing Animation */
+        .breath-ring {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.15);
+            width: 100%;
+            height: 100%;
+            animation: breathe 10s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(0.8); opacity: 0.3; } /* Exhale / Pause */
+            50% { transform: scale(1.1); opacity: 0.6; } /* Inhale */
+        }
+
+        /* Interactive Ripples */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            transform: scale(0);
+            animation: ripple-expand 2s linear forwards;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes ripple-expand {
+            0% { transform: scale(0); opacity: 0.8; border-width: 2px; }
+            100% { transform: scale(3); opacity: 0; border-width: 0px; }
+        }
+
+        /* Text Styling */
+        .kanji-title {
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: 0.5rem;
+        }
+
+        .mantra-container {
+            text-align: center;
+            z-index: 20;
+            position: relative;
+            opacity: 0.9;
+            transition: opacity 0.5s;
+        }
+
+        .instruction {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .instruction:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: white;
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Active State */
+        body.deep-focus .instruction { opacity: 0; pointer-events: none; }
+        body.deep-focus .mantra-container h2 { color: #38bdf8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.8); }
+        body.deep-focus .water-bg { background: radial-gradient(circle at center, #0c4a6e 0%, #020617 90%); }
+
+    </style>
+</head>
+<body>
+
+    <div class="water-bg"></div>
+    
+    <!-- The Kanji Background -->
+    <div class="kanji-title">凪</div>
+
+    <!-- The Breathing Core -->
+    <div class="nagi-zone" id="nagiZone">
+        <div class="breath-ring"></div>
+        
+        <div class="mantra-container">
+            <h2 class="text-4xl md:text-6xl font-bold mb-4 text-white tracking-widest drop-shadow-lg transition-all duration-1000" id="mainText">全集中</h2>
+            <p class="text-xl text-sky-200 font-medium tracking-wide mb-8" id="subText">水之呼吸・十一之型</p>
+            
+            <button class="instruction" id="toggleBtn">
+                點擊切換至「深層結界」
+            </button>
+        </div>
+    </div>
+
+    <!-- Instructions Overlay (Optional) -->
+    <div class="absolute bottom-10 text-center text-slate-500 text-sm z-20 pointer-events-none">
+        <p>點擊畫面任何一處，讓雜念化為漣漪散去</p>
+        <p class="mt-1 opacity-50">"在此距離之內，任何攻擊都無效化"</p>
+    </div>
+
+    <script>
+        // --- 1. Ripple Effect (The Water Interaction) ---
+        document.addEventListener('click', (e) => {
+            // Don't create ripple if clicking the button
+            if (e.target.id === 'toggleBtn') return;
+
+            createRipple(e.clientX, e.clientY);
+        });
+
+        // Create ripple on mouse move (throttled) for that "fluid" feeling
+        let lastRippleTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastRippleTime > 100) { // Limit creation rate
+                createRipple(e.clientX, e.clientY);
+                lastRippleTime = now;
+            }
+        });
+
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            
+            // Randomize size slightly
+            const size = Math.random() * 50 + 50; // 50-100px
+            ripple.style.width = `${size}px`;
+            ripple.style.height = `${size}px`;
+            ripple.style.left = `${x - size/2}px`;
+            ripple.style.top = `${y - size/2}px`;
+            
+            document.body.appendChild(ripple);
+
+            // Remove after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 2000);
+        }
+
+        // --- 2. Breathing Text Logic ---
+        const mainText = document.getElementById('mainText');
+        const subText = document.getElementById('subText');
+        
+        // 10s cycle: 4s Inhale, 2s Hold, 4s Exhale
+        const breathCycle = () => {
+            // Inhale (0-4s)
+            setTimeout(() => {
+                mainText.style.opacity = "1";
+                mainText.innerText = "吸氣";
+                subText.innerText = "感受平靜進入身體";
+            }, 0);
+
+            // Hold (4-6s)
+            setTimeout(() => {
+                mainText.innerText = "保持";
+                subText.innerText = "你是安全的";
+            }, 4000);
+
+            // Exhale (6-10s)
+            setTimeout(() => {
+                mainText.innerText = "呼氣";
+                subText.innerText = "釋放所有恐懼";
+            }, 6000);
+        };
+
+        // Start breathing loop immediately
+        let breathingInterval = setInterval(breathCycle, 10000);
+        breathCycle(); // Run first cycle
+
+        // --- 3. Deep Focus Mode ---
+        const toggleBtn = document.getElementById('toggleBtn');
+        const nagiZone = document.getElementById('nagiZone');
+        let isDeepMode = false;
+
+        toggleBtn.addEventListener('click', () => {
+            isDeepMode = !isDeepMode;
+            document.body.classList.toggle('deep-focus');
+
+            if (isDeepMode) {
+                // Deep Mode: Minimal text, focus on the word "Nagi"
+                clearInterval(breathingInterval); // Stop the guided text
+                mainText.innerText = "凪";
+                subText.innerText = "Nagi";
+                nagiZone.style.transform = "scale(1.2)"; // Expand the zone
+                nagiZone.style.borderColor = "rgba(56, 189, 248, 0.3)";
+            } else {
+                // Normal Mode: Back to guided breathing
+                nagiZone.style.transform = "scale(1)";
+                nagiZone.style.borderColor = "rgba(56, 189, 248, 0.1)";
+                breathCycle();
+                breathingInterval = setInterval(breathCycle, 10000);
+            }
+        });
+
+        // --- 4. Floating Particles (Visual Ambience) ---
+        function createParticles() {
+            const particleCount = 30;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                
+                // Random positioning and movement
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 3;
+                const duration = Math.random() * 20 + 10;
+                
+                p.style.left = `${x}vw`;
+                p.style.top = `${y}vh`;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                
+                // Simple floating animation using WAAPI for performance
+                p.animate([
+                    { transform: `translate(0, 0) opacity(0)` },
+                    { transform: `translate(${Math.random()*20 - 10}px, -100px) opacity(${Math.random()*0.5})`, offset: 0.5 },
+                    { transform: `translate(${Math.random()*20 - 10}px, -200px) opacity(0)` }
+                ], {
+                    duration: duration * 1000,
+                    iterations: Infinity,
+                    delay: Math.random() * -20000 // negative delay to start mid-animation
+                });
+                
+                document.body.appendChild(p);
+            }
+        }
+        createParticles();
+
+    </script>
+</body>
+</html>

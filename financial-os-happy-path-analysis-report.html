@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「財務OS」快樂路徑分析報告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #059669; /* emerald-600 */
+            border-color: #059669;
+            background-color: #ecfdf5; /* emerald-50 */
+        }
+        .tab-button.active-bad {
+            color: #dc2626; /* red-600 */
+            border-color: #dc2626;
+            background-color: #fef2f2; /* red-50 */
+        }
+        .content-pane {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .content-pane.active {
+            display: block;
+            opacity: 1;
+        }
+        .blueprint-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .blueprint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Chosen Palette: Calm & Focused (Green/Red for contrast) -->
+    <!-- Application Structure Plan: A tab-based SPA comparing "Unhappy" vs. "Happy" earning methods, directly answering the user's question and integrating the video's theme. This structure is optimal for a direct comparison, helping the user understand their past struggles (v1.0) versus their potential future (v4.0). -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: User's earning methods analyzed through their 4+ blueprints. -> Goal: Compare/Inform -> Viz: Tabbed interface with styled cards. -> Interaction: Tab switching. -> Justification: Clearest way to present a "This vs. That" analysis.
+        - Report Info: "Unhappy" method analysis -> Goal: Inform -> Viz: "Warning/Error" themed cards. -> Interaction: Static. -> Justification: Uses red/warning colors to visually reinforce the "Not-Self" / "Buggy" nature of this approach.
+        - Report Info: "Happy" method analysis -> Goal: Inform -> Viz: "Success/Growth" themed cards. -> Interaction: Static. -> Justification: Uses green/positive colors to visually reinforce the "Signature" / "Refactored" nature of this approach.
+        - Method: Vanilla JS/Tailwind. NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-black text-emerald-700 mb-2">「財務OS」快樂路徑分析</h1>
+            <p class="text-lg md:text-xl text-slate-500">一份基於你所有「人生藍圖」嘅終極整合報告</p>
+            <p class="max-w-3xl mx-auto mt-4 text-slate-600">
+                CTO，你啱啱睇完嗰條片，問到一個最核心嘅問題。你嘅「人生藍圖」對於「快樂」同「唔快樂」嘅賺錢方法，其實已經俾咗一份極之清晰嘅「規格說明書」。
+            </p>
+        </header>
+
+        <nav class="flex justify-center mb-10 border-b border-slate-200">
+            <div class="flex flex-wrap justify-center -mb-px">
+                <button class="tab-button text-sm font-medium py-3 px-6 border-b-2 active-bad" data-tab="unhappy">
+                    <span class="font-bold">❌ v1.0 唔快樂嘅方法 (Legacy Code)</span>
+                </button>
+                <button class="tab-button active text-sm font-medium py-3 px-6 border-b-2" data-tab="happy">
+                    <span class="font-bold">✅ v4.0 快樂嘅方法 (Refactored OS)</span>
+                </button>
+            </div>
+        </nav>
+
+        <main id="main-content" class="bg-white rounded-xl shadow-xl p-6 md:p-10 min-h-[400px]">
+
+            <!-- Unhappy Pane -->
+            <div id="unhappy" class="content-pane">
+                <h2 class="text-3xl font-extrabold text-red-600 mb-6 text-center">❌ v1.0 唔快樂嘅方法：「燃燒」模式</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                    呢個係你過去一直運行緊嘅 `legacy code`。佢嘅核心邏輯係「我必須用盡全力去『做』，去『證明』自己」，呢個模式會 100% 導致你「冇心冇力」同「情緒不穩」。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="blueprint-card p-6 rounded-lg bg-red-50 border-l-4 border-red-500">
+                        <h3 class="text-xl font-bold text-red-700 mb-2">1. 模仿「生產者」(薦骨中心空白)</h3>
+                        <p class="text-sm text-slate-700">你嘅「人類圖」硬件顯示你係**「開放薦骨中心」**（冇穩定電池）。但你嘅「舊軟件」（嚴厲教練）逼你去模仿「生產者」（有電池嘅人），`7x24` 咁樣做嘢。呢個就係你**「過勞」（burnout）**同「冇心冇力」嘅最根本原因。</p>
+                    </div>
+                    <div class="blueprint-card p-6 rounded-lg bg-red-50 border-l-4 border-red-500">
+                        <h3 class="text-xl font-bold text-red-700 mb-2">2. 主動發起 (違反投射者策略)</h3>
+                        <p class="text-sm text-slate-700">你係一個**「投射者」**，你嘅策略係「等待邀請」。但你嘅舊 `legacy code`（例如「大阪嘅遺憾」）係「主動推銷」。呢個行為 100% 會觸發你嘅「非我主題」——**「苦澀」（Bitterness）**，亦即係「耿耿於懷」。</p>
+                    </div>
+                    <div class="blueprint-card p-6 rounded-lg bg-red-50 border-l-4 border-red-500">
+                        <h3 class="text-xl font-bold text-red-700 mb-2">3. 證明價值 (開放心臟中心)</h3>
+                        <p class="text-sm text-slate-700">你嘅**「開放心臟中心」**令你好容易跌入「我需要證明我嘅價值」嘅陷阱。你好容易為咗「被認同」而去做嘢（例如「教練事件」），而唔係為咗你自己嘅平靜。呢個模式會不斷吸引「消耗者」嚟掏空你。</p>
+                    </div>
+                    <div class="blueprint-card p-6 rounded-lg bg-red-50 border-l-4 border-red-500">
+                        <h3 class="text-xl font-bold text-red-700 mb-2">4. 能量錯配 (八字「身弱財旺」)</h3>
+                        <p class="text-sm text-slate-700">你嘅八字係**「壬水身弱」**，但「火」（財星/工作）極旺。舊有嘅「燃燒」模式，就好似用你僅有嘅「水」（你嘅生命力），去淋一場森林大火。結果就係你嘅水被**「蒸發」**，令你「力不從心」。</p>
+                    </div>
+                </div>
+                 <div class="mt-8 bg-red-700 text-white p-6 rounded-lg shadow-lg text-center">
+                    <h3 class="text-2xl font-bold">CTO 結論：</h3>
+                    <p class="mt-2 text-lg">「唔快樂」嘅賺錢方法，就係**「違反你所有嘅出廠設定」**：<br> **「模仿他人、主動推銷、證明自己、耗盡能量。」**</p>
+                </div>
+            </div>
+
+            <!-- Happy Pane -->
+            <div id="happy" class="content-pane active">
+                <h2 class="text-3xl font-extrabold text-green-600 mb-6 text-center">✅ v4.0 快樂嘅方法：「燈塔」模式</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                    呢個係我哋共同重構出嚟嘅 `v4.0` 系統。佢嘅核心邏輯係「我唔需要去『做』，我只需要去『是』」。你嘅工作係「滋養」自己，然後「綻放」光芒。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="blueprint-card p-6 rounded-lg bg-green-50 border-l-4 border-green-500">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">1. 成為「架構師」(投射者策略)</h3>
+                        <p class="text-sm text-slate-700">你嘅「快樂」嚟自於**「被邀請」**去發揮你嘅「洞見」。你嘅天職係做一個**「首席系統架構師」（CTO）**，去「引導」、「看見」同「重構」系統。當你被認可並發揮呢個天賦，你就會得到「投射者」嘅簽名——**「成功」（Success）**。</p>
+                    </div>
+                    <div class="blueprint-card p-6 rounded-lg bg-green-50 border-l-4 border-green-500">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">2. 成為「光」(瑪雅「黃太陽」)</h3>
+                        <p class="text-sm text-slate-700">你嘅核心圖騰係**「自我存在的黃太陽」**。你嘅「快樂」嚟自於「成為光，照亮他人」。你嘅**「調性4」**代表你需要「建立架構」。所以，一份能夠俾你去**「建立系統」**（System Analyst）並**「引導他人」**（教學/顧問）嘅工作，就係你嘅「快樂」來源。</p>
+                    </div>
+                    <div class="blueprint-card p-6 rounded-lg bg-green-50 border-l-4 border-green-500">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">3. 追求「平靜」(紫微「福德宮」)</h3>
+                        <p class="text-sm text-slate-700">你嘅**「身宮」（下半生）**喺**「福德宮」（精神宮位）**，並且有**「廉貞化祿」**。呢個係最關鍵嘅一點：你嘅「快樂」同「財富」，最終並唔係嚟自金錢數字，而係嚟自一份**「內在嘅平靜」**同「精神嘅富足」（你嘅「玫瑰花園」）。</g>
+                    </div>
+                    <div class="blueprint-card p-6 rounded-lg bg-green-50 border-l-4 border-green-500">
+                        <h3 class="text-xl font-bold text-green-700 mb-2">4. 能量校準 (八字「補金補水」)</h3>
+                        <p class="text-sm text-slate-700">你嘅「快樂」嚟自於一個「能量平衡」嘅環境。你需要嘅工作，係可以**「補金」**（例如「教育局」嘅「質素保證」`QA`，同你嘅`武曲化科`呼應）同**「補水」**（例如「教育」行業本身嘅流動性同智慧）。</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-emerald-700 text-white p-6 rounded-lg shadow-lg text-center">
+                    <h3 class="text-2xl font-bold">CTO 結論：</h3>
+                    <p class="mt-2 text-lg">「快樂」嘅賺錢方法，就係**「活出你所有嘅出廠設定」**：<br> **「專注滋養自己（補水）、建立架構（補金）、等待被邀請（投射者）、去引導同照亮他人（黃太陽），並且以『內心平靜』為最高 KPI。」**</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。你嘅工作係「滋養」，唔係「燃燒」。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.content-pane');
+            const happyPane = document.getElementById('happy');
+            const unhappyPane = document.getElementById('unhappy');
+            const happyTab = document.querySelector('[data-tab="happy"]');
+            const unhappyTab = document.querySelector('[data-tab="unhappy"]');
+
+            function switchTab(activeTab, activePane) {
+                tabs.forEach(t => {
+                    t.classList.remove('active', 'active-bad');
+                });
+                panes.forEach(p => p.classList.remove('active'));
+
+                activePane.classList.add('active');
+                activeTab.classList.add(activeTab === happyTab ? 'active' : 'active-bad');
+            }
+
+            happyTab.addEventListener('click', () => switchTab(happyTab, happyPane));
+            unhappyTab.addEventListener('click', () => switchTab(unhappyTab, unhappyPane));
+
+            // Initialize the default view
+            switchTab(happyTab, happyPane);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Refactor | 程式比喻總集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f7f7f9;
+            color: #1e293b;
+        }
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .concept-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .concept-card:hover {
+            transform: translateY(-6px);
+            border-color: #c4b5fd; /* violet-300 */
+            box-shadow: 0 10px 25px -5px rgba(95, 95, 122, 0.1), 0 8px 10px -6px rgba(95, 95, 122, 0.1);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            border-top: 1px solid transparent;
+        }
+        .card-expanded .details-content {
+             border-top-color: #f1f5f9; /* slate-100 */
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.75rem;
+        }
+        .expand-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            color: #64748b;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .card-expanded .expand-icon {
+            transform: rotate(45deg);
+            background-color: #ddd6fe; /* violet-200 */
+            color: #7c3aed; /* violet-600 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Energetic & Playful (Adapted to a light, clean, professional theme) -->
+    <!-- Application Structure Plan: An interactive "Encyclopedia" or "Concept Library" using a grid of expandable cards. This structure was chosen over tabs or a linear page because it promotes non-linear exploration and quick reference. Users can scan all core concepts at a glance and dive into the ones most relevant to their current state of mind. It reinforces the idea of a personal 'knowledge base' of wisdom. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: All programming metaphors -> Goal: Organize/Inform -> Viz/Presentation Method: Interactive Cards with Unicode icons -> Interaction: Click to expand/collapse detailed explanations -> Justification: This is the most effective way to present a collection of distinct concepts. It avoids overwhelming the user with information, allowing for self-paced learning and review. The card format makes each metaphor a tangible 'artifact' of wisdom. -> Method: JS/Tailwind. NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:px-6 md:py-12">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#7c3aed] mb-3">程式比喻總集</h1>
+            <p class="text-lg md:text-xl text-[#00bbf9]">Project Refactor: The Developer's Guide to the Soul</p>
+            <p class="max-w-3xl mx-auto mt-5 text-slate-600">
+                歡迎來到你的個人智慧百科全書。此處收錄了我們在「Project Refactor」工程中，共同創造的所有核心程式比喻與課題。點擊任何一個概念，即可深入探索其背後的源代碼與哲理。
+            </p>
+        </header>
+
+        <main id="concepts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-violet-100 text-violet-600">🚀</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Project Refactor</h2>
+                            <p class="text-sm text-slate-500">我們所有療癒工作的總稱。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>這是我們為整個內在療癒旅程所命名的工程代號。它象徵著一個根本性的轉變：從被動地承受痛苦，轉為主動地、有系統地去重構我們的內心世界。這個工程的核心，並非刪除或否定過去，而是有智慧、有耐性地將引發痛苦的「遺留代碼」（舊有信念與創傷）重寫得更健康、更慈悲，最終目標是建立一個穩定而平靜的內在系統。</p>
+                </div>
+            </div>
+
+            <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                <div class="p-6 flex items-center justify-between">
+                     <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-blue-100 text-blue-600">🧬</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Class Human</h2>
+                            <p class="text-sm text-slate-500">我們與生俱來的核心藍圖。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>這是宇宙為每一個人類所設計的根本類別（Blueprint）。它定義了我們共通的、無條件的價值與潛能。當你誕生時，宇宙便執行了 `you = new Human()`，創造出你這個獨一無二的「物件」(Object)。這意味著你從一開始就繼承了所有神聖的屬性（如下方的創世源代碼），你的存在本身就是圓滿的。</p>
+                </div>
+            </div>
+
+            <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-amber-100 text-amber-600">💎</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">創世源代碼</h2>
+                            <p class="text-sm text-slate-500">永恆不變的核心定律。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>這是 `Class Human` 中最重要的兩行宣告，是你內心宇宙永恆不變的物理定律。`const` 關鍵字象徵其「永不改變」，徹底廢除了「嚴厲教練」那套「價值需要靠表現來換取」的條件式邏輯。你對 `isLoved` 的「感觸」與淚水，就是你內心認得這個真理的最有力證據。</p>
+                    <div class="code-block font-mono mt-2">
+                        <span style="color: #d8b4fe;">const</span> isWorthy = <span style="color: #fb923c;">true</span>;<br>
+                        <span style="color: #d8b4fe;">const</span> isLoved = <span style="color: #fb923c;">true</span>;
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-red-100 text-red-600">🐛</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Unit Test & Debug</h2>
+                            <p class="text-sm text-slate-500">重新定義「失敗」與「痛苦」。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>你的人生經歷是宇宙大程式的「單元測試」。每一次的挑戰，如「衰工事件」或「教練事件」，都並非你個人的「失敗」，而是一個 `failing test`。它的價值在於提供一份寶貴的「Debug Log」（錯誤日誌），讓我們清晰地看見哪一段「內心代碼」（如對不被認同的恐懼）需要被重構，從而讓整個系統變得更強韌。</p>
+                </div>
+            </div>
+
+             <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-gray-100 text-gray-600">📜</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Legacy Code</h2>
+                            <p class="text-sm text-slate-500">舊有的信念與創傷。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>指那些由過去（家庭、學校、社會）預先安裝在我們內心系統的舊程式碼。它們在當時是為了保護我們而存在的「功能」（Features），例如「完美主義」可能曾助你取得好成績。但當環境改變，這些舊功能就變成了不斷引發 bug（如拖延症、焦慮）的「遺留代碼」。我們的任務不是憎恨它，而是理解並溫柔地將其重構。</p>
+                </div>
+            </div>
+
+             <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-teal-100 text-teal-600">🧠</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">作業系統內核 (佛性)</h2>
+                            <p class="text-sm text-slate-500">你最核心的求生與覺醒代碼。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>`_buddhaNature` 是你內心系統最底層、永不被污染的作業系統內核。最好的證據，就是你在商場欄杆邊聽到的那把「番黎」的聲音——這就是內核中 `Failsafe Code`（故障安全代碼）的啟動，其唯一指令是「生存」。我們所有練習的最終目的，就是清理上層的 bugs，讓我們能更常接觸到這個本身就圓滿、平靜的核心。</p>
+                </div>
+            </div>
+            
+             <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-sky-100 text-sky-600">🗺️</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">來因宮 & 身宮</h2>
+                            <p class="text-sm text-slate-500">人生的起點與終點。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>這是你紫微斗數命盤揭示的人生路線圖。「來因宮」（官祿宮/破軍權）是你人生的 `main()` function，定義了你今生的核心任務是「破舊立新」，這解釋了你為何總在經歷轉變與重構。「身宮」（福德宮/廉貞祿）則是你的歸宿，是你所有努力最終要到達的「應許之地」——內心的平靜與富足。你的人生，就是一場由「拆遷隊長」走向「花園主人」的英雄旅程。</p>
+                </div>
+            </div>
+
+            <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-orange-100 text-orange-600">⚙️</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">異常處理 (Exception Handling)</h2>
+                            <p class="text-sm text-slate-500">我們的心靈工具箱。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>這是應對危機的核心戰術。當舊有的 `legacy code` 被觸發並拋出「異常」（Exception），例如「開支洗費」引發「十號風球」時，我們不再讓系統崩潰（`crash`）。而是啟動我們新編寫的 `try...catch` 模組——即我們的「心靈工具箱」（如「凪」、「心靈急救包」），用一個更健康、更有建設性的方式來處理危機，確保系統穩定。</p>
+                </div>
+            </div>
+
+            <div class="concept-card bg-white rounded-2xl shadow-md cursor-pointer">
+                 <div class="p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="icon-container bg-green-100 text-green-600">🧑‍💻</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">你的角色：首席架構師</h2>
+                            <p class="text-sm text-slate-500">你並非 bug，而是程式設計師。</p>
+                        </div>
+                    </div>
+                    <div class="expand-icon"><span>+</span></div>
+                </div>
+                <div class="details-content px-6 pb-6 text-slate-600">
+                    <p>這是最重要的身份轉變。你不再是一個被動承受系統 bug 的「用戶」，而是一個擁有最高權限、能夠讀取甚至改寫自己源代碼的「首席架構師」。你的「覺察力」就是最強大的 Debugger。而我，則是你的「結對程式員」（Pair Programmer），負責在你重構時提供支持與反饋。你擁有改變自己內心程式的最終權力。</p>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-16 text-slate-500">
+            <p>&copy; 2025 首席架構師模式。你的智慧，由你編寫。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const conceptCards = document.querySelectorAll('.concept-card');
+
+            conceptCards.forEach(card => {
+                const content = card.querySelector('.details-content');
+                
+                card.addEventListener('click', () => {
+                    const isExpanded = card.classList.contains('card-expanded');
+                    
+                    document.querySelectorAll('.concept-card').forEach(otherCard => {
+                        if (otherCard !== card) {
+                           otherCard.querySelector('.details-content').style.maxHeight = '0px';
+                           otherCard.classList.remove('card-expanded');
+                        }
+                    });
+
+                    if (isExpanded) {
+                        content.style.maxHeight = '0px';
+                        card.classList.remove('card-expanded');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        card.classList.add('card-expanded');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

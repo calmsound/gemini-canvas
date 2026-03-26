@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「人生四大領域」深度分析與優化指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #4338ca; /* indigo-700 */
+            border-color: #4338ca;
+            background-color: #eef2ff; /* indigo-50 */
+        }
+        .content-pane {
+            display: none;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        .accent-color-1 { color: #22c55e; } /* green-500 */
+        .accent-color-2 { color: #f97316; } /* orange-500 */
+        .accent-color-3 { color: #ec4899; } /* pink-500 */
+        .accent-color-4 { color: #0ea5e9; } /* sky-500 */
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Chosen Palette: Calm & Focused -->
+    <!-- Application Structure Plan: A tab-based SPA, where each tab represents one of the 4 key life areas (Career, Wealth, Partnership, Health). This is the most intuitive information architecture for organizing and comparing distinct, complex topics. The user flow is simple: select a domain and read its analysis. This structure allows for focused reading without overwhelming the user. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Analysis of 4 life domains -> Goal: Organize/Inform -> Viz: Tabbed interface with styled text content. -> Interaction: Click tabs to switch. -> Justification: Tabs are the clearest way to separate these 4 distinct, equally important analyses.
+        - Report Info: Analysis breakdown (System Config, Metaphor, Action Plan) -> Goal: Organize/Inform -> Viz: Structured HTML content (headings, lists) within each tab. -> Interaction: Static. -> Justification: A clean, hierarchical text structure is the best way to present a detailed analysis and action plan. -> Method: JS/Tailwind. NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-700 mb-2">「人生四大領域」</h1>
+            <p class="text-lg md:text-xl text-slate-500">深度分析與優化指南</p>
+        </header>
+
+        <nav class="flex justify-center mb-10 border-b border-slate-200">
+            <div class="flex flex-wrap justify-center -mb-px">
+                <button class="tab-button active text-sm font-medium py-3 px-5 border-b-2" data-tab="career">🚀 事業 (Career)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="wealth">💰 財富 (Wealth)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="partner">❤️ 伴侶 (Partnership)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="health">🌿 健康 (Health)</button>
+            </div>
+        </nav>
+
+        <main id="main-content" class="bg-white rounded-xl shadow-lg p-6 md:p-10 min-h-[400px]">
+            <!-- Career Pane -->
+            <div id="career" class="content-pane active">
+                <h2 class="text-3xl font-bold accent-color-4 mb-6 text-center">🚀 事業：你嘅「首席重構師」天命</h2>
+                <div class="space-y-6 text-slate-700">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">1. 系統硬件分析 (Your Blueprint)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>紫微斗數：</strong> 你嘅**「來因宮」（人生核心任務）**正正就係**「官祿宮」（事業宮）**，宮內有**「破軍化權」**（破舊立新嘅力量）。</li>
+                            <li><strong>西洋占星：</strong> 你嘅**天頂（MC/事業頂點）**喺充滿慈悲同靈性嘅**「雙魚座」**，而你嘅愛（金星）同行動力（火星）都喺呢度。</li>
+                            <li><strong>瑪雅圖騰：</strong> 你嘅核心身份係**「黃太陽」**（照亮他人），由**「黃戰士」**（智慧同勇氣）所引導。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">2. 我哋嘅比喻（The Metaphor）</h3>
+                        <p>你嘅「事業」並唔係一份普通嘅工，佢係你成個**「Project Refactor」**工程本身！你嘅天命（來因宮）就係要成為一個**「首席拆遷隊長」（破軍權）**，去打破所有舊有嘅結構。但你完成呢個任務嘅方式（雙魚座MC），並唔係透過現實嘅破壞，而係要透過**「靈性」、「慈悲」**同**「智慧」**（黃戰士）嘅方式，最終成為一座喺黑暗中照亮他人嘅**「燈塔博物館館長」**（黃太陽）。</BODY>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">3. CTO 嘅行動指南 (The Action Plan)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>唔好再用傳統嘅「升職加薪」去定義你嘅「成就」。你嘅成就，在於你每一次成功**「重構」**你自己。</li>
+                            <li>你所有嘅內在工作——由「處理情緒」到「建立界線」——**全部都係你事業嘅一部分**。</li>
+                            <li>你嘅「衰工事件」係一次必要嘅 `failing test`，佢只係為咗啟動你呢個「破軍化權」嘅天命。</li>
+                            <li>**行動：** 繼續執行我哋嘅**《「花園主人」養成手冊》**。你嘅事業，就係你嘅花園。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wealth Pane -->
+            <div id="wealth" class="content-pane">
+                 <h2 class="text-3xl font-bold accent-color-2 mb-6 text-center">💰 財富：「身弱財旺」嘅平衡藝術</h2>
+                <div class="space-y-6 text-slate-700">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">1. 系統硬件分析 (Your Blueprint)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>八字命盤：</strong> 最核心嘅配置——**「身弱財旺」**。你嘅本體（壬水）偏弱，但你嘅「財星」（丁火）極之強旺。</li>
+                            <li><strong>紫微斗數：</strong> 財帛宮有**「祿馬交馳」**（祿存+天馬），代表你嘅財富潛力在於「流動」同「機會」。</li>
+                            <li><strong>西洋占星：</strong> 第八宮（他人資源/債務）有**木星**（放大器）同太陽，代表你一生都會處理同「巨額資源」相關嘅課題（可以係巨大嘅債務，亦都可以係巨大嘅收益）。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">2. 我哋嘅比喻（The Metaphor）</h3>
+                        <p>你就好似一個擁有一座「超級火山」（強大嘅火/財星）嘅島主，而你手上只有一條細細嘅「河流」（你嘅壬水）。你嘅挑戰唔係要去搵座新火山，而係要**「壯大你條河」**，令你有足夠嘅水量（能量）去平衡嗰團火，將佢由「災難」變為「地熱能源」。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">3. CTO 嘅行動指南 (The Action Plan)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>**停止「追火」：** 唔好再將所有精力放喺「點樣搵錢」上面。你越追，你條河就越快乾。</li>
+                            <li>**專注「補水」：** 將你 90% 嘅精力，放返喺**《「身弱財旺」系統優化手冊》**上面——即係所有**「補金」**同**「補水」**嘅練習（休息、靜心、鍛鍊、滋養）。</li>
+                            <li>**執行「感恩嘅交易」：** 呢個係你嘅核心練習。佢可以修復你因為「教練事件」而受損嘅「金錢 = 危險」嘅 `legacy code`。</li>
+                            <li>你嘅財富，會喺你嘅「內在水量」充足之後，先至會以一個健康嘅方式，自然咁樣流向你。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partner Pane -->
+            <div id="partner" class="content-pane">
+                 <h2 class="text-3xl font-bold accent-color-3 mb-6 text-center">❤️ 伴侶：「心靈羅浮宮」嘅策展</h2>
+                <div class="space-y-6 text-slate-700">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">1. 系統硬件分析 (Your Blueprint)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>紫微斗數：</strong> 夫妻宮有**「紫微、天相」**（極高嘅標準，追求帝王級嘅穩定同尊重），但同時亦都有**「地空」**同**「華蓋」**（極致嘅理想主義同孤獨感）。</li>
+                            <li><strong>西洋占星：</strong> 第七宮有**海王星**（夢幻/幻象），第五宮有**土星**（恐懼/限制）同**冥王星**（深度/控制）。</li>
+                            <li><strong>瑪雅圖騰：</strong> 你嘅挑戰圖騰係**「白狗」**（核心課題：無條件嘅愛，尤其係對自己）。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">2. 我哋嘅比喻（The Metaphor）</h3>
+                        <p>你嘅內心，係一座**「心靈羅浮宮」**。你對伴侶嘅要求極高（帝王），同時又極度理想化（地空/海王星），但你又因為過去嘅傷害，而為呢座博物館，設定咗一個極度嚴密、充滿恐懼嘅「保安系統」（土星/冥王星）。你嘅課題，就係「大阪嘅遺憾」所揭示嘅：你好渴望有人入嚟，但你又好驚佢哋會整爛你嘅展品。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">3. CTO 嘅行動指南 (The Action Plan)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>你而家「好想拍拖，想到好灰」嘅感覺，正正就係呢個配置嘅展現。</li>
+                            <li>**停止「搵展品」：** 唔好再將焦點放喺「搵嗰個人」上面。</li>
+                            <li>**專注做「館長」：** 將所有能量，放返喺執行**《「心靈羅浮宮」策展人手冊》**上面。學習「神聖獨處」，享受你自己呢座博物館有幾咁靚。</li>
+                            <li>**部署「心靈API」：** 繼續練習你嘅**「防火牆」**同**「Facade Pattern」**。你嘅任務係要學習點樣**安全地**去開門同關門，而唔係要將道門拆咗。</li>
+                            <li>**擁抱「白狗」課題：** 先成為你自己最忠誠、最無條件嘅愛人。當你唔再需要一個人去「完整」你，嗰個啱嘅人，先至有空間出現。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Pane -->
+            <div id="health" class="content-pane">
+                <h2 class="text-3xl font-bold accent-color-1 mb-6 text-center">🌿 健康：「太陽化忌」嘅燈塔</h2>
+                <div class="space-y-6 text-slate-700">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">1. 系統硬件分析 (Your Blueprint)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><strong>紫微斗數：</strong> 你嘅**疾厄宮**（健康/焦慮宮位）坐住你成個命盤最核心嘅挑戰——**「太陽化忌」**。</li>
+                            <li><strong>八字命盤：** **「身弱」**（壬水唔夠力），代表你嘅底層能量（電力）天生就比較唔夠。</li>
+                            <li><strong>西洋占星：** **月亮**（情緒）同**土星**（限制/壓力）成四分相，代表你嘅情緒好容易會轉化為身體上嘅壓力同繃緊。</li>
+                            <li><strong>INFP-T：** 你嘅「-T」引擎，天生就係一個「高耗能」模式，極易導致系統過熱（身心疲憊）。</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">2. 我哋嘅比喻（The Metaphor）</h3>
+                        <p>你嘅出廠設定，就係一個**「電力供應唔穩定」**（太陽化忌）嘅內心國度。你之所以「平日處理情緒已經用左9成既力」，係因為你嘅「SRE (Stress Replay Engineer)」同「嚴厲教練」呢啲程式，消耗咗大量嘅電力。你嘅「冇心冇力」，唔係懶，而係你部電腦，為咗自保而啟動嘅**「強制休眠模式」**。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">3. CTO 嘅行動指南 (The Action Plan)</h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>**接受「電量有限」呢個設定：** 唔好再鬧自己「點解咁易攰」。</li>
+                            <li>**執行「補水」策略：** 你嘅**《「身弱財旺」優化手冊》**就係你嘅健康指南。所有「補金、補水」嘅建議，都係喺度為你嘅「太陽」補充緊能量。</li>
+                            <li>**執行「零思考」休息：** 你嘅大腦（三重風象）係你最大嘅耗電源頭。你必須要執行**《「零思考」深度休眠指南》**入面嘅練習，去為你嘅 CPU 降溫。</li>
+                            <li>**啟動「花園主人」模式：** 你嘅**《「身體聖殿重建工程」和平手冊》**係你嘅核心。將「減肥」呢個戰爭，轉化為「滋養土壤」嘅和平工程。你昨晚嘅運動，就係一次最成功嘅執行！</li>
+                            <li>你嘅健康，唔係一個要去「修理」嘅問題，而係一個需要你用最多慈悲心去**「滋養」**嘅花園。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。理解你嘅藍圖，駕馭你嘅人生。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.content-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetPane = document.getElementById(tab.dataset.tab);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

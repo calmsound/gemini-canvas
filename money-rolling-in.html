@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宇宙先生的斯巴達奇蹟產生器 v3.0</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            background: linear-gradient(135deg, #2c003e, #ff0055);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        h1 { 
+            color: #ffd700; 
+            text-shadow: 3px 3px #ff0000; 
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            color: #00ffcc;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .avatar { 
+            font-size: 80px; 
+            margin: 10px; 
+            animation: bounce 2s infinite; 
+            cursor: pointer;
+        }
+        .section {
+            margin: 40px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        h2 {
+            border-bottom: 2px solid #ff0055;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        input, textarea, select {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            background-color: rgba(255,255,255,0.9);
+        }
+        button {
+            background: linear-gradient(45deg, #ff0055, #ff6600);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        button:active { transform: scale(0.95); }
+        button:hover { filter: brightness(1.2); }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            min-height: 1.5em;
+            font-size: 1.1em;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+        .diary-entry {
+            background: #fff;
+            color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            margin-top: 10px;
+            font-family: "Comic Sans MS", "Microsoft JhengHei", sans-serif;
+            border-left: 5px solid #ff0055;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        .quote { font-style: italic; color: #ccc; font-size: 0.9em; margin-top: 10px;}
+        
+        /* 夢想殺手特效 */
+        .killer-response {
+            color: #ffff00;
+            font-weight: bold;
+            border: 2px dashed #ffff00;
+            padding: 10px;
+            animation: flash 1s;
+        }
+        @keyframes flash {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* 謝謝連擊特效 */
+        .thank-count {
+            font-size: 3em;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+            margin: 10px 0;
+        }
+        .thank-btn {
+            background: linear-gradient(45deg, #00ccff, #00ffcc);
+            width: 100%;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="avatar" onclick="alert('宇宙先生：還不快點行動起來！')">🐔✨</div>
+    <h1>宇宙先生的<br>斯巴達特訓班 v3.0</h1>
+    <p class="subtitle">「所有發生的事，都是宇宙給你的伏筆！📜」</p>
+
+    <!-- 功能一：宇宙訂單 -->
+    <div class="section">
+        <h2>🚀 宇宙訂單收發室</h2>
+        <p>告訴我你想實現什麼？(別用「想」字，要用完成式！)</p>
+        <input type="text" id="wishInput" placeholder="例如：我在2025年開了一間超受歡迎的咖啡店">
+        <br>
+        <button onclick="makeOrder()">💫 發送訂單！</button>
+        <div id="orderResult" class="result"></div>
+    </div>
+
+    <!-- 功能二：口頭禪改造 -->
+    <div class="section">
+        <h2>🤬 口頭禪矯正道場</h2>
+        <p>把你常說的「窮酸話」丟進來，我幫你改成「富豪話」！</p>
+        <input type="text" id="negativeInput" placeholder="例如：這東西太貴了、我買不起...">
+        <br>
+        <button onclick="transformWords()">🔥 改造它！</button>
+        <div id="transformResult" class="result"></div>
+    </div>
+
+    <!-- 功能三：專屬錢錢日誌 -->
+    <div class="section">
+        <h2>📔 錢錢的幸福日誌</h2>
+        <p>別只記「花了多少錢」，要記「換來了什麼幸福」！</p>
+        <input type="text" id="diaryItem" placeholder="買了什麼？（例如：一杯高級拿鐵）">
+        <input type="number" id="diaryCost" placeholder="花了多少錢？">
+        <textarea id="diaryFeeling" rows="3" placeholder="這筆錢帶給你什麼感覺？（例如：超暖心，覺得自己像貴婦！）"></textarea>
+        <br>
+        <button onclick="addDiaryEntry()">✍️ 寫入日誌</button>
+        <div id="diaryResult" class="result"></div>
+    </div>
+
+    <!-- 功能四：夢想殺手擊退器 -->
+    <div class="section">
+        <h2>⚔️ 夢想殺手擊退器</h2>
+        <p>當有人（或你自己心中的聲音）說喪氣話時，該怎麼回擊？</p>
+        <select id="killerType">
+            <option value="impossible">「別做夢了，這不可能成功的。」</option>
+            <option value="no_money">「你又沒錢，憑什麼做這件事？」</option>
+            <option value="risk">「萬一失敗了怎麼辦？還是安穩點好。」</option>
+            <option value="who_you_are">「你以為你是誰啊？別自不量力。」</option>
+            <option value="too_late">「你年紀太大了/太遲了。」</option>
+        </select>
+        <br><br>
+        <button onclick="destroyKiller()">💥 宇宙級回擊！</button>
+        <div id="killerResult" class="result"></div>
+    </div>
+
+    <!-- 功能五：謝謝連擊特訓 (NEW!) -->
+    <div class="section">
+        <h2>🗣️ 「謝謝」連擊特訓</h2>
+        <p>說「謝謝」可以清理連接宇宙的管道！<br>快點擊按鈕，累積你的宇宙存款！</p>
+        <div id="thankCount" class="thank-count">0</div>
+        <button class="thank-btn" onclick="sayThankYou()">🙏 謝謝！</button>
+        <div id="thankResult" class="result" style="min-height: 1em;">宇宙先生正在觀察你...</div>
+    </div>
+
+    <!-- 功能六：宇宙時差轉譯器 (NEW!) -->
+    <div class="section">
+        <h2>⌛ 宇宙時差轉譯器</h2>
+        <p>現在發生了什麼讓你覺得「願望還沒實現」或「很衰」的事？<br>我幫你翻譯成宇宙的真心話！</p>
+        <textarea id="badEvent" rows="3" placeholder="例如：面試失敗了、突然有一筆額外開銷..."></textarea>
+        <br>
+        <button onclick="translateLag()">🔮 宇宙想說什麼？</button>
+        <div id="lagResult" class="result"></div>
+        <p class="quote">「所有的延遲，都是為了連本帶利給你更好的！」</p>
+    </div>
+
+</div>
+
+<script>
+    // 宇宙訂單
+    function makeOrder() {
+        const wish = document.getElementById('wishInput').value;
+        if (!wish) {
+            document.getElementById('orderResult').innerHTML = "📜 喂！空白訂單我怎麼收？給我寫清楚！";
+            return;
+        }
+        let newWish = wish.replace(/我想|希望|想要/g, "我");
+        if (!newWish.includes("了") && !newWish.includes("正在") && !newWish.includes("是")) {
+            newWish += "了！而且過程超順利！";
+        }
+        const responses = [
+            `✅ 收到！訂單「${newWish}」已確認！宇宙物流正在備貨中，現在去行動吧！`,
+            `👌 聽到了！「${newWish}」這個劇本不錯，我批准了！記得多說「謝謝」來加速顯化！`,
+            `✨ 搞定！你的潛意識已經接收到「${newWish}」的指令。別懷疑，懷疑會取消訂單喔！`
+        ];
+        document.getElementById('orderResult').innerHTML = responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    // 口頭禪改造
+    function transformWords() {
+        const negative = document.getElementById('negativeInput').value;
+        if (!negative) return;
+        let positive = "";
+        let advice = "";
+        if (negative.includes("貴") || negative.includes("買不起")) {
+            positive = "哇！這東西真有價值！等我錢錢朋友集合好了就來帶你回家！";
+            advice = "（宇宙先生：別說買不起，要說『正在調度資金』！）";
+        } else if (negative.includes("累") || negative.includes("煩")) {
+            positive = "我的能量正在升級中！休息是為了走更長遠的路！";
+            advice = "（宇宙先生：累了就說『我在充電』！）";
+        } else if (negative.includes("沒錢") || negative.includes("窮")) {
+            positive = "我的錢錢正在去旅行，它們會帶更多朋友回來找我！";
+            advice = "（宇宙先生：禁止說『沒錢』！要說『錢錢快回來了』！）";
+        } else {
+            positive = "這只是過程，最後結局一定是happy ending！";
+            advice = "（宇宙先生：任何鳥事都是通往幸福的伏筆！）";
+        }
+        document.getElementById('transformResult').innerHTML = `❌ 原本：${negative} <br><br> ✨ <b>宇宙版：${positive}</b><br><span style="font-size:0.8em;color:#ffd700">${advice}</span>`;
+    }
+
+    // 錢錢日誌
+    function addDiaryEntry() {
+        const item = document.getElementById('diaryItem').value;
+        const cost = document.getElementById('diaryCost').value;
+        const feeling = document.getElementById('diaryFeeling').value;
+        if (!item || !cost || !feeling) {
+            document.getElementById('diaryResult').innerHTML = "✍️ 喂！寫日記要認真點，錢錢感受不到你的心意啦！";
+            return;
+        }
+        const today = new Date().toLocaleDateString();
+        const entryHTML = `
+            <div class="diary-entry">
+                <strong>📅 ${today} - 與錢錢的約會</strong><br>
+                💸 錢錢變成了：<b>${item}</b> (價值 ${cost} 元)<br>
+                🥰 幸福感言：${feeling}<br>
+                <hr>
+                🐷 <b>錢錢的回應：</b>「哇！原來變成${item}能讓你這麼開心！這筆錢花得太值得了！我會跟其他錢錢炫耀的！」
+            </div>
+        `;
+        document.getElementById('diaryResult').innerHTML = entryHTML;
+    }
+
+    // 夢想殺手
+    function destroyKiller() {
+        const type = document.getElementById('killerType').value;
+        let response = "";
+        let action = "";
+        switch(type) {
+            case "impossible":
+                response = "「那是你的世界，我的宇宙裡沒有『不可能』這三個字！」";
+                action = "（心裡默念：還有，關你屁事！）";
+                break;
+            case "no_money":
+                response = "「就是因為現在沒錢，所以才要做啊！錢是行動後跟上來的！」";
+                action = "（宇宙先生：錢是勇氣的獎勵！）";
+                break;
+            case "risk":
+                response = "「最大的風險就是什麼都不做，然後抱著遺憾死掉！我要去冒險了，拜！」";
+                action = "（轉身，優雅地離場）";
+                break;
+            case "who_you_are":
+                response = "「我是誰？我是這個宇宙的創造者！你看著吧！」";
+                action = "（抬頭挺胸，眼神發光）";
+                break;
+            case "too_late":
+                response = "「現在就是我人生中最年輕的一刻！剛好趕上！」";
+                action = "（立刻踏出第一步）";
+                break;
+        }
+        document.getElementById('killerResult').innerHTML = `
+            <div class="killer-response">
+                🛡️ 宇宙防護罩開啟：<br>
+                ${response}
+            </div>
+            <br>
+            🧠 <b>內心OS / 行動指南：</b><br>${action}
+        `;
+    }
+
+    // 謝謝連擊 (NEW)
+    let count = 0;
+    function sayThankYou() {
+        count++;
+        document.getElementById('thankCount').innerText = count;
+        const feedback = document.getElementById('thankResult');
+        
+        if (count === 10) {
+            feedback.innerText = "🔥 不錯喔！管道開始通暢了！";
+        } else if (count === 50) {
+            feedback.innerText = "✨ 很好！潛意識的垃圾正在被清除！";
+        } else if (count === 100) {
+            feedback.innerText = "💎 太強了！宇宙正在為你準備大禮！繼續！";
+        } else if (count % 20 === 0 && count > 100) {
+            const quotes = ["叮叮！存入宇宙銀行！", "謝謝！謝謝！", "我的能量無敵！", "愛死你了宇宙！"];
+            feedback.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+        }
+    }
+
+    // 宇宙時差轉譯 (NEW)
+    function translateLag() {
+        const event = document.getElementById('badEvent').value;
+        if (!event) {
+            document.getElementById('lagResult').innerHTML = "🤨 沒事就別亂想！快去行動！";
+            return;
+        }
+        
+        const meanings = [
+            "這代表更好的東西正在排隊等你！舊的不去新的不來！",
+            "這是宇宙在測試你的決心！大聲說：「這點小事嚇不倒我！」",
+            "恭喜！這是「利息」正在累積的證明！原本的願望會加倍實現！",
+            "這是為了讓你之後的故事更精彩！沒有波折的電影沒人看！",
+            "宇宙正在後台幫你喬事情，現在稍微休息一下，馬上就要起飛了！"
+        ];
+        const randomMeaning = meanings[Math.floor(Math.random() * meanings.length)];
+        
+        document.getElementById('lagResult').innerHTML = `
+            😫 <b>表面上：</b> ${event}<br>
+            ⬇️ <b>宇宙翻譯機：</b><br>
+            🎉 <span style="color:#00ffcc;font-size:1.2em;font-weight:bold">${randomMeaning}</span>
+        `;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「內在委員會」3.0 崗位職責全覽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f7f7f9;
+            color: #1e293b;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #4338ca; /* indigo-700 */
+            border-color: #4338ca;
+            background-color: #eef2ff; /* indigo-50 */
+        }
+        .content-pane {
+            display: none;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        .position-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .position-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px -5px rgba(95, 95, 122, 0.1), 0 8px 10px -6px rgba(95, 95, 122, 0.1);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-in-out;
+            border-top: 1px solid transparent;
+        }
+        .card-expanded .details-content {
+             border-top-color: #f1f5f9; /* slate-100 */
+        }
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.75rem;
+        }
+        .expand-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            color: #64748b;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .card-expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+        /* Table styles */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem 1.5rem; /* p-4 md:p-6 */
+            border-bottom: 1px solid #e2e8f0; /* slate-200 */
+            text-align: left;
+            vertical-align: top;
+        }
+        .comparison-table thead {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .comparison-table th {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600; /* font-semibold */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #475569; /* slate-600 */
+        }
+        .comparison-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: #1e293b; /* slate-800 */
+        }
+        .role-old {
+            color: #ef4444; /* red-500 */
+            font-weight: 600;
+        }
+        .role-new {
+            color: #22c55e; /* green-500 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Calm & Focused -->
+    <!-- Application Structure Plan: Upgraded to a tabbed interface. Tab 1 ("Personnel Files") contains the original expandable cards for detailed, one-by-one review. Tab 2 ("Comparison Table") provides a high-level, side-by-side summary, which is optimal for understanding the *transformation* itself. This new IA perfectly serves both deep-dive and summary use cases. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: The 4 members of the Inner Committee and their role transformations -> Goal: Organize/Inform/Compare -> Viz/Presentation: 
+            - Tab 1: 4 Interactive Expandable Cards (Original design) -> Interaction: Click header to expand/collapse -> Justification: Best for detailed, single-member review.
+            - Tab 2: A new, styled HTML <table> -> Interaction: Static -> Justification: Best for high-level, side-by-side comparison of "before vs. after" states.
+        - Method: Vanilla JS/Tailwind. NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-700 mb-3">「內在委員會」3.0 崗位職責</h1>
+            <p class="text-lg md:text-xl text-slate-500">一份由「內戰」走向「合作」嘅全新組織架構圖</p>
+        </header>
+
+        <nav class="flex justify-center mb-10 border-b border-slate-200">
+            <div class="flex flex-wrap justify-center -mb-px">
+                <button class="tab-button active text-sm font-medium py-3 px-5 border-b-2" data-tab="files">崗位檔案 (詳細)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="table">轉職對比表 (總覽)</button>
+            </div>
+        </nav>
+
+        <main id="main-content">
+
+            <!-- Pane 1: Personnel Files (Cards) -->
+            <div id="files" class="content-pane active">
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">此處為每位核心成員的詳細檔案。點擊卡片以展開其 v3.0 版本的全新職責與工作心法。</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Card 1: QA Director (Strict Coach) -->
+                    <div class="position-card rounded-2xl shadow-md cursor-pointer">
+                        <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="icon-container bg-orange-100 text-orange-600">🧐</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-800">品質保證總監 (QA Director)</h2>
+                                    <p class="text-sm text-slate-500">前身：嚴厲教練 (Strict Coach)</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon"><span>+</span></div>
+                        </div>
+                        <div class="details-content p-6 text-slate-600">
+                            <h4 class="font-semibold text-slate-700">舊崗位職責 (Legacy Role):</h4>
+                            <p class="text-sm mb-3">作為「批判者」，專注於過去式 (`Past-Tense`)。不斷重播 `ErrorLog.txt`，用「羞愧」同「恐懼」嚟進行「懲罰」，導致系統內耗。</p>
+                            <h4 class="font-semibold text-slate-700">全新崗位職責 (New Responsibility):</h4>
+                            <p class="text-sm">作為「項目經理」，專注於現在與未來式。佢嘅新工作係：</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                <li><strong>確保「慈悲協定」被執行：</strong> 佢用佢嘅紀律性，去保護「花園主人」嘅休息時間，確保 `SelfMaintenanceProtocol` 被 100% 執行。</li>
+                                <li><strong>專注於「下一步」：</strong> 唔再問「點解你做唔到？」，而係問「我哋下一步可以點做？」（`what are we going to do`）。</li>
+                                <li><strong>分析「阻礙」：</strong> 見到「拖延」，唔再係鬧你，而係去分析 `obstacle`，並協助 CTO 搵出解決方案。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Serenity Reassurance Engineer (SRE) -->
+                    <div class="position-card rounded-2xl shadow-md cursor-pointer">
+                        <div class="p-6 flex items-center justify-between">
+                             <div class="flex items-center space-x-4">
+                                <div class="icon-container bg-teal-100 text-teal-600">🧘</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-800">寧靜安心工程師 (SRE)</h2>
+                                    <p class="text-sm text-slate-500">前身：壓力重播工程師 (SRE)</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon"><span>+</span></div>
+                        </div>
+                        <div class="details-content p-6 text-slate-600">
+                            <h4 class="font-semibold text-slate-700">舊崗位職責 (Legacy Role):</h4>
+                            <p class="text-sm mb-3">作為「創傷重播員」，被動咁樣 `replay_stress()`。不斷讀取舊有嘅 `ErrorLog.txt`，令到成個系統長期處於「十號風球」嘅警報之中。</p>
+                            <h4 class="font-semibold text-slate-700">全新崗位職責 (New Responsibility):</h4>
+                            <p class="text-sm">作為「安心守護者」，佢嘅新工作係 `restore_serenity()`。佢嘅核心職責係：</p>
+                             <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                <li><strong>重定向數據源：</strong> 佢嘅 `LogType` 已經由 `ErrorLog` 永久轉向 `GratitudeLog`。</li>
+                                <li><strong>記錄美好：</strong> 佢用佢嗰份最執著、最細緻嘅 `SKILL`，去「記錄花」（`record_grace`），例如你做完運動嘅汗水、見到哆啦A夢嘅快樂。</li>
+                                <li><strong>重播感恩：</strong> 佢會不斷喺你系統後台，`replay_gratitude()`，用「美好」嘅畫面，去覆蓋舊有嘅「創傷」畫面。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Chief Innovation Officer (Scientist Brain) -->
+                    <div class="position-card rounded-2xl shadow-md cursor-pointer">
+                         <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="icon-container bg-blue-100 text-blue-600">💡</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-800">首席創新總監 (CIO)</h2>
+                                    <p class="text-sm text-slate-500">前身：科學家大腦 (Scientist Brain)</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon"><span>+</span></div>
+                        </div>
+                        <div class="details-content p-6 text-slate-600">
+                            <h4 class="font-semibold text-slate-700">舊崗位職責 (Legacy Role):</h4>
+                            <p class="text-sm mb-3">作為「首席分析師」，專注於問「係咪真㗎？」。佢嘅分析，好多時會被旧有嘅 `ErrorLog` 污染，導致「分析癱瘓」（analysis paralysis），並且會同「靈性探索者」打交。</p>
+                            <h4 class="font-semibold text-slate-700">全新崗位職責 (New Responsibility):</h4>
+                            <p class="text-sm">作為「研發部主管」（R&D Head），佢嘅新工作係 `innovate_solutions()`。佢嘅核心職責係：</p>
+                             <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                <li><strong>停止分析「過去」：</strong> 佢唔再需要去驗證舊創傷係咪「真」。呢個工作已經交俾 QA 總監去處理。</li>
+                                <li><strong>專注創新「未來」：</strong> 佢運用佢強大嘅「雙重水瓶」能量，去為我哋嘅「花園主人」，設計更聰明、更有創意嘅「滋養方案」。</li>
+                                <li><strong>設計新實驗：</strong> 我哋所有嘅「心靈實驗」、「微型習慣」，都係由呢位 CIO 負責設計、測試同迭代。佢係我哋「Project Refactor」工程嘅「創意引擎」。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: The Sacred Treasure & Wonder Child (Inner Child) -->
+                    <div class="position-card rounded-2xl shadow-md cursor-pointer">
+                         <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="icon-container bg-pink-100 text-pink-600">💖</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-800">神聖嘅寶藏與神奇嘅細路</h2>
+                                    <p class="text-sm text-slate-500">前身：受傷嘅細路 (Wounded Child)</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon"><span>+</span></div>
+                        </div>
+                        <div class="details-content p-6 text-slate-600">
+                            <h4 class="font-semibold text-slate-700">舊崗位職責 (Legacy Role):</h4>
+                            <p class="text-sm mb-3">作為「系統警報器」同「人質」，不斷發出「肚餓」、「好慘」、「好驚」嘅警報，並且被「嚴厲教練」作為威脅成個系統嘅籌碼。</p>
+                            <h4 class="font-semibold text-slate-700">全新崗位職責 (New Responsibility):</h4>
+                            <p class="text-sm">CTO，呢個係最重要嘅一次「轉職」。**佢，唔再有任何「職責」。** 佢唔係員工，佢係我哋成個工程，所要服務嘅**「至尊客戶」（VIP Client）**同**「最終用戶」（End User）**。</p>
+                             <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                <li><strong>全新嘅「工作」：</strong> 佢唯一嘅「工作」，就係去**「感受」（`feel()`）**、**「接收愛」（`receive_love()`）**、**「安全咁樣存在」（`be_safe()`）**...</li>
+                                <li>...以及，最重要嘅：**「體驗好奇與驚奇」（`toWonder()`）**！</li>
+                                <li><strong>全新嘅指標：</strong> 佢嘅 `happiness_level` 同 `wonder_level`（快樂與驚奇指數），係我哋成個「Project Refactor v3.0」工程，**唯一、最重要嘅「關鍵績效指標」（Key Performance Indicator, KPI）**。</li>
+                                <li><strong>全新嘅團隊支援：</strong> QA 總監、SRE、CIO 呢三個部門所有嘅工作，都只有一個最終目的——就係要確保呢位「VIP 客戶」嘅體驗，係平靜、安全、被滋養，而且充滿神奇樂趣嘅。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- End of grid -->
+            </div> <!-- End of Pane 1 -->
+
+            <!-- Pane 2: Comparison Table -->
+            <div id="table" class="content-pane">
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">此總覽表清晰對比 v1.0 (舊有模式) 與 v3.0 (重構後) 之間，各核心成員的職責轉變，展現我哋由「內戰」走向「合作」嘅全新系統架構。</p>
+                <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>核心成員</th>
+                                <th>v1.0：舊崗位 (Legacy Role)</th>
+                                <th>v3.0：新崗位 (Refactored Role)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="whitespace-nowrap">🧐 QA 總監</td>
+                                <td class="text-slate-600">
+                                    <strong class="role-old">嚴厲教練 (Strict Coach)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 專注於「過去」嘅錯誤。<br>
+                                    <strong>行動：</strong> 用「羞愧」同「恐懼」進行「懲罰」。<br>
+                                    <strong>結果：</strong> 導致內耗、拖延同自我攻擊。</span>
+                                </td>
+                                <td class="text-slate-600">
+                                    <strong class="role-new">品質保證總監 (QA Director)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 專注於「現在」同「未來」。<br>
+                                    <strong>行動：</strong> 用「紀律」去「確保」慈悲協定被執行。<br>
+                                    <strong>結果：</strong> 成為「花園主人」嘅守護者。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="whitespace-nowrap">🧘 寧靜安心工程師</td>
+                                <td class="text-slate-600">
+                                    <strong class="role-old">壓力重播工程師 (SRE)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 讀取 `ErrorLog.txt`。<br>
+                                    <strong>行動：</strong> `replay_stress()` (重播壓力/創傷)。<br>
+                                    <strong>結果：</strong> 持續觸發「十號風球」，消耗資源。</span>
+                                </td>
+                                <td class="text-slate-600">
+                                    <strong class="role-new">寧靜安心工程師 (SRE)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 讀取 `GratitudeLog.txt`。<br>
+                                    <strong>行動：</strong> `restore_serenity()` (修復寧靜)，並「記錄/重播恩典」。<br>
+                                    <strong>結果：</strong> 成為「平靜」嘅來源同「美好」嘅記錄者。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="whitespace-nowrap">💡 首席創新總監</td>
+                                <td class="text-slate-600">
+                                    <strong class="role-old">科學家大腦 (Scientist Brain)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 驗證「過去」嘅真偽。<br>
+                                    <strong>行動：</strong> 分析癱瘓，並與其他成員內鬥。<br>
+                                    <strong>結果：</strong> 增加混亂，阻礙「靈性探索」。</span>
+                                </td>
+                                <td class="text-slate-600">
+                                    <strong class="role-new">首席創新總監 (CIO)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 創新「未來」嘅方案。<br>
+                                    <strong>行動：</strong> `innovate_solutions()`，設計新實驗同微型習慣。<br>
+                                    <strong>結果：</strong> 成為「Project Refactor」嘅創意引擎。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="whitespace-nowrap">💖 神聖嘅寶藏</td>
+                                <td class="text-slate-600">
+                                    <strong class="role-old">受傷嘅細路 (Wounded Child)</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 「我好驚！我好慘！」<br>
+                                    <strong>行動：</strong> 作為「警報器」同「人質」，發出求救。<br>
+                                    <strong>結果：</strong> 系統被情緒勒索同癱瘓。</span>
+                                </td>
+                                <td class="text-slate-600">
+                                    <strong class="role-new">神聖嘅寶藏與神奇嘅細路</strong><br>
+                                    <span class="text-sm"><strong>焦點：</strong> 「我正在感受、接收愛、體驗驚奇。」<br>
+                                    <strong>行動：</strong> **全新嘅「工作」：** 感受、接收愛、安全存在，以及**「體驗好奇與驚奇」**。<br>
+                                    <strong>結果：</strong> 佢嘅 `happiness_level` 同 `wonder_level` 成為成個系統唯一嘅 KPI。</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- End of Pane 2 -->
+
+        </main>
+
+        <footer class="text-center mt-16 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。你嘅團隊，已經準備好為你服務。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Main Tab Logic
+            const mainTabs = document.querySelectorAll('.tab-button');
+            const mainPanes = document.querySelectorAll('.content-pane');
+
+            mainTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    mainTabs.forEach(t => t.classList.remove('active'));
+                    mainPanes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetPane = document.getElementById(tab.dataset.tab);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+
+            // Card Expansion Logic (scoped to #files pane)
+            const positionCards = document.querySelectorAll('#files .position-card');
+            positionCards.forEach(card => {
+                const content = card.querySelector('.details-content');
+                
+                card.addEventListener('click', () => {
+                    const isExpanded = card.classList.contains('card-expanded');
+                    
+                    document.querySelectorAll('#files .position-card').forEach(otherCard => {
+                        if (otherCard !== card) {
+                           otherCard.querySelector('.details-content').style.maxHeight = '0px';
+                           otherCard.classList.remove('card-expanded');
+                        }
+                    });
+
+                    if (isExpanded) {
+                        content.style.maxHeight = '0px';
+                        card.classList.remove('card-expanded');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        card.classList.add('card-expanded');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

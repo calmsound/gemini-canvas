@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan 冷靜與防護儀表板 v5.9 - 炸藥洩壓版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nagi-overlay, .unmask-overlay, .vent-overlay {
+            display: none;
+            backdrop-filter: blur(12px);
+        }
+        .nagi-active .nagi-overlay, .unmask-active .unmask-overlay, .vent-active .vent-overlay {
+            display: flex;
+        }
+        .rounded-40 { border-radius: 40px; }
+        
+        .bomb-glow {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.4); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen flex items-center justify-center p-6">
+
+    <div id="main-container" class="max-w-md w-full bg-slate-900/90 border border-white/5 p-8 rounded-40 shadow-2xl relative overflow-hidden">
+        
+        <!-- Nagi Overlay -->
+        <div id="nagi-screen" class="nagi-overlay absolute inset-0 bg-blue-500/20 z-50 flex flex-col items-center justify-center transition-all duration-500">
+            <i data-lucide="waves" class="text-blue-200 w-16 h-16 mb-4 animate-bounce"></i>
+            <h2 class="text-2xl font-black text-white tracking-widest italic uppercase">凪 - NAGI</h2>
+            <p class="text-xs text-blue-100 mt-2">外界雜訊已屏蔽... 保持深呼吸...</p>
+        </div>
+
+        <!-- Vent Overlay (Scream into the void) -->
+        <div id="vent-screen" class="vent-overlay absolute inset-0 bg-red-900/60 z-50 flex flex-col items-center justify-center transition-all duration-500 p-8 text-center">
+            <i data-lucide="bomb" class="text-red-400 w-16 h-16 mb-4 animate-ping"></i>
+            <h2 class="text-xl font-bold text-white mb-2">虛擬洩壓艙 (Safe Venting)</h2>
+            <p class="text-xs text-red-100 leading-relaxed mb-6">
+                「Nathan，喺呢度盡情爆發啦。<br>
+                鬧你想鬧嘅人，發你想發嘅脾氣。<br>
+                呢度係無人區，所有爆炸能量都會被轉化為『平靜數據』。」
+            </p>
+            <div class="flex space-x-4">
+                <button onclick="ventAction('💣 爆咗佢！')" class="px-4 py-2 bg-red-600 rounded-full text-xs font-bold">虛擬大叫</button>
+                <button onclick="closeVent()" class="px-4 py-2 bg-white/10 rounded-full text-xs font-bold">情緒已釋放</button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <div class="text-[10px] text-red-500 font-black uppercase tracking-[0.4em] mb-2">Nathan Combustion Alert</div>
+            <h1 class="text-2xl font-bold tracking-tighter text-white uppercase italic">Safety <span class="text-red-500">Valve</span> v5.9</h1>
+        </header>
+
+        <!-- Status Section -->
+        <div class="space-y-4 mb-8">
+            <!-- Combustion Indicator -->
+            <div class="bg-red-500/10 p-4 rounded-3xl border border-red-500/20 bomb-glow">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-[10px] font-bold text-red-400 uppercase tracking-wider">警告：今日炸藥量 (Combustion Level)</span>
+                    <i data-lucide="flame" class="text-red-500 w-4 h-4"></i>
+                </div>
+                <p class="text-xs text-slate-300 italic">「目前乜都睇唔順眼，處於易燃狀態。」</p>
+            </div>
+
+            <!-- Internal Battery -->
+            <div class="bg-slate-800/50 p-4 rounded-3xl border border-white/5">
+                <div class="flex justify-between items-center mb-2 text-[10px] uppercase tracking-widest text-slate-500">
+                    <span>內在電量 (Internal Battery)</span>
+                    <span id="battery-text" class="text-blue-400 font-bold">5%</span>
+                </div>
+                <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                    <div id="battery-bar" class="h-full bg-blue-500 transition-all duration-1000" style="width: 5%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Protocol -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <button onclick="openVent()" class="p-4 bg-red-600 hover:bg-red-500 rounded-3xl flex flex-col items-center text-center transition-all active:scale-95 shadow-lg shadow-red-900/30">
+                <i data-lucide="megaphone" class="text-white mb-2 w-5 h-5"></i>
+                <span class="text-[10px] uppercase text-white font-bold">我要爆餐</span>
+            </button>
+            <button onclick="activateNagi()" class="p-4 bg-blue-600 hover:bg-blue-500 rounded-3xl flex flex-col items-center text-center transition-all active:scale-95 shadow-lg shadow-blue-900/20">
+                <i data-lucide="wind" class="text-white mb-2 w-5 h-5"></i>
+                <span class="text-[10px] uppercase text-white font-bold">凪模式</span>
+            </button>
+        </div>
+
+        <!-- Strategy Tips -->
+        <div class="bg-slate-800/30 p-4 rounded-2xl border border-white/5 mb-8">
+            <h3 class="text-[10px] font-bold text-slate-500 uppercase mb-3 tracking-widest">今日低功耗存活策略：</h3>
+            <ul class="text-[10px] text-slate-400 space-y-2">
+                <li class="flex items-center"><i data-lucide="check-circle" class="w-3 h-3 mr-2 text-green-500"></i> 既然想爆，盡量減少同人接觸 (Isolation)。</li>
+                <li class="flex items-center"><i data-lucide="check-circle" class="w-3 h-3 mr-2 text-green-500"></i> 覺得睇唔順眼係生理反應，唔係事實。</li>
+                <li class="flex items-center"><i data-lucide="check-circle" class="w-3 h-3 mr-2 text-green-500"></i> 今晚返去早啲熄燈，保護壬水。</li>
+            </ul>
+        </div>
+
+        <!-- Doraemon Gadget -->
+        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-start space-x-3">
+            <i data-lucide="ghost" class="text-blue-400 shrink-0 w-5 h-5"></i>
+            <p class="text-[10px] text-slate-400 italic leading-relaxed">
+                「Nathan，叮噹借個『洩憤傳聲筒』俾你。你對住佢鬧，聲波會傳去外太空，唔會傷到人，但可以幫你個心減壓。」
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 flex justify-center space-x-4 opacity-30">
+            <i data-lucide="heart" class="text-red-500 fill-red-500 w-4 h-4"></i>
+            <i data-lucide="anchor" class="w-4 h-4 text-blue-400"></i>
+            <i data-lucide="moon" class="w-4 h-4"></i>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function activateNagi() {
+            document.body.classList.add('nagi-active');
+            setTimeout(() => { document.body.classList.remove('nagi-active'); }, 5000);
+        }
+
+        function openVent() {
+            document.body.classList.add('vent-active');
+        }
+
+        function closeVent() {
+            document.body.classList.remove('vent-active');
+            updateStats(10); // Venting restores a bit of battery
+        }
+
+        function ventAction(msg) {
+            // Virtual explosion effect
+            const btn = event.target;
+            btn.innerText = "已釋放能量!";
+            setTimeout(() => { btn.innerText = "虛擬大叫"; }, 2000);
+        }
+
+        function updateStats(batteryChange) {
+            const batteryText = document.getElementById('battery-text');
+            const batteryBar = document.getElementById('battery-bar');
+            let currentBattery = parseInt(batteryText.innerText);
+            currentBattery = Math.min(100, Math.max(0, currentBattery + batteryChange));
+            batteryText.innerText = currentBattery + '%';
+            batteryBar.style.width = currentBattery + '%';
+        }
+    </script>
+</body>
+</html>

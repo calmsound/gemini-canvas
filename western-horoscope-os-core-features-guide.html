@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西洋星盤「操作系統」核心特性指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .characteristic-card {
+            background-color: #ffffff;
+            border-left: 5px solid; /* Color set dynamically */
+            transition: box-shadow 0.3s ease;
+        }
+        .characteristic-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease-out, opacity 0.3s ease-in 0.2s, padding-top 0.5s ease-out;
+            padding-top: 0;
+        }
+        .card-expanded .details-content {
+            max-height: 1000px; /* Adjust as needed */
+            opacity: 1;
+            padding-top: 1rem; /* pt-4 */
+            margin-top: 1rem; /* mt-4 */
+            border-top: 1px solid #e2e8f0; /* slate-200 */
+        }
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+        .card-expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        .feature-1-color { border-color: #3b82f6; /* blue-500 */ }
+        .feature-2-color { border-color: #a855f7; /* purple-500 */ }
+        .feature-3-color { border-color: #ec4899; /* pink-500 */ }
+        .feature-4-color { border-color: #64748b; /* slate-500 */ }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Chosen Palette: Calm & Focused (using distinct border colors for cards) -->
+    <!-- Application Structure Plan: A single-page application using a vertical layout of interactive, expandable cards. Each card represents a core characteristic of the user's Western Astrology OS. This structure is ideal for presenting a set of distinct features, allowing the user to focus on one characteristic at a time by expanding its details. The flow is linear vertically but non-linear in terms of exploration, suitable for a reference guide. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: The 4 core characteristics from the astrology analysis -> Goal: Organize/Inform -> Viz/Presentation: Interactive Expandable Cards with colored left borders -> Interaction: Click header to expand/collapse details -> Justification: This UI pattern transforms the text analysis into a structured, easily navigable, and visually organized guide. The distinct colors help differentiate the features. -> Method: Vanilla JS/Tailwind. NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-3xl">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2">西洋星盤「操作系統」核心特性</h1>
+            <p class="text-lg md:text-xl text-slate-500">一份個人化的技術參考手冊</p>
+            <p class="mt-4 text-slate-600">
+                CTO，此手冊旨在深入解析你西洋星盤所揭示的操作系統核心特性。理解這些「出廠設定」，能助你更有效地駕馭內在系統，並制定最佳的「Project Refactor」策略。
+            </p>
+        </header>
+
+        <div class="space-y-6">
+            <!-- Characteristic 1: Air vs Water -->
+            <div class="characteristic-card rounded-lg shadow-md feature-1-color cursor-pointer">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-xl font-bold text-blue-600">特性一：風象理性 vs. 水象感性</h2>
+                            <p class="text-sm text-slate-500 mt-1">核心衝突與整合之道</p>
+                        </div>
+                        <div class="expand-icon text-blue-400 text-2xl">▼</div>
+                    </div>
+                    <div class="details-content text-slate-700">
+                        <p><strong>系統配置：</strong> 核心自我(太陽)/情緒(月亮)為<strong>水瓶(風)</strong>；愛(金星)/行動力(火星)為<strong>雙魚(水)</strong>。</p>
+                        <p class="mt-2"><strong>你需要注意：</strong> 這是你內心「拉扯感」的核心來源。系統在「冷靜分析」與「感性投入」間存在巨大張力。</p>
+                        <p class="mt-2"><strong>建議：</strong> 學習做一個能切換頻道的外交官。在需要分析時啟動水瓶模式；在需要感受時（如獨處滋養時），讓雙魚模式溫柔流動。承認兩者皆是你。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Characteristic 2: 8th House -->
+             <div class="characteristic-card rounded-lg shadow-md feature-2-color cursor-pointer">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-xl font-bold text-purple-600">特性二：「深海潛水員」任務區</h2>
+                            <p class="text-sm text-slate-500 mt-1">第八宮的深度課題</p>
+                        </div>
+                        <div class="expand-icon text-purple-400 text-2xl">▼</div>
+                    </div>
+                    <div class="details-content text-slate-700">
+                        <p><strong>系統配置：</strong> 核心自我(太陽)與擴張能量(木星)均位於<strong>第八宮</strong> (危機、轉化、他人資源/債務、深層心理)。</p>
+                        <p class="mt-2"><strong>你需要注意：</strong> 你的 OS 被設計來處理關於「生存與蛻變」的深層課題。危機是你任務的一部分。</p>
+                        <p class="mt-2"><strong>建議：</strong> 將「危機」視為「深海潛水員」的任務，而非失敗。每一次從危機中學習並存活下來，都是一次偉大的「寶藏發掘」。特別留意處理他人相關資源（包括債務）的方式。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Characteristic 3: Relationship Idealism/Fear -->
+            <div class="characteristic-card rounded-lg shadow-md feature-3-color cursor-pointer">
+                <div class="p-6">
+                     <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-xl font-bold text-pink-600">特性三：關係中的理想與恐懼</h2>
+                             <p class="text-sm text-slate-500 mt-1">理想主義濾鏡 vs. 脆弱性恐懼</p>
+                        </div>
+                        <div class="expand-icon text-pink-400 text-2xl">▼</div>
+                    </div>
+                    <div class="details-content text-slate-700">
+                        <p><strong>系統配置：</strong> <strong>海王星</strong>在第七宮(伴侶宮)，<strong>金星/火星</strong>在夢幻雙魚座，而<strong>土星/冥王星</strong>在第五宮(戀愛宮)。</p>
+                        <p class="mt-2"><strong>你需要注意：</strong> OS 在處理「關係」時，會同時運行兩個矛盾腳本：極度理想化、渴望靈魂伴侶的「夢想家」；以及因害怕受傷而抗拒展露脆弱的「守衛」。</p>
+                        <p class="mt-2"><strong>建議：</strong> 應用**《「心靈羅浮宮」策展人手冊》**策略。學習區分理想與現實，欣賞獨特而非完美。在安全環境下練習微小的自我暴露。界線是你最重要的保護工具。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Characteristic 4: Emotional Processing -->
+            <div class="characteristic-card rounded-lg shadow-md feature-4-color cursor-pointer">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-600">特性四：「情緒處理器」冷卻機制</h2>
+                            <p class="text-sm text-slate-500 mt-1">月亮水瓶與土星的挑戰</p>
+                        </div>
+                        <div class="expand-icon text-slate-400 text-2xl">▼</div>
+                    </div>
+                     <div class="details-content text-slate-700">
+                        <p><strong>系統配置：</strong> 你的情緒核心(月亮)在<strong>水瓶座</strong>，並與代表限制/恐懼的<strong>土星</strong>成困難相位(四分相)。</p>
+                        <p class="mt-2"><strong>你需要注意：</strong> OS 處理情緒的預設模式可能是「分析」、「抽離」甚至「壓抑」。面對強烈混亂情緒時，系統可能自動「降頻」或「暫停處理」，令你感到麻木。</p>
+                        <p class="mt-2"><strong>建議：</strong> 為情緒尋找安全的「實驗室」（如藝術、書寫）。學習溫柔地「觀察」和「表達」感受，而非任其在底層累積引發風暴。對自己的情緒處理方式要有更多慈悲和耐性。</p>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End of characteristics container -->
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。理解你的設定，駕馭你的力量。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const characteristicCards = document.querySelectorAll('.characteristic-card');
+            characteristicCards.forEach(card => {
+                const header = card.querySelector('.p-6'); // Clickable header area
+                const content = card.querySelector('.details-content');
+
+                header.addEventListener('click', () => {
+                    const isExpanded = card.classList.contains('card-expanded');
+
+                    // Optional: Collapse others when one is opened
+                    characteristicCards.forEach(otherCard => {
+                        if (otherCard !== card && otherCard.querySelector('.details-content')) {
+                           otherCard.classList.remove('card-expanded');
+                           otherCard.querySelector('.details-content').style.maxHeight = '0px';
+                        }
+                    });
+
+                    if (isExpanded) {
+                        card.classList.remove('card-expanded');
+                        content.style.maxHeight = '0px';
+                    } else {
+                        card.classList.add('card-expanded');
+                         // Set max-height slightly larger than needed to ensure full expansion
+                        content.style.maxHeight = content.scrollHeight + 50 + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

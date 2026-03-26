@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan 資訊解毒與靈魂接地儀表板 v5.6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #020617; /* slate-950 */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .rounded-40 { border-radius: 40px; }
+        .fade-in { animation: fadeIn 0.8s ease-out; }
+        .zoom-in { animation: zoomIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Floating Nagi Animation */
+        .animate-waves {
+            animation: wavePulse 3s ease-in-out infinite;
+        }
+        @keyframes wavePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 text-slate-200">
+
+    <div id="app-container" class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl border border-white/5 p-8 rounded-40 shadow-2xl relative overflow-hidden transition-all duration-700">
+        
+        <!-- Decorative Watermark -->
+        <div class="absolute -top-10 -right-10 opacity-5 pointer-events-none">
+            <i data-lucide="brain" class="w-48 h-48"></i>
+        </div>
+
+        <header class="mb-8 text-center">
+            <div class="text-[10px] text-blue-500 font-black uppercase tracking-[0.4em] mb-2">Internal Retrospective</div>
+            <h1 class="text-2xl font-bold tracking-tighter text-white uppercase italic">Nathan <span class="text-blue-500">Detox</span> v5.6</h1>
+            <p class="text-xs text-slate-500 mt-2 italic">停止麻醉，開始接地</p>
+        </header>
+
+        <!-- Mode: Analysis (Default) -->
+        <div id="analysis-view" class="space-y-6 fade-in">
+            <div class="bg-red-500/10 border border-red-500/20 p-5 rounded-3xl">
+                <h3 class="text-red-400 font-bold text-sm flex items-center mb-3">
+                    <i data-lucide="battery-low" class="mr-2 w-4 h-4"></i> 偵測到：資訊過載引起的「虛假充實」
+                </h3>
+                <div class="space-y-3" id="data-list">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+
+            <button 
+                onclick="toggleMode(true)"
+                class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold transition-all shadow-lg shadow-blue-900/40 flex items-center justify-center space-x-2"
+            >
+                <i data-lucide="eye-off" class="w-4 h-4"></i>
+                <span>啟動「資訊屏蔽模式」</span>
+            </button>
+        </div>
+
+        <!-- Mode: Nagi (Detox Active) -->
+        <div id="nagi-view" class="hidden space-y-6 zoom-in">
+            <div class="text-center py-6">
+                <i data-lucide="waves" class="mx-auto text-blue-400 animate-waves mb-4 w-12 h-12"></i>
+                <h2 class="text-xl font-bold text-blue-200 uppercase tracking-widest italic">NAGI - 凪</h2>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                    屏蔽所有 Input。依家呢度只有你同呼吸。<br/>
+                    唔好去諗「點樣變好」，淨係感受「依家」。
+                </p>
+            </div>
+
+            <div class="bg-indigo-900/20 p-5 rounded-3xl border border-indigo-500/30">
+                <h3 class="text-indigo-300 font-bold text-xs mb-4 flex items-center">
+                    <i data-lucide="anchor" class="mr-2 w-4 h-4"></i> 真實接地清單 (Grounding Tasks):
+                </h3>
+                <ul class="text-[11px] text-slate-300 space-y-3">
+                    <li class="flex items-center"><div class="w-1 h-1 bg-indigo-400 rounded-full mr-2"></div> 合埋眼，聽 3 分鐘海浪聲。</li>
+                    <li class="flex items-center"><div class="w-1 h-1 bg-indigo-400 rounded-full mr-2"></div> 用手摸吓被單嘅質地，感受嗰份觸覺。</li>
+                    <li class="flex items-center"><div class="w-1 h-1 bg-indigo-400 rounded-full mr-2"></div> 飲一杯溫水，感受佢流過喉嚨。</li>
+                </ul>
+            </div>
+
+            <button 
+                onclick="toggleMode(false)"
+                class="w-full py-3 bg-slate-800 text-slate-500 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-700 transition"
+            >
+                解除屏蔽 (請謹慎使用)
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-10">
+            <div class="flex justify-center space-x-6 mb-4">
+               <div class="flex flex-col items-center opacity-40">
+                 <i data-lucide="cat" class="text-blue-400 w-5 h-5"></i>
+                 <span class="text-[8px] mt-1">REAL CAT</span>
+               </div>
+               <div class="flex flex-col items-center opacity-40">
+                 <i data-lucide="ghost" class="text-blue-400 w-5 h-5"></i>
+                 <span class="text-[8px] mt-1">DORAEMON</span>
+               </div>
+               <div class="flex flex-col items-center opacity-40 text-red-500">
+                 <i data-lucide="heart" class="w-5 h-5 fill-current"></i>
+                 <span class="text-[8px] mt-1 uppercase">Truth</span>
+               </div>
+            </div>
+            <p class="text-[9px] text-slate-800 text-center tracking-[0.3em] uppercase">
+                Nathan, Silence is the best Patch.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Data Initialization
+        const dataAnalysis = [
+            { type: '麻醉類', content: '無限 Reels / 貓狗短片', impact: '暫時麻醉，事後空虛', status: '建議限流' },
+            { type: '焦慮類', content: 'AI 新技術 / 競爭對手資訊', impact: '引發恐慌，消耗 CPU', status: '暫停下載' },
+            { type: '偽成長類', content: '身心靈金句 / 成功學', impact: '產生幻覺，無助行動', status: '按需讀取' },
+            { type: '真實類', content: '呼吸 / 伸展 / 飲水 / 睡眠', impact: '修復硬件，重連現實', status: '最高優先級' }
+        ];
+
+        // Render Data List
+        const dataList = document.getElementById('data-list');
+        dataAnalysis.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'flex justify-between items-center text-[10px] border-b border-white/5 pb-2';
+            const statusClass = item.status === '最高優先級' ? 'text-green-400' : 'text-red-400/60';
+            div.innerHTML = `
+                <span class="text-slate-400">${item.content}</span>
+                <span class="${statusClass}">${item.status}</span>
+            `;
+            dataList.appendChild(div);
+        });
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Toggle Function
+        function toggleMode(detoxActive) {
+            const analysisView = document.getElementById('analysis-view');
+            const nagiView = document.getElementById('nagi-view');
+            const container = document.getElementById('app-container');
+
+            if (detoxActive) {
+                analysisView.classList.add('hidden');
+                nagiView.classList.remove('hidden');
+                container.classList.add('border-indigo-500/20');
+            } else {
+                analysisView.classList.remove('hidden');
+                nagiView.classList.add('hidden');
+                container.classList.remove('border-indigo-500/20');
+            }
+            
+            // Re-render icons for the new view
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

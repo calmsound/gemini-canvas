@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan's Digital Hub | Index</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-weight: 400;
+            font-size: 1rem;
+            text-transform: capitalize;
+            color: #e2e8f0;
+        }
+
+        .icon {
+            color: var(--primary);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .icon {
+            opacity: 1;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem; }
+            body { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Nathan's Knowledge Hub</h1>
+        <p class="subtitle">Unified Repository of System Manuals & Personal Blueprints</p>
+    </header>
+
+    <div class="container">
+        <!-- Links Start -->
+        <a href="blade-of-breakthrough-v2.html" class="card"><span class="card-title">Blade Of Breakthrough V2</span><span class="icon">→</span></a>
+        <a href="blade-of-breakthrough-v22.html" class="card"><span class="card-title">Blade Of Breakthrough V22</span><span class="icon">→</span></a>
+        <a href="body-temple-deep-charging-console.html" class="card"><span class="card-title">Body Temple Deep Charging Console</span><span class="icon">→</span></a>
+        <a href="boundary-defense-code-extractor-v2-2.html" class="card"><span class="card-title">Boundary Defense Code Extractor V2-2</span><span class="icon">→</span></a>
+        <a href="boundary-defense-code-extractor-v2.html" class="card"><span class="card-title">Boundary Defense Code Extractor V2</span><span class="icon">→</span></a>
+        <a href="boundary-defense-code-extractor.html" class="card"><span class="card-title">Boundary Defense Code Extractor</span><span class="icon">→</span></a>
+        <a href="core-value-defense-module-open-heart-repair-guide.html" class="card"><span class="card-title">Core Value Defense Module Open Heart Repair Guide</span><span class="icon">→</span></a>
+        <a href="cosmic-infinite-atm-v2.html" class="card"><span class="card-title">Cosmic Infinite ATM V2</span><span class="icon">→</span></a>
+        <a href="cosmic-infinite-atm.html" class="card"><span class="card-title">Cosmic Infinite ATM</span><span class="icon">→</span></a>
+        <a href="cto-open-center-defense-manual.html" class="card"><span class="card-title">CTO Open Center Defense Manual</span><span class="icon">→</span></a>
+        <a href="demolition-captain-and-garden-owner-collaboration-flowchart.html" class="card"><span class="card-title">Demolition Captain & Garden Owner Collaboration Flowchart</span><span class="icon">→</span></a>
+        <a href="divine-maintenance-system-dms-console.html" class="card"><span class="card-title">Divine Maintenance System DMS Console</span><span class="icon">→</span></a>
+        <a href="financial-os-happy-path-analysis-report.html" class="card"><span class="card-title">Financial OS Happy Path Analysis Report</span><span class="icon">→</span></a>
+        <a href="guilt-virus-removal-protocol-v4-1.html" class="card"><span class="card-title">Guilt Virus Removal Protocol V4-1</span><span class="icon">→</span></a>
+        <a href="guilt-virus-removal-protocol-v4.html" class="card"><span class="card-title">Guilt Virus Removal Protocol V4</span><span class="icon">→</span></a>
+        <a href="human-design-blueprint-cto-system-manual.html" class="card"><span class="card-title">Human Design Blueprint CTO System Manual</span><span class="icon">→</span></a>
+        <a href="human-design-cto-operation-manual-projector-survival-guide.html" class="card"><span class="card-title">Human Design CTO Operation Manual Projector Survival Guide</span><span class="icon">→</span></a>
+        <a href="inner-committee-3.html" class="card"><span class="card-title">Inner Committee 3</span><span class="icon">→</span></a>
+        <a href="inner-hardware-component-manual.html" class="card"><span class="card-title">Inner Hardware Component Manual</span><span class="icon">→</span></a>
+        <a href="life-design-patterns-ultimate-guide.html" class="card"><span class="card-title">Life Design Patterns Ultimate Guide</span><span class="icon">→</span></a>
+        <a href="money-rolling-in.html" class="card"><span class="card-title">Money Rolling In</span><span class="icon">→</span></a>
+        <a href="my-success-is-nourished-not-rushed.html" class="card"><span class="card-title">My Success Is Nourished Not Rushed</span><span class="icon">→</span></a>
+        <a href="nathan-calm-and-defense-dashboard-v5-9-dynamite-pressure-release.html" class="card"><span class="card-title">Nathan Calm & Defense Dashboard V5-9</span><span class="icon">→</span></a>
+        <a href="nathan-calm-and-defense-dashboard-v5.html" class="card"><span class="card-title">Nathan Calm & Defense Dashboard V5</span><span class="icon">→</span></a>
+        <a href="nathan-guilt-de-bugger-v1.html" class="card"><span class="card-title">Nathan Guilt De-Bugger V1</span><span class="icon">→</span></a>
+        <a href="nathan-information-detox-and-soul-grounding-dashboard-v5.html" class="card"><span class="card-title">Nathan Info Detox & Soul Grounding V5</span><span class="icon">→</span></a>
+        <a href="no-truth-in-the-present-ultimate-technical-whitepaper.html" class="card"><span class="card-title">No Truth In The Present Whitepaper</span><span class="icon">→</span></a>
+        <a href="project-refactor-program-metaphor-collection.html" class="card"><span class="card-title">Project Refactor Metaphor Collection</span><span class="icon">→</span></a>
+        <a href="sister-exclusive-firewall-2.html" class="card"><span class="card-title">Sister Exclusive Firewall 2</span><span class="icon">→</span></a>
+        <a href="soul-reconstruction-command-center-phase-2.html" class="card"><span class="card-title">Soul Reconstruction Command Center P2</span><span class="icon">→</span></a>
+        <a href="source-of-calm-v3.html" class="card"><span class="card-title">Source Of Calm V3</span><span class="icon">→</span></a>
+        <a href="subconscious-money-breakthrough-manual-cto-exclusive.html" class="card"><span class="card-title">Subconscious Money Breakthrough Manual</span><span class="icon">→</span></a>
+        <a href="tufti-movie-roaming-guide-live-stroll-guide.html" class="card"><span class="card-title">Tufti Movie Roaming Guide Live Stroll</span><span class="icon">→</span></a>
+        <a href="tufti-movie-roaming-guide.html" class="card"><span class="card-title">Tufti Movie Roaming Guide</span><span class="icon">→</span></a>
+        <a href="ultimate-system-integration-report-symphony-of-five-blueprints.html" class="card"><span class="card-title">Ultimate System Integration Report</span><span class="icon">→</span></a>
+        <a href="unified-wisdom-library-program-metaphor-and-life-blueprint-portal.html" class="card"><span class="card-title">Unified Wisdom Library Portal</span><span class="icon">→</span></a>
+        <a href="unworthiness-vuln-analysis-report.html" class="card"><span class="card-title">Unworthiness Vuln Analysis Report</span><span class="icon">→</span></a>
+        <a href="water-breathing-eleventh-form-nagi-aesthetic-version.html" class="card"><span class="card-title">Water Breathing 11th Form Nagi Aesthetic</span><span class="icon">→</span></a>
+        <a href="water-breathing-eleventh-form-nagi.html" class="card"><span class="card-title">Water Breathing 11th Form Nagi</span><span class="icon">→</span></a>
+        <a href="weak-body-rich-fate-ultimate-decryption-console.html" class="card"><span class="card-title">Weak Body Rich Fate Decryption Console</span><span class="icon">→</span></a>
+        <a href="western-horoscope-os-core-features-guide.html" class="card"><span class="card-title">Western Horoscope OS Features Guide</span><span class="icon">→</span></a>
+        <a href="workplace-haven-v5.html" class="card"><span class="card-title">Workplace Haven V5</span><span class="icon">→</span></a>
+        <a href="zero-thought-deep-sleep-guide.html" class="card"><span class="card-title">Zero Thought Deep Sleep Guide</span><span class="icon">→</span></a>
+    </div>
+
+    <footer>
+        &copy; 2026 Nathan's Digital Workspace. All paths connected.
+    </footer>
+</body>
+</html>

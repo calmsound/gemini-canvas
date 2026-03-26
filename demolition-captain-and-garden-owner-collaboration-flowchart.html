@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「拆遷隊長」與「花園主人」協作流程圖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .arrow {
+            position: relative;
+            color: #94a3b8; /* slate-400 */
+        }
+        .arrow-body {
+            height: 2px;
+            background-color: currentColor;
+        }
+        .arrow-head {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        /* Right arrow */
+        .arrow-right .arrow-head {
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent currentColor;
+        }
+        /* Down arrow */
+        .arrow-down .arrow-head {
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 6px 0 6px;
+            border-color: currentColor transparent transparent transparent;
+        }
+        /* Left arrow */
+        .arrow-left .arrow-head {
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 10px 6px 0;
+            border-color: transparent currentColor transparent transparent;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-6 md:p-10">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2">第二期工程：協作流程圖</h1>
+            <p class="text-md md:text-lg text-slate-500">「花園主人」與「拆遷隊長」的分工與合作</p>
+        </header>
+
+        <div class="flex flex-col items-center">
+            <!-- Garden Master - Main State -->
+            <div class="w-full lg:w-3/5 border-2 border-green-500 bg-green-50 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-4xl mb-2">🏡</div>
+                <h2 class="text-2xl font-bold text-green-800">花園主人 (Garden Master)</h2>
+                <p class="font-semibold text-green-600">全職工作：建設與滋養</p>
+                <p class="text-sm text-slate-600 mt-3">這是你的日常預設狀態。你的主要任務是專注於建設「中央公園」，透過溫柔的習慣與實驗，持續灌溉你內心的平靜土壤。</p>
+                <div class="mt-4 text-left text-sm space-y-1 bg-white p-3 rounded-md border border-green-200">
+                    <p><strong>主要工具：</strong></p>
+                    <ul class="list-disc list-inside text-slate-700">
+                        <li>晨間巡園 (感受)</li>
+                        <li>陽光筆記 (感恩)</li>
+                        <li>土壤改良 (滋養身體)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Trigger Arrow & Box -->
+            <div class="w-10 h-16 md:h-20 flex justify-center items-center">
+                <div class="w-full h-full arrow arrow-down">
+                    <div class="arrow-body w-0.5 h-full mx-auto"></div>
+                </div>
+            </div>
+
+            <div class="bg-yellow-100 border border-yellow-300 rounded-lg px-4 py-2 text-center text-sm text-yellow-800 shadow">
+                <p><strong class="font-semibold">觸發事件 (Trigger)</strong></p>
+                <p>偵測到「舊地雷」：如舊記憶浮現、壓力事件</p>
+            </div>
+
+            <!-- Demolition Leader Activation -->
+            <div class="w-10 h-16 md:h-20 flex justify-center items-center">
+                <div class="w-full h-full arrow arrow-down">
+                     <div class="arrow-body w-0.5 h-full mx-auto"></div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-3/5 flex flex-col md:flex-row items-stretch gap-4">
+                <!-- Demolition Leader Box -->
+                <div class="w-full md:w-2/3 border-2 border-red-500 bg-red-50 rounded-xl p-6 shadow-lg text-center flex flex-col">
+                    <div class="text-4xl mb-2">👷</div>
+                    <h2 class="text-2xl font-bold text-red-800">拆遷隊長 (Demolition Leader)</h2>
+                    <p class="font-semibold text-red-600">兼職：緊急應變專家</p>
+                    <p class="text-sm text-slate-600 mt-3">當舊創傷被觸發時，你便會暫時切換到此角色。任務不是全面開戰，而是快速、精準地處理危機，保護花園免受破壞。</p>
+                    <div class="mt-4 text-left text-sm space-y-1 bg-white p-3 rounded-md border border-red-200 flex-grow">
+                        <p><strong>主要工具：</strong></p>
+                        <ul class="list-disc list-inside text-slate-700">
+                            <li>心靈急救包 (穩定局面)</li>
+                            <li>承認，但不跟隨 (創造距離)</li>
+                            <li>安全第一原則 (撤退)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Return Arrow -->
+                <div class="w-full md:w-1/3 flex items-center justify-center">
+                    <div class="w-full h-10 md:w-auto md:h-full flex items-center justify-center transform md:transform-none -rotate-90 md:rotate-0">
+                         <div class="w-full h-full arrow arrow-left md:arrow-left">
+                            <div class="arrow-body h-0.5 w-full my-auto"></div>
+                            <div class="absolute top-1/2 left-0 -translate-y-1/2 text-center w-full">
+                                <p class="text-xs font-semibold text-slate-500 bg-white px-1">危機處理完畢</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Loop back up -->
+            <div class="w-full lg:w-3/5 text-center mt-4">
+                 <p class="text-sm text-slate-500">完成應變後，你會回歸「花園主人」的日常，繼續建設與滋養的工作。</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

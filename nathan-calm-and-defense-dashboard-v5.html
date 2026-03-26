@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan 冷靜與防護儀表板 v5.7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .nagi-overlay {
+            display: none;
+            backdrop-filter: blur(12px);
+        }
+        .nagi-active .nagi-overlay {
+            display: flex;
+        }
+        .rounded-40 { border-radius: 40px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen flex items-center justify-center p-6">
+
+    <div id="main-container" class="max-w-md w-full bg-slate-900/90 border border-white/5 p-8 rounded-40 shadow-2xl relative overflow-hidden">
+        
+        <!-- Nagi Overlay (Emergency Calm) -->
+        <div id="nagi-screen" class="nagi-overlay absolute inset-0 bg-blue-500/20 z-50 flex flex-col items-center justify-center transition-all duration-500">
+            <i data-lucide="waves" class="text-blue-200 w-16 h-16 mb-4 animate-bounce"></i>
+            <h2 class="text-2xl font-black text-white tracking-widest italic uppercase">凪 - NAGI</h2>
+            <p class="text-xs text-blue-100 mt-2">外界雜訊已屏蔽... 保持深呼吸...</p>
+        </div>
+
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <div class="text-[10px] text-blue-500 font-black uppercase tracking-[0.4em] mb-2">Nathan Emergency Support</div>
+            <h1 class="text-2xl font-bold tracking-tighter text-white uppercase italic">Calm <span class="text-blue-500">Shield</span> v5.7</h1>
+        </header>
+
+        <!-- Status Section -->
+        <div class="space-y-6 mb-8">
+            <!-- Physical Status -->
+            <div class="bg-slate-800/50 p-4 rounded-3xl border border-white/5">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">身體狀態 (Physical Status)</span>
+                    <i data-lucide="thermometer" class="text-amber-500 w-4 h-4"></i>
+                </div>
+                <p class="text-sm font-bold text-amber-200 italic">正在咳嗽 (Coughing) - 系統過熱中</p>
+            </div>
+
+            <!-- Patience Buffer -->
+            <div class="bg-slate-800/50 p-4 rounded-3xl border border-white/5">
+                <div class="flex justify-between items-center mb-2 text-[10px] uppercase tracking-widest text-slate-500">
+                    <span>忍耐限度 (Patience Buffer)</span>
+                    <span id="patience-text" class="text-red-400 font-bold">30%</span>
+                </div>
+                <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                    <div id="patience-bar" class="h-full bg-red-500 transition-all duration-1000" style="width: 30%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Action Protocol -->
+        <div class="grid grid-cols-2 gap-3 mb-8">
+            <div class="p-4 bg-slate-800 rounded-2xl flex flex-col items-center text-center border border-white/5">
+                <i data-lucide="volume-x" class="text-blue-400 mb-2 w-5 h-5"></i>
+                <span class="text-[10px] uppercase text-slate-500 font-bold">靜音模式</span>
+                <span class="text-[9px] mt-1 italic text-slate-400">少說話 減少衝突</span>
+            </div>
+            <div class="p-4 bg-slate-800 rounded-2xl flex flex-col items-center text-center border border-white/5">
+                <i data-lucide="coffee" class="text-amber-500 mb-2 w-5 h-5"></i>
+                <span class="text-[10px] uppercase text-slate-500 font-bold">壬水補給</span>
+                <span class="text-[9px] mt-1 italic text-slate-400">多飲暖水 潤喉</span>
+            </div>
+        </div>
+
+        <!-- Main Calm Button -->
+        <button 
+            onclick="activateNagi()"
+            class="w-full py-5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-3xl font-black text-sm tracking-widest transition-all shadow-lg shadow-blue-900/40 flex items-center justify-center space-x-3"
+        >
+            <i data-lucide="wind" class="w-5 h-5"></i>
+            <span>啟動：一分鐘「凪」模式</span>
+        </button>
+
+        <!-- Doraemon Reminder -->
+        <div class="mt-8 p-4 bg-white/5 rounded-2xl border border-white/5 flex items-start space-x-3">
+            <i data-lucide="ghost" class="text-blue-400 shrink-0 w-5 h-5"></i>
+            <p class="text-[10px] text-slate-400 italic leading-relaxed">
+                「Nathan，叮噹借個『無視標籤』俾你。今日公司所有嘈雜聲、老闆嘅廢話，通通貼上標籤，你就聽唔到架喇。」
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 flex justify-center space-x-4 opacity-30">
+            <i data-lucide="heart" class="text-red-500 fill-red-500 w-4 h-4"></i>
+            <i data-lucide="shield" class="w-4 h-4"></i>
+            <i data-lucide="zap-off" class="w-4 h-4"></i>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        function activateNagi() {
+            const body = document.body;
+            const patienceText = document.getElementById('patience-text');
+            const patienceBar = document.getElementById('patience-bar');
+            
+            // Show Nagi Overlay
+            body.classList.add('nagi-active');
+            
+            // Logic: Slightly restore patience when Nagi is used
+            let currentPatience = parseInt(patienceText.innerText);
+            if (currentPatience < 100) {
+                currentPatience = Math.min(100, currentPatience + 10);
+                patienceText.innerText = currentPatience + '%';
+                patienceBar.style.width = currentPatience + '%';
+                
+                // Change color if it's getting better
+                if (currentPatience > 50) {
+                    patienceText.classList.remove('text-red-400');
+                    patienceText.classList.add('text-green-400');
+                    patienceBar.classList.remove('bg-red-500');
+                    patienceBar.classList.add('bg-green-500');
+                }
+            }
+
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                body.classList.remove('nagi-active');
+            }, 5000);
+        }
+
+        // Randomly simulate patience dropping over time (like a real work day)
+        setInterval(() => {
+            const patienceText = document.getElementById('patience-text');
+            const patienceBar = document.getElementById('patience-bar');
+            let currentPatience = parseInt(patienceText.innerText);
+            
+            if (currentPatience > 5 && !document.body.classList.contains('nagi-active')) {
+                currentPatience -= 2;
+                patienceText.innerText = currentPatience + '%';
+                patienceBar.style.width = currentPatience + '%';
+                
+                if (currentPatience <= 50) {
+                    patienceText.classList.add('text-red-400');
+                    patienceText.classList.remove('text-green-400');
+                    patienceBar.classList.add('bg-red-500');
+                    patienceBar.classList.remove('bg-green-500');
+                }
+            }
+        }, 10000);
+    </script>
+</body>
+</html>

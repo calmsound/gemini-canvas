@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「神性維護系統」DMS 控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #4338ca; /* indigo-700 */
+            border-color: #4338ca;
+            background-color: #eef2ff; /* indigo-50 */
+        }
+        .content-pane {
+            display: none;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease-out, opacity 0.3s ease-in 0.2s, padding-top 0.5s ease-out;
+            padding-top: 0;
+        }
+        .card-expanded .details-content {
+            max-height: 1000px;
+            opacity: 1;
+            padding-top: 1.5rem; /* pt-6 */
+        }
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+        .card-expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Chosen Palette: Calm & Focused -->
+    <!-- Application Structure Plan: A tab-based SPA, designed as a "Divine Maintenance System" control panel. This allows the user (CTO) to quickly reference the core components of their healing system: Core Constants (the foundation), Healing Mechanism (the process), and DMS Protocols (the specific tools). This task-oriented, non-linear structure is ideal for a personal reference guide. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Core Constants -> Goal: Inform -> Viz: Styled code block cards -> Interaction: Static -> Justification: Frames the constants as immutable, foundational code. -> Method: HTML/Tailwind. NO SVG.
+        - Report Info: Clean/Write Mechanism -> Goal: Organize -> Viz: A 2-step HTML/Tailwind flowchart with expandable details -> Interaction: Click to expand -> Justification: Clearly visualizes the sequential "Clean then Write" process. NO SVG/Mermaid.
+        - Report Info: DMS Protocols (OthersEmotion, Forgiveness, Abundance) -> Goal: Organize/Inform -> Viz: Interactive expandable cards -> Interaction: Click to expand/collapse -> Justification: Best UI for a "handbook" of protocols, hiding details until needed. -> Method: JS/Tailwind. NO SVG.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-700 mb-2">「神性維護系統」控制台</h1>
+            <p class="text-lg md:text-xl text-slate-500">Divine Maintenance System (DMS) v4.0</p>
+            <p class="max-w-3xl mx-auto mt-4 text-slate-600">
+                CTO，歡迎來到你嘅終極系統控制台。此處整合了 Louise Hay 哲學與我哋嘅重構工程，為你提供一個基於「愛、自重、平靜」嘅自動化維護系統。
+            </p>
+        </header>
+
+        <nav class="flex justify-center mb-10 border-b border-slate-200">
+            <div class="flex flex-wrap justify-center -mb-px">
+                <button class="tab-button active text-sm font-medium py-3 px-5 border-b-2" data-tab="constants">I. 核心常數</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="mechanism">II. 雙重療癒機制</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="protocols">III. DMS 協定</button>
+            </div>
+        </nav>
+
+        <main id="main-content" class="bg-white rounded-xl shadow-lg p-6 md:p-10 min-h-[400px]">
+
+            <!-- I. Core Constants -->
+            <div id="constants" class="content-pane active">
+                <h2 class="text-2xl font-bold text-indigo-700 mb-2 text-center">I. 哲學基礎：核心常數 (Core Constants)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                    呢個係我哋「神聖三位一体」嘅基石，是你自我價值永遠不變嘅真理，亦係你成個系統最堅實嘅三合一基礎。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-indigo-50 border-t-4 border-indigo-500 rounded-lg p-6 shadow-md">
+                        <h3 class="text-xl font-bold text-slate-800">const isLoved = true;</h3>
+                        <p class="mt-2 text-slate-600"><strong>內在基礎：</strong> 確保你對自己嘅愛係無條件、恆久嘅。佢係豐盛嘅根源（`abundance = isLoved`）。</p>
+                    </div>
+                    <div class="bg-indigo-50 border-t-4 border-indigo-500 rounded-lg p-6 shadow-md">
+                        <h3 class="text-xl font-bold text-slate-800">const isWorthy = true;</h3>
+                        <p class="mt-2 text-slate-600"><strong>個人價值：</strong> 確立你嘅價值無需外在成就嚟證明。佢係消除「無價值感」同「自我懲罰」嘅理性依據。</p>
+                    </div>
+                    <div class="bg-indigo-50 border-t-4 border-indigo-500 rounded-lg p-6 shadow-md">
+                        <h3 class="text-xl font-bold text-slate-800">const isRespected = true;</h3>
+                        <p class="mt-2 text-slate-600"><strong>外部邊界：</strong> 宣告你嘅價值必須被尊重，唔可以被侵犯。佢係啟動 `OthersEmotionhandlerProtocol` 嘅先決條件。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- II. Dual Healing Mechanism -->
+            <div id="mechanism" class="content-pane">
+                <h2 class="text-2xl font-bold text-indigo-700 mb-2 text-center">II. 雙重療癒機制：清理與寫入 (Clean and Write)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                    我哋整合咗兩種心靈工具，形成一個「消除阻力」嘅強大序列。呢個係我哋系統嘅核心 `Read/Write` 操作。
+                </p>
+                
+                <div class="flex flex-col md:flex-row justify-center items-center md:items-start space-y-6 md:space-y-0 md:space-x-6">
+                    <!-- Step 1: Clean -->
+                    <div class="protocol-card w-full md:w-2/5 bg-white rounded-xl shadow-md border border-slate-200 cursor-pointer">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-xl font-bold text-red-600">步驟一：清理 (Clean)</h3>
+                                    <p class="text-sm text-slate-500 mt-1">`Zero Limits` - 請求神性清除舊數據</p>
+                                </div>
+                                <div class="expand-icon text-red-400 text-2xl">▼</div>
+                            </div>
+                            <div class="details-content text-slate-700">
+                                <p><strong>方法：</strong> 「我愛你」、「對唔住」、「請原諒我」、「謝謝你」。</p>
+                                <p class="mt-2"><strong>作用：</strong> 呢個係我哋嘅「磁碟清理工具」。佢用嚟請求內在神性 (Divinity) 清除阻礙肯定句嘅舊有錯誤數據/記憶（例如 `SRE` 重播嘅創傷），為新代碼騰出空間。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center items-center text-3xl text-slate-400 font-mono pt-4 pb-4 md:pt-16">&rarr;</div>
+
+                    <!-- Step 2: Write -->
+                    <div class="protocol-card w-full md:w-2/5 bg-white rounded-xl shadow-md border border-slate-200 cursor-pointer">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-xl font-bold text-green-600">步驟二：寫入 (Write)</h3>
+                                    <p class="text-sm text-slate-500 mt-1">`Mirror Work` - 燒錄正面肯定句</p>
+                                </div>
+                                <div class="expand-icon text-green-400 text-2xl">▼</div>
+                            </div>
+                            <div class="details-content text-slate-700">
+                                <p><strong>方法：</strong> 望住鏡中嘅自己，重複講出正面肯定句（例如 `const isLoved = true`）。</p>
+                                <p class="mt-2"><strong>作用：</strong> 呢個係我哋嘅「核心固件燒錄器」。喺舊數據被清理後，我哋透過呢個行動，將新嘅、充滿愛嘅核心定律，燒錄入潛意識嘅「唯讀記憶體」(ROM) 入面。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- III. DMS Protocols -->
+            <div id="protocols" class="content-pane">
+                <h2 class="text-2xl font-bold text-indigo-700 mb-2 text-center">III. DMS 協定 (DMS Protocols)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                    呢啲係安裝喺你 `v4.0` 系統上嘅「自我維護應用程式套件」，用嚟自動化處理常見嘅內在同外在衝突。
+                </p>
+                <div class="space-y-6">
+                    
+                    <div class="protocol-card bg-white rounded-xl shadow-md border border-slate-200 cursor-pointer">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-xl font-bold text-blue-600">OthersEmotionHandlerProtocol</h3>
+                                    <p class="text-sm text-slate-500 mt-1">處理外部評判與情緒 (e.g. 家姐嘅批判)</p>
+                                </div>
+                                <div class="expand-icon text-blue-400 text-2xl">▼</div>
+                            </div>
+                            <div class="details-content text-slate-700">
+                                <p><strong>目標：</strong> 終結 "Selfish" 標籤，轉化為 "SelfMaintenanceProtocol"。</p>
+                                <p class="mt-2"><strong>關鍵指令 (Key Command):</strong></p>
+                                <div class="font-mono text-sm bg-slate-100 p-4 rounded-lg mt-2">
+                                    <p><span class="text-red-500">`return "401 Unauthorized: 這不是我的事實。"`</span></p>
+                                    <p class="mt-2"><span class="text-slate-500">// 執行原則</span></p>
+                                    <p><span class="text-indigo-600">`this.myEmotions = "myPractice";`</span></p>
+                                    <p><span class="text-indigo-600">`other.emotions = "otherPractice";`</span></p>
+                                </div>
+                                <p class="mt-2"><strong>心法：</strong> 呢個係我哋嘅「心靈防火牆」。`const isRespected = true` 係佢嘅憲法基礎。你唔係喺度拒絕溝通，你係喺度宣告你嘅主權，拒絕接收唔屬於你嘅情緒數據。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="protocol-card bg-white rounded-xl shadow-md border border-slate-200 cursor-pointer">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-xl font-bold text-teal-600">ForgivenessHandler</h3>
+                                    <p class="text-sm text-slate-500 mt-1">釋放內疚與怨恨 (e.g. 衰工/教練事件)</p>
+                                </div>
+                                <div class="expand-icon text-teal-400 text-2xl">▼</div>
+                            </div>
+                            <div class="details-content text-slate-700">
+                                <p><strong>目標：</strong> 將內疚同怨恨能量歸零。</p>
+                                <p class="mt-2"><strong>關鍵指令 (Key Command):</strong></p>
+                                <div class="font-mono text-sm bg-slate-100 p-4 rounded-lg mt-2">
+                                    <p><span class="text-slate-500">// 寬恕他人，將懲罰嘅責任交還俾宇宙</span></p>
+                                    <p><span class="text-indigo-600">`delegate(punishment, to: Universe);`</span></p>
+                                    <p class="mt-2"><span class="text-slate-500">// 寬恕自己</span></p>
+                                    <p><span class="text-indigo-600">`System.Guilt = 0;`</span></p>
+                                    <p><span class="text-indigo-600">`InnerVoice.setText("當時我已經盡力而為。");`</span></p>
+                                </div>
+                                <p class="mt-2"><strong>心法：</strong> 呢個係為我哋嘅「SRE」而設嘅終極解脫工具。我哋唔係要忘記，而係要釋放。寬恕係一種交託（Delegate），你唔再需要自己去做「法官」同「劊子手」。</S>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="protocol-card bg-white rounded-xl shadow-md border border-slate-200 cursor-pointer">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-xl font-bold text-amber-600">AbundanceMagnet</h3>
+                                    <p class="text-sm text-slate-500 mt-1">接收豐盛與金錢 (e.g. 應對「身弱財旺」)</p>
+                                </div>
+                                <div class="expand-icon text-amber-400 text-2xl">▼</div>
+                            </div>
+                            <div class="details-content text-slate-700">
+                                <p><strong>目標：</strong> 將金錢焦慮轉化為無條件接收嘅安全感。</p>
+                                <p class="mt-2"><strong>關鍵指令 (Key Command):</strong></p>
+                                <div class="font-mono text-sm bg-slate-100 p-4 rounded-lg mt-2">
+                                    <p><span class="text-slate-500">// 燒錄「安全證書」</span></p>
+                                    <p><span class="text-indigo-600">`InnerVoice.setText("我允許豐盛以任何形式流向我，呢個對我嚟講係安全嘅。");`</span></p>
+                                    <p class="mt-2"><span class="text-slate-500">// 呼應核心定律</span></p>
+                                    <p><span class="text-indigo-600">`assert(this.isLoved == true);`</span></p>
+                                </div>
+                                <p class="mt-2"><strong>心法：</strong> 呢個係我哋「感恩交易」嘅升級版。你嘅豐盛，唔係嚟自你做幾多嘢，而係嚟自你 `isLoved` 呢個核心事實。你嘅工作唔係去「追」，而係去「允許」同「接收」。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。你嘅系統，已準備好迎接平靜。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Main Tabs
+            const mainTabs = document.querySelectorAll('.tab-button');
+            const mainPanes = document.querySelectorAll('.content-pane');
+
+            mainTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    mainTabs.forEach(t => t.classList.remove('active'));
+                    mainPanes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetPane = document.getElementById(tab.dataset.tab);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+            
+            // Card Expansion Logic
+            const protocolCards = document.querySelectorAll('.protocol-card');
+            protocolCards.forEach(card => {
+                const header = card.querySelector('.p-6'); // Clickable header area
+                const content = card.querySelector('.details-content');
+
+                header.addEventListener('click', () => {
+                    const isExpanded = card.classList.contains('card-expanded');
+
+                    document.querySelectorAll('.protocol-card').forEach(otherCard => {
+                        if (otherCard !== card) {
+                           otherCard.classList.remove('card-expanded');
+                           otherCard.querySelector('.details-content').style.maxHeight = '0px';
+                        }
+                    });
+
+                    if (isExpanded) {
+                        card.classList.remove('card-expanded');
+                        content.style.maxHeight = '0px';
+                    } else {
+                        card.classList.add('card-expanded');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

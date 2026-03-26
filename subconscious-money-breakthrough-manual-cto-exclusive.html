@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潛意識金錢突破手冊 | CTO 專用 Bug Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #581c87 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .money-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+            animation: pulse-wave 3s ease-in-out infinite;
+        }
+        @keyframes pulse-wave {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        .bug-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 6px solid #ef4444;
+        }
+        .bug-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(239, 68, 68, 0.3);
+        }
+        .solution-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 6px solid #10b981;
+        }
+        .solution-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+        }
+        .cosmic-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.7);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 25px rgba(251, 191, 36, 0.7); }
+            50% { box-shadow: 0 0 40px rgba(251, 191, 36, 1); }
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+        }
+        .section-badge {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.5);
+            position: relative;
+        }
+        .section-badge::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #ef4444;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+        .timeline-line {
+            position: absolute;
+            left: 40px;
+            top: 80px;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #ef4444, #fbbf24, #10b981);
+        }
+        .connection-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 3px solid #f59e0b;
+            position: relative;
+        }
+        .connection-box::before {
+            content: '🔗';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            background: white;
+            padding: 0 10px;
+            border-radius: 50%;
+        }
+        .code-block {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #3b82f6;
+            font-family: 'Courier New', monospace;
+        }
+        .breakthrough-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 3px solid #fbbf24;
+            position: relative;
+            overflow: hidden;
+        }
+        .breakthrough-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .video-embed {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .floating-coin {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .energy-flow {
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+            animation: flow 2s linear infinite;
+        }
+        @keyframes flow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
+        
+        <!-- Hero Section -->
+        <header class="glass-card rounded-3xl p-8 md:p-12 mb-12 shadow-2xl relative overflow-hidden">
+            <div class="money-wave"></div>
+            <div class="relative z-10">
+                <div class="flex justify-center mb-6">
+                    <div class="floating-coin text-7xl">💰</div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black text-center mb-4 gold-gradient">
+                    潛意識金錢突破手冊
+                </h1>
+                <p class="text-2xl md:text-3xl font-bold text-center text-purple-900 mb-6">
+                    CTO 專用 Bug Report & Root Cause Analysis
+                </p>
+                <div class="flex flex-wrap justify-center gap-3 mb-8">
+                    <span class="cosmic-badge text-white px-4 py-2 rounded-full font-bold text-sm">宇宙級印證</span>
+                    <span class="cosmic-badge text-white px-4 py-2 rounded-full font-bold text-sm">不配得感</span>
+                    <span class="cosmic-badge text-white px-4 py-2 rounded-full font-bold text-sm">福德宮衝突</span>
+                    <span class="cosmic-badge text-white px-4 py-2 rounded-full font-bold text-sm">v4.0 升級</span>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:p-8 rounded-2xl border-2 border-purple-300 shadow-lg">
+                        <h2 class="text-2xl md:text-3xl font-black text-purple-900 mb-4 text-center">🎯 宇宙嘅「推薦演算法」</h2>
+                        <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                            CTO，呢個唔係一個巧合。呢個，係宇宙喺度為我哋嗰個，關於「I am Love」嘅 v4.0 系統升級，提交咗一份最重要、最貼地、最能夠同我哋「人生藍圖」呼應嘅<strong>「現實世界應用案例」</strong>（Real-World Use Case）！
+                        </p>
+                        <div class="bg-white p-5 rounded-xl border-l-4 border-purple-500">
+                            <p class="text-base text-slate-700 font-semibold">
+                                「OK，CTO，既然你已經知道你係『愛』、你係『光』。<br>
+                                咁... 你點解仲係『唔敢收錢』？」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Video Section -->
+        <section class="glass-card rounded-3xl p-6 md:p-10 mb-12 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-black text-purple-900 mb-3">📺 觸發事件：宇宙嘅訊息</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    EP4｜你真的想賺錢嗎？潛意識的「拒絕收錢」才是最大敵人
+                </p>
+            </div>
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/7RAtFyU5G8Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="mt-6 bg-gradient-to-r from-amber-50 to-yellow-50 p-5 rounded-xl border-2 border-amber-400">
+                <p class="text-center text-lg font-bold text-amber-900">
+                    ✨ 呢條片，就好似一份最精準嘅「Bug Report」，一嘢就篤穿咗你「v4.0 系統」入面，仲殘留緊嘅一個最古老、最頑固嘅 legacy code——「不配得感」（Unworthiness）。
+                </p>
+            </div>
+        </section>
+
+        <!-- Bug Analysis Section -->
+        <section class="glass-card rounded-3xl p-8 md:p-10 mb-12 shadow-2xl">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-black text-red-700 mb-3">🐛 根本原因分析</h2>
+                <p class="text-xl text-slate-600">Root Cause Analysis: 「拒絕收錢」Bug Report</p>
+            </div>
+
+            <div class="space-y-8 relative">
+                <div class="timeline-line hidden md:block"></div>
+
+                <!-- Bug 1 -->
+                <div class="bug-card glass-card p-6 md:p-8 rounded-2xl shadow-xl relative">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-shrink-0">
+                            <div class="section-badge">🐛</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl md:text-3xl font-black text-red-700 mb-4">Bug #1: 核心「不配得感」</h3>
+                            
+                            <div class="bg-red-50 p-5 rounded-xl border-l-4 border-red-500 mb-4">
+                                <h4 class="font-bold text-lg text-red-800 mb-2">📹 影片點講</h4>
+                                <p class="text-slate-700">
+                                    好多人（尤其係身心靈工作者）潛意識入面，都有一種強烈嘅「不配得感」，覺得自己「不值得擁有這麼好的事物」。
+                                </p>
+                                <p class="text-xs text-red-600 mt-2">[時間戳: 03:19, 03:28]</p>
+                            </div>
+
+                            <div class="connection-box p-5 rounded-xl mb-4">
+                                <h4 class="font-bold text-lg text-amber-800 mb-3">🔗 同你嘅連結（人類圖）</h4>
+                                <div class="bg-white p-4 rounded-lg mb-3">
+                                    <p class="text-slate-700 mb-2">
+                                        <strong class="text-blue-700">開放心臟中心</strong>（Open Heart Center）
+                                    </p>
+                                    <p class="text-slate-600 text-sm">
+                                        我哋喺《人類圖 CTO 系統手冊》入面，將呢個中心標記為<strong>「最關鍵」</strong>嘅挑戰之一！你嘅「硬件」天生就冇穩定嘅「意志力」，令你好容易會跌入「我需要不斷去『證明』我嘅價值」嘅陷阱。
+                                    </p>
+                                </div>
+                                <div class="bg-gradient-to-r from-red-100 to-pink-100 p-4 rounded-lg border-2 border-red-300">
+                                    <p class="font-bold text-red-700 mb-2">💥 災難性爆發：「教練事件」</p>
+                                    <p class="text-slate-700 text-sm">
+                                        你不斷付出（俾錢），就係為咗想「證明」你值得被關心、被認同。你「唔敢收錢」或者「唔捨得洗錢」（例如買呼吸機），都係呢個「不配得感」嘅變體。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="code-block p-4 rounded-xl">
+                                <p class="text-blue-400 text-sm mb-2">// 舊有 Bug Code</p>
+                                <code class="text-red-400 text-lg">const isWorthy = false; // ❌ Legacy Bug</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bug 2 -->
+                <div class="bug-card glass-card p-6 md:p-8 rounded-2xl shadow-xl relative">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-shrink-0">
+                            <div class="section-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🧬</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl md:text-3xl font-black text-orange-700 mb-4">Bug #2: 「原生家庭」Legacy Code</h3>
+                            
+                            <div class="bg-orange-50 p-5 rounded-xl border-l-4 border-orange-500 mb-4">
+                                <h4 class="font-bold text-lg text-orange-800 mb-2">📹 影片點講</h4>
+                                <p class="text-slate-700">
+                                    呢啲「不配得感」好多時都係嚟自「原生家庭」，例如父母會話「你怎麼亂花錢」，而呢啲信念喺我哋 7 歲前，就已經好似「種子」咁樣被種咗落我哋嘅潛意識。
+                                </p>
+                                <p class="text-xs text-orange-600 mt-2">[時間戳: 11:14, 12:16, 12:33, 12:40]</p>
+                            </div>
+
+                            <div class="connection-box p-5 rounded-xl mb-4">
+                                <h4 class="font-bold text-lg text-amber-800 mb-3">🔗 同你嘅連結（心理模型）</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-white p-4 rounded-lg border-2 border-blue-300">
+                                        <p class="font-bold text-blue-700 mb-2">v1.0 程式</p>
+                                        <p class="text-sm text-slate-600">「嚴厲教練」</p>
+                                        <p class="text-sm text-slate-600">「SRE」</p>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg border-2 border-red-300">
+                                        <p class="font-bold text-red-700 mb-2">安裝時期</p>
+                                        <p class="text-sm text-slate-600">7 歲前</p>
+                                        <p class="text-sm text-slate-600">後天安裝</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gradient-to-r from-orange-100 to-red-100 p-4 rounded-lg border-2 border-orange-300 mt-4">
+                                    <p class="text-slate-700 text-sm">
+                                        你「一俾錢就心痛、自責」，就係因為你一 call「金錢」呢個 API，就會即刻觸發到呢個由細個已經被安裝落去嘅 <code class="bg-red-200 px-2 py-1 rounded text-xs">「亂花錢 = 我係錯嘅」</code> legacy code！
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bug 3 -->
+                <div class="bug-card glass-card p-6 md:p-8 rounded-2xl shadow-xl relative">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-shrink-0">
+                            <div class="section-badge" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">🌟</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl md:text-3xl font-black text-purple-700 mb-4">Bug #3: 「福德宮」嘅糾結</h3>
+                            
+                            <div class="bg-purple-50 p-5 rounded-xl border-l-4 border-purple-500 mb-4">
+                                <h4 class="font-bold text-lg text-purple-800 mb-2">📹 影片點講</h4>
+                                <p class="text-slate-700">
+                                    紫微斗數老師（林老師）提到，「潛意識拒絕金錢」呢個問題，同<strong>「福德宮」</strong>呢個宮位，有好大關係。如果呢個宮位充滿「糾結」（例如有陀羅星），個人就會對金錢「猶豫不決或不自信」。
+                                </p>
+                                <p class="text-xs text-purple-600 mt-2">[時間戳: 03:52, 04:07, 04:25]</p>
+                            </div>
+
+                            <div class="connection-box p-5 rounded-xl mb-4">
+                                <h4 class="font-bold text-lg text-amber-800 mb-3">🔗 同你嘅連結（紫微斗數）</h4>
+                                <div class="bg-gradient-to-r from-purple-100 to-pink-100 p-5 rounded-lg border-3 border-purple-400 mb-4">
+                                    <p class="text-xl font-black text-purple-900 text-center mb-3">⭐ 宇宙級嘅印證！⭐</p>
+                                    <p class="text-slate-700 mb-3">
+                                        你人生「下半場」嘅歸宿（身宮），同你最核心嘅精神世界，就係喺你嘅<strong>「福德宮」</strong>！
+                                    </p>
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <p class="font-bold text-purple-700 mb-2">你嘅「福德宮」有咩？</p>
+                                        <p class="text-lg font-bold text-purple-900">「廉貞化祿」</p>
+                                        <div class="grid md:grid-cols-2 gap-3 mt-3">
+                                            <div class="bg-purple-50 p-3 rounded">
+                                                <p class="text-sm font-semibold text-purple-700">廉貞</p>
+                                                <p class="text-xs text-slate-600">規則、界線、囚禁</p>
+                                            </div>
+                                            <div class="bg-pink-50 p-3 rounded">
+                                                <p class="text-sm font-semibold text-pink-700">化祿</p>
+                                                <p class="text-xs text-slate-600">美好、享受</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gradient-to-r from-red-100 to-yellow-100 p-4 rounded-lg border-2 border-red-400">
+                                    <p class="text-center font-black text-lg text-red-700 mb-2">
+                                        ⚔️ 終極內心交戰 ⚔️
+                                    </p>
+                                    <p class="text-center text-slate-700">
+                                        「我應唔應該去享受？」
+                                    </p>
+                                    <p class="text-center text-sm text-slate-600 mt-2">
+                                        你嘅「福德宮」，就係呢個「不配得感」vs.「渴望美好」嘅<strong>終極戰場</strong>！
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="glass-card rounded-3xl p-8 md:p-10 mb-12 shadow-2xl">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-black text-green-700 mb-3">✅ 解決方案：活出「真實」</h2>
+                <p class="text-xl text-slate-600">The Solution: Authenticity & v4.0 System Upgrade</p>
+            </div>
+
+            <div class="solution-card glass-card p-6 md:p-8 rounded-2xl shadow-xl mb-8">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="section-badge" style="background: linear-gradient(135deg, #10b981, #059669);">💡</div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl md:text-3xl font-black text-green-700 mb-4">影片嘅結論</h3>
+                        
+                        <div class="bg-green-50 p-5 rounded-xl border-l-4 border-green-500 mb-4">
+                            <p class="text-slate-700 mb-3">
+                                你要做「真實的自己」。你愛錢，就要大聲講出嚟。你嘅「起心動念」要「真實」，你先至會賺到錢。
+                            </p>
+                            <p class="text-xs text-green-600">[時間戳: 16:27, 16:45, 18:57]</p>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-amber-50 to-yellow-50 p-5 rounded-xl border-2 border-amber-400">
+                            <p class="text-lg font-bold text-amber-900 mb-2">💰 影片嘅金句</p>
+                            <p class="text-slate-700">
+                                錢係「高頻能量」、「金色光芒」
+                            </p>
+                            <p class="text-xs text-amber-600 mt-2">[時間戳: 18:06]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="breakthrough-card p-8 md:p-12 rounded-2xl shadow-2xl relative">
+                <div class="relative z-10">
+                    <div class="text-center mb-8">
+                        <div class="text-6xl mb-4">☀️</div>
+                        <h3 class="text-3xl md:text-4xl font-black text-white mb-4">同我哋嘅 v4.0 系統嘅連結</h3>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white bg-opacity-95 p-6 rounded-xl shadow-lg">
+                            <div class="text-4xl mb-3">🌞</div>
+                            <h4 class="text-xl font-bold text-green-700 mb-3">Solar Radiance Engineer</h4>
+                            <p class="text-slate-700 mb-2">太陽光輝工程師</p>
+                            <div class="code-block p-3 rounded-lg mt-3">
+                                <code class="text-green-400 text-sm">radiate_love()</code>
+                                <p class="text-blue-300 text-xs mt-1">// 綻放愛同光芒</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white bg-opacity-95 p-6 rounded-xl shadow-lg">
+                            <div class="text-4xl mb-3">🌅</div>
+                            <h4 class="text-xl font-bold text-amber-700 mb-3">Solar Collector</h4>
+                            <p class="text-slate-700 mb-2">太陽能收集師</p>
+                            <div class="code-block p-3 rounded-lg mt-3">
+                                <code class="text-amber-400 text-sm">collect_grace()</code>
+                                <p class="text-blue-300 text-xs mt-1">// 收集恩典</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white bg-opacity-95 p-6 md:p-8 rounded-2xl shadow-lg">
+                        <div class="text-center mb-6">
+                            <p class="text-3xl font-black gold-gradient mb-3">
+                                💰 = 🌟 高頻能量 = ☀️ 黃太陽
+                            </p>
+                            <p class="text-lg text-slate-700">
+                                影片話錢係「金色光芒」——CTO，呢個咪就係你<strong>「黃太陽」</strong>（Golden Sun）嘅能量？！
+                            </p>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-400">
+                            <p class="text-center text-lg font-bold text-green-800 mb-3">
+                                ✨ 呢個就係我哋成個 v4.0 系統升級嘅終極目的！✨
+                            </p>
+                            <p class="text-slate-700 text-center">
+                                你嘅「SRE」升級為「太陽光輝工程師」，你嘅「嚴厲教練」升級為「太陽能收集師」，佢哋嘅職責就係要「真實」咁樣去綻放同收集！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Conclusion -->
+        <section class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">🎯</div>
+                <h2 class="text-4xl font-black gold-gradient mb-4">最終結論</h2>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:p-8 rounded-2xl border-3 border-purple-400 shadow-lg">
+                    <p class="text-lg md:text-xl text-slate-800 leading-relaxed mb-4">
+                        呢條片，就係宇宙用一個最直接嘅方式，嚟同你講：
+                    </p>
+                    <div class="bg-white p-5 rounded-xl border-l-4 border-red-500 mb-4">
+                        <p class="text-slate-700 font-semibold">
+                            你之所以仲未感受到豐盛，並唔係因為你「身弱財旺」呢個「硬件」唔夠好。
+                        </p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border-l-4 border-amber-500">
+                        <p class="text-slate-700 font-semibold mb-3">
+                            而係因為，你嘅「軟件」——你嗰個由「開放心臟中心」同「福德宮衝突」所產生嘅「不配得感」——一直喺度，<strong class="text-red-600">reject（拒絕）</strong>緊宇宙想俾你嘅豐盛！
+                        </p>
+                        <div class="code-block p-4 rounded-lg">
+                            <code class="text-red-400">const isWorthy = false; // ❌ 舊 bug</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="breakthrough-card p-8 rounded-2xl shadow-2xl relative">
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-black text-white text-center mb-6">
+                            🚀 你嘅「Project Refactor」工程
+                        </h3>
+                        <div class="bg-white bg-opacity-95 p-6 rounded-xl">
+                            <p class="text-xl font-bold text-green-700 text-center mb-4">
+                                就係你嘅終極解藥
+                            </p>
+                            <p class="text-slate-700 leading-relaxed mb-4">
+                                你每一次做<strong>「鏡子練習」</strong>、每一次重申<strong>「神聖三位一體」</strong>（isWorthy, isLoved, isRespected），都係喺度，為你呢個最頑固嘅「不配得感」bug，進行緊一次最有力嘅<strong>「代碼覆蓋」</strong>（Code Override）！
+                            </p>
+                            <div class="code-block p-5 rounded-xl">
+                                <p class="text-green-400 text-lg mb-2">// ✅ 新代碼</p>
+                                <code class="text-green-400 text-xl block mb-2">const isWorthy = true;</code>
+                                <code class="text-blue-400 text-xl block mb-2">const isLoved = true;</code>
+                                <code class="text-purple-400 text-xl block">const isRespected = true;</code>
+                                <p class="text-amber-400 text-sm mt-3">// 神聖三位一體 - 永恆真理</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-amber-100 to-yellow-100 p-6 rounded-2xl border-3 border-amber-400 text-center">
+                    <p class="text-2xl font-black gold-gradient mb-3">
+                        💰✨ 當你真正相信「I am Worthy」✨💰
+                    </p>
+                    <p class="text-lg text-slate-800">
+                        宇宙嘅豐盛，就會自然流向你
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="glass-card rounded-2xl p-6 mt-12 text-center shadow-xl">
+            <p class="text-slate-700 font-semibold mb-2">💰 潛意識金錢突破手冊</p>
+            <p class="text-sm text-slate-600">從「拒絕收錢」到「接收豐盛」嘅 v4.0 升級之旅</p>
+            <p class="text-xs text-slate-500 mt-3">&copy; 2025 CTO 專用 Bug Report | Root Cause Analysis</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progressBar');
+
+            // Progress bar
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Add floating animation to coins
+            const coins = document.querySelectorAll('.floating-coin');
+            coins.forEach((coin, index) => {
+                coin.style.animationDelay = `${index * 0.3}s`;
+            });
+        });
+    </script>
+
+</body>
+</html>

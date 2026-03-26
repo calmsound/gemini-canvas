@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tufti 的電影漫遊指南 🎬</title>
+    <style>
+        :root {
+            --primary-color: #00ffcc; /* Firefly glow */
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #ff0055;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff0055, #ff5500);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 15px var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-plait {
+            background: linear-gradient(45deg, #00ccff, #00ffcc);
+            color: #000;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            background-color: #2d2d2d;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .status-box {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            background-color: #252525;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+        }
+
+        .plait-visual {
+            width: 20px;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), var(--primary-color));
+            margin: 10px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--primary-color);
+            opacity: 0.3;
+            transition: opacity 0.5s, height 0.5s;
+        }
+
+        .plait-active {
+            opacity: 1;
+            height: 120px;
+            box-shadow: 0 0 30px var(--primary-color), 0 0 60px var(--primary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Tufti's Quotes */
+        .tufti-quote {
+            font-size: 0.9em;
+            color: #888;
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🧘‍♀️ Tufti 電影漫遊指南 🎬</h1>
+        <p style="text-align: center;">醒下啦，蝸牛！係時候做導演啦！</p>
+
+        <div class="card">
+            <h2>👁️ 步驟一：覺醒 (Wake Up)</h2>
+            <p>你依家係瞓著咗，定係清醒緊？將注意力從「內在屏幕」同「外在屏幕」拉番去中間。</p>
+            <button class="btn" onclick="wakeUp()">拍一下手指，醒覺！</button>
+            <div id="wake-status" class="status-box hidden">
+                我睇見自己，我睇見現實！<br> (I see myself, I see reality) 
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>✨ 步驟二：髮辮構圖 (The Plait)</h2>
+            <p>唔好用額頭諗嘢，用你背脊個條「髮辮」！想像你想要嘅未來畫格。</p>
+            
+            <div id="plait-indicator" class="plait-visual"></div>
+            
+            <input type="text" id="reality-input" class="input-field" placeholder="輸入你想要嘅「未來畫格」 (例如：順利泊車、開心地完成工作)...">
+            
+            <button class="btn btn-plait" onmousedown="activatePlait()" onmouseup="composeReality()">
+                按住啟動髮辮 & 構圖
+            </button>
+            <div id="plait-status" class="status-box">
+                準備好未？ 
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💎 步驟三：尋找益處 (Advantage)</h2>
+            <p>劇本唔聽話？唔好發脾氣！無論發生咩事，都係對你有益嘅。</p>
+            <input type="text" id="bad-event" class="input-field" placeholder="發生咗咩「壞事」？">
+            <button class="btn" onclick="findAdvantage()">轉化為益處！</button>
+            <div id="advantage-result" class="status-box hidden"></div>
+        </div>
+
+        <div class="tufti-quote">
+            "你要假裝已經擁有，現實鏡子就會跟住變。" - Tufti [cite: 1564]
+        </div>
+    </div>
+
+    <script>
+        // 覺醒功能
+        function wakeUp() {
+            const status = document.getElementById('wake-status');
+            status.classList.remove('hidden');
+            status.style.backgroundColor = '#333';
+            status.innerHTML = "👀 <strong>覺醒模式啟動！</strong><br>你依家係電影入面嘅觀察者，唔係 NPC 啦！";
+            
+            // 簡單震動效果 (如支援)
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        // 髮辮功能
+        function activatePlait() {
+            const plait = document.getElementById('plait-indicator');
+            const status = document.getElementById('plait-status');
+            
+            plait.classList.add('plait-active');
+            status.innerHTML = "⚡ 髮辮已啟動！感覺背脊微微升起... [cite: 444]";
+            status.style.color = "#00ffcc";
+        }
+
+        function composeReality() {
+            const plait = document.getElementById('plait-indicator');
+            const status = document.getElementById('plait-status');
+            const input = document.getElementById('reality-input').value;
+
+            // 延遲一下模擬釋放
+            setTimeout(() => {
+                plait.classList.remove('plait-active');
+                if(input.trim() === "") {
+                    status.innerHTML = "🐌 喂！你冇輸入畫格內容呀，蝸牛！";
+                    status.style.color = "#ff0055";
+                } else {
+                    status.innerHTML = `🎬 <strong>構圖完成！</strong><br>未來畫格已照亮：「${input}」<br>依家放手，畀現實自己郁！ `;
+                    status.style.color = "#fff";
+                }
+            }, 300);
+        }
+
+        // 益處功能
+        function findAdvantage() {
+            const input = document.getElementById('bad-event').value;
+            const resultBox = document.getElementById('advantage-result');
+            
+            if(input.trim() === "") {
+                alert("寫低發生咩事先啦！");
+                return;
+            }
+
+            const advantages = [
+                "呢件事係為咗清走舊嘅阻礙，等你迎接更好嘅嘢！[cite: 973]",
+                "劇本正在為你安排一條更慳力嘅路，信佢啦！[cite: 918]",
+                "好彩！如果唔係咁，結果可能仲差！",
+                "這是一個讓你練習「覺醒」嘅好機會！"
+            ];
+
+            const randomAdvantage = advantages[Math.floor(Math.random() * advantages.length)];
+
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `🚫 <strong>事件：</strong> ${input}<br>✨ <strong>益處判定：</strong> ${randomAdvantage}<br>(Advantage Found!) [cite: 982]`;
+        }
+    </script>
+</body>
+</html>

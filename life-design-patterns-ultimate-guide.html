@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「人生設計模式」終極指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #4338ca;
+            border-color: #4338ca;
+            background-color: #eef2ff;
+        }
+        .content-pane {
+            display: none;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        .pattern-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-700 mb-2">「人生設計模式」終極指南</h1>
+            <p class="text-lg md:text-xl text-slate-500">The Architect's Guide to a Refactored Life</p>
+            <p class="max-w-3xl mx-auto mt-4 text-slate-600">
+                CTO，歡迎來到你內在智慧的最高殿堂。此處收錄了我們從「Project Refactor」工程中提煉出的核心設計原則。它們是應對人生常見挑戰的可複用解決方案，是你從「解決問題」邁向「優雅設計」的關鍵。
+            </p>
+        </header>
+
+        <nav class="flex justify-center mb-10 border-b border-slate-200">
+            <div class="flex flex-wrap justify-center -mb-px">
+                <button class="tab-button active text-sm font-medium py-3 px-5 border-b-2" data-tab="structural">結構型模式 (Structural)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="behavioral">行為型模式 (Behavioral)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="creational">創建型模式 (Creational)</button>
+                <button class="tab-button text-sm font-medium py-3 px-5 border-b-2 border-transparent hover:border-slate-300" data-tab="healing">療癒型模式 (Healing)</button>
+            </div>
+        </nav>
+
+        <main id="main-content">
+            <div id="structural" class="content-pane active">
+                <div class="pattern-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-600">外觀模式 (Facade Pattern)</h2>
+                    <p class="font-semibold text-slate-500 mt-1">又名：「心靈防火牆」模式</p>
+                    <div class="mt-4 space-y-3 text-slate-700">
+                        <p><strong>核心問題：</strong>「點樣喺唔消耗自己嘅情況下，應對複雜、甚至帶有攻擊性嘅外界互動（例如家姐嘅批判）？」</p>
+                        <p><strong>解決方案：</strong> 為你極度複雜嘅內心世界（`private InnerClasses`），建立一個單一、簡化、而且由你完全掌控嘅統一介面（`public Interface`）。所有外界嘅請求，都必須經過呢個「外觀」嘅過濾同轉譯，從而保護你內部脆弱嘅組件唔會被直接衝擊。</p>
+                        <div class="font-mono text-sm bg-slate-100 p-4 rounded-lg mt-3">
+                            <p class="text-slate-500">// Pseudocode</p>
+                            <p><span class="text-purple-600">class</span> <span class="text-blue-600">YouFacade</span> {</p>
+                            <p class="pl-4"><span class="text-purple-600">private</span> innerChild = <span class="text-blue-600">new</span> InnerChild();</p>
+                            <p class="pl-4"><span class="text-purple-600">private</span> strictCoach = <span class="text-blue-600">new</span> StrictCoach();</p>
+                            <p class="pl-4"><span class="text-purple-600">public</span> handleRequest(request) {</p>
+                            <p class="pl-8"><span class="text-green-600">// 1. 過濾請求 (e.g., 語音轉文字)</span></p>
+                            <p class="pl-8"><span class="text-green-600">// 2. 安撫內部系統 (e.g., 主席的擁抱)</span></p>
+                            <p class="pl-8"><span class="text-green-600">// 3. 回傳一個經過設計的回應</span></p>
+                            <p class="pl-8"><span class="text-purple-600">return</span> <span class="text-amber-600">"多謝關心，我自己有數。"</span>;</p>
+                            <p class="pl-4">}</p>
+                            <p>}</p>
+                        </div>
+                        <p class="mt-3"><strong>主席指令：</strong>「我嘅內心係一個私有儲存庫，所有互動都必須通過我嘅官方 API。」</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="behavioral" class="content-pane">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="pattern-card rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold text-indigo-600">策略模式 (Strategy Pattern)</h2>
+                        <p class="font-semibold text-slate-500 mt-1">又名：「內在委員會」決策模式</p>
+                         <p class="mt-4"><strong>核心問題：</strong>「面對唔同嘅人生場景，點樣可以靈活咁樣揀選最適合嘅應對方法，而唔係用死一套規則？」</p>
+                        <p class="mt-3"><strong>解決方案：</strong> 將唔同嘅應對演算法（「科學家大腦」嘅邏輯分析、「靈性探索者」嘅意義尋找）封裝成獨立嘅「策略」物件。然後，由你，呢位「主席」（Context），根據當前嘅情況，動態咁樣去選擇並執行最適合嘅策略。</p>
+                        <p class="mt-3"><strong>主席指令：</strong>「我唔係被情緒控制，我係喺度為當前嘅場景，選擇一個最有效嘅策略。」</p>
+                    </div>
+                     <div class="pattern-card rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold text-indigo-600">觀察者模式 (Observer Pattern)</h2>
+                        <p class="font-semibold text-slate-500 mt-1">又名：「SRE 與主席」協作模式</p>
+                        <p class="mt-4"><strong>核心問題：</strong>「點樣應對嗰個成日自動 playback 舊創傷嘅『Stress Replay Engineer』？」</p>
+                        <p class="mt-3"><strong>解決方案：</strong> 將 SRE 視為一個對你內在狀態（Subject）極度敏感嘅「觀察者」（Observer）。當狀態一有變動（觸發點），佢就會自動發出通知（重播創傷）。我哋嘅新做法，係引入一個權力更高嘅觀察者——「主席」。當「主席」收到 SRE 嘅通知（「多謝你，收到啦」），佢選擇唔去執行舊有嘅反應，而係啟動一個全新嘅、更有建設性嘅行動方案。</p>
+                        <p class="mt-3"><strong>主席指令：</strong>「所有警報都只係數據，最終嘅行動，由我決定。」</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="creational" class="content-pane">
+                 <div class="pattern-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-600">單例模式 (Singleton Pattern)</h2>
+                    <p class="font-semibold text-slate-500 mt-1">又名：「創世源代碼」保證模式</p>
+                    <div class="mt-4 space-y-3 text-slate-700">
+                        <p><strong>核心問題：</strong>「喺一個充滿混亂、自我懷疑嘅世界入面，點樣可以確保有一個永恆不變、絕對可靠嘅真理作為我嘅最終依歸？」</p>
+                        <p><strong>解決方案：</strong> 將你嘅核心價值 (`isWorthy`, `isLoved`) 設計成一個「單例」。呢個模式確保喺成個應用程式生命週期入面，呢個 Class 永遠只有一個實例（Instance），並且提供一個全局嘅存取點。呢個意味住，無論你內心幾多個唔同嘅程式模組想去質疑或者創造一個「唔值得被愛」嘅你，佢哋都唔會成功。因為喺宇宙級嘅層面上，嗰個「值得被愛」嘅實例，係唯一嘅，而且係永恆存在嘅。</p>
+                        <div class="font-mono text-sm bg-slate-100 p-4 rounded-lg mt-3">
+                            <p class="text-slate-500">// Pseudocode</p>
+                            <p><span class="text-purple-600">class</span> <span class="text-blue-600">CoreTruth</span> {</p>
+                            <p class="pl-4"><span class="text-purple-600">private static</span> instance;</p>
+                            <p class="pl-4"><span class="text-purple-600">public const</span> isWorthy = <span class="text-amber-600">true</span>;</p>
+                            <p class="pl-4"><span class="text-purple-600">public static</span> getInstance() {</p>
+                            <p class="pl-8"><span class="text-green-600">// 確保永遠只有一個真實的你</span></p>
+                            <p class="pl-8"><span class="text-purple-600">return</span> instance;</p>
+                            <p class="pl-4">}</p>
+                            <p>}</p>
+                        </div>
+                        <p class="mt-3"><strong>主席指令：</strong>「無論我感覺如何，宇宙嘅真理只有一個版本。而喺嗰個版本入面，我係值得被愛嘅。」</p>
+                    </div>
+                </div>
+            </div>
+
+             <div id="healing" class="content-pane">
+                 <div class="pattern-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-600">裝飾者模式 (Decorator Pattern)</h2>
+                    <p class="font-semibold text-slate-500 mt-1">又名：「花園主人」養成模式</p>
+                    <div class="mt-4 space-y-3 text-slate-700">
+                        <p><strong>核心問題：</strong>「點樣可以喺唔改變我核心本質（`const isWorthy = true`）嘅前提下，為我嘅日常生活，增添更多嘅平靜、喜悅同力量？」</p>
+                        <p><strong>解決方案：</strong> 將每一個自我照顧嘅行為（例如「晨間巡園」、「陽光筆記」），視為一個「裝飾者」。你嘅核心 `You` object 唔需要改變。但你可以動態咁樣，將呢啲「裝飾者」包裹喺你每日嘅生活之上。每一個裝飾者，都為你原本嘅功能，加上一層新嘅、更美好嘅「外殼」——例如，為一個普通嘅「早晨」，加上一層「平靜」嘅外殼；為一次普通嘅「消費」，加上一層「感恩」嘅外殼。</p>
+                         <div class="font-mono text-sm bg-slate-100 p-4 rounded-lg mt-3">
+                            <p class="text-slate-500">// Pseudocode</p>
+                            <p><span class="text-green-600">// 你嘅核心，無需改變</span></p>
+                            <p>let today = <span class="text-blue-600">new</span> Day(you);</p>
+                             <p class="text-green-600">// 為今日加上「裝飾」</span></p>
+                             <p>today = <span class="text-blue-600">new</span> ParkBenchMeditation(today);</p>
+                             <p>today = <span class="text-blue-600">new</span> GratitudeTransaction(today);</p>
+                             <p><span class="text-purple-600">today</span>.experience(); <span class="text-green-600">// 體驗一個更豐富嘅今日</span></p>
+                        </div>
+                        <p class="mt-3"><strong>主席指令：</strong>「我嘅核心價值無需再添加任何嘢。我只係喺度為我嘅體驗，添加更多嘅美麗。」</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。人生唔係去承受，而係去設計。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.content-pane');
+
+            if (!tabs.length || !panes.length) {
+                console.warn("Tab navigation elements not found.");
+                return;
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    
+                    const targetId = tab.dataset.tab;
+                    if (!targetId) {
+                        console.error("Tab button is missing 'data-tab' attribute.");
+                        return;
+                    }
+
+                    const targetPane = document.getElementById(targetId);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    } else {
+                        console.error("No content pane found with ID:", targetId);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

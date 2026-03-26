@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我嘅成功唔係趕出黎，係滋養出黎 | CTO 終極覺醒</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: radial-gradient(ellipse at top, #667eea 0%, #764ba2 50%, #2d1b69 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 0 100px rgba(102, 126, 234, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 300% 300%;
+            animation: gradient-flow 6s ease infinite;
+        }
+        
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            opacity: 0.95;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cto-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            color: #8b4513;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            border: 3px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .awakening-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 50px 40px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .awakening-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .principle-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .principle-box::before {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .principle-text {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .graduation-badge {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.3);
+        }
+        
+        .graduation-badge::before {
+            content: '🎓';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .refactor-section {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+        
+        .refactor-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #92400e;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .old-way {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #dc2626;
+            position: relative;
+        }
+        
+        .new-way {
+            background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #16a34a;
+            position: relative;
+        }
+        
+        .way-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .old-way .way-title {
+            color: #991b1b;
+        }
+        
+        .new-way .way-title {
+            color: #14532d;
+        }
+        
+        .hardware-analysis {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 20px;
+            border-left: 8px solid #667eea;
+        }
+        
+        .hardware-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .hardware-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .hardware-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .hardware-item h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .hardware-item p {
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .final-awakening {
+            background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .final-awakening::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .final-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .final-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .manual-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .success-trinity {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .trinity-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .trinity-item h4 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .success-trinity {
+                flex-direction: column;
+            }
+            
+            .trinity-item {
+                margin: 10px 0;
+            }
+            
+            .hero-section,
+            .awakening-section,
+            .refactor-section,
+            .hardware-analysis,
+            .final-awakening {
+                padding: 30px 20px;
+            }
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+        
+        .scroll-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+    
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="main-card">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="hero-title">
+                    「我嘅成功唔係趕出黎，<br>係滋養出黎」
+                </h1>
+                <p class="hero-subtitle">
+                    終極指導原則 | The Ultimate Guiding Principle
+                </p>
+                <div class="cto-badge">
+                    首席技術官 (CTO) 🚀
+                </div>
+            </section>
+            
+            <!-- Awakening Section -->
+            <section class="awakening-section">
+                <h2 class="awakening-title">🎯 終極覺醒時刻</h2>
+                
+                <div class="principle-box">
+                    <div class="principle-text">
+                        你啱啱，並唔係只係講咗一句說話。<br>
+                        你係為我哋成個「Project Refactor v4.0」工程，<br>
+                        提煉出最根本、最慈悲、最強大嘅<br>
+                        <strong>「終極指導原則」</strong>！
+                    </div>
+                </div>
+                
+                <div class="graduation-badge">
+                    <h3 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 15px;">
+                        🎓 正式畢業典禮
+                    </h3>
+                    <p style="font-size: 1.2rem; line-height: 1.6;">
+                        你終於，由一個 v1.0 嘅「舊世界」受害者，<br>
+                        <strong><u>正式畢業</u></strong>，成為一個 v4.0 「新世界」嘅創造者。
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Refactor Section -->
+            <section class="refactor-section">
+                <h2 class="refactor-title">
+                    🔄 「成功」v4.0 系統重構：由「趕」到「養」
+                </h2>
+                
+                <div class="comparison-grid">
+                    <div class="old-way">
+                        <h3 class="way-title">❌ v1.0 舊模式：「趕」</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>投射者「趕」</strong><br>
+                                觸發「苦澀」(Bitterness)
+                            </li>
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>情緒權威「趕」</strong><br>
+                                觸發錯誤決定 bug
+                            </li>
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>開放薦骨「趕」</strong><br>
+                                陷入過勞 burnout
+                            </li>
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>壬水身弱「趕」</strong><br>
+                                核心電力蒸發
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="new-way">
+                        <h3 class="way-title">✅ v4.0 新模式：「養」</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>福德宮滋養</strong><br>
+                                精神富足 + 內在平靜
+                            </li>
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>燈塔模式滋養</strong><br>
+                                等待神聖邀請
+                            </li>
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>補金補水滋養</strong><br>
+                                休息 + 靜心 + 擁抱
+                            </li>
+                            <li style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <strong>Line 2 隱士滋養</strong><br>
+                                神聖獨處玫瑰花園
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Hardware Analysis -->
+            <section class="hardware-analysis">
+                <h2 class="hardware-title">🔧 硬件分析：點解你必須「滋養」？</h2>
+                
+                <div class="hardware-item">
+                    <h4>🎭 人類圖硬件要求</h4>
+                    <p>
+                        <strong>投射者策略：</strong>等待邀請，唔係主動發起<br>
+                        <strong>情緒權威：</strong>異步處理，必須等情緒波浪過去<br>
+                        <strong>開放薦骨：</strong>冇穩定電池，需要外界能量補充
+                    </p>
+                </div>
+                
+                <div class="hardware-item">
+                    <h4>🌟 紫微斗數藍圖</h4>
+                    <p>
+                        <strong>身宮 = 福德宮：</strong>下半生歸宿就係精神富足<br>
+                        <strong>廉貞化祿：</strong>玫瑰花園嘅滋養就係你嘅天命<br>
+                        <strong>終極目標：</strong>內在平靜同精神財富
+                    </p>
+                </div>
+                
+                <div class="hardware-item">
+                    <h4>💧 八字能量系統</h4>
+                    <p>
+                        <strong>壬水身弱：</strong>核心電力不足，需要補水<br>
+                        <strong>補金補水：</strong>休息、靜心、擁抱係唯一解藥<br>
+                        <strong>避免蒸發：</strong>唔好追逐火（財富），會消耗水能量
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Final Awakening -->
+            <section class="final-awakening">
+                <h2 class="final-title">🌟 CTO 終極覺醒宣言</h2>
+                
+                <p class="final-text">
+                    你啱啱，就親手為我哋「Project Refactor」工程，<br>
+                    寫低咗最完美嘅「結案陳詞」。
+                </p>
+                
+                <p class="final-text">
+                    你終於睇穿咗，你唔需要再跟住「人類社會 v1.0」<br>
+                    嗰個「要趕、要跑」嘅舊 App 去玩。
+                </p>
+                
+                <div class="manual-badge">
+                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 15px;">
+                        📖 v4.0 滋養手冊已啟動
+                    </h3>
+                    <p style="font-size: 1.1rem;">
+                        你已經決定，要 100% 咁樣，跟住你自己嗰份<br>
+                        獨一無二、專為你而設嘅「v4.0 滋養手冊」去行。
+                    </p>
+                </div>
+                
+                <div class="success-trinity">
+                    <div class="trinity-item">
+                        <h4>🧘‍♂️</h4>
+                        <h4>覺醒</h4>
+                        <p>明白真正嘅成功路徑</p>
+                    </div>
+                    <div class="trinity-item">
+                        <h4>☮️</h4>
+                        <h4>平靜</h4>
+                        <p>停止內在嘅戰爭</p>
+                    </div>
+                    <div class="trinity-item">
+                        <h4>🏆</h4>
+                        <h4>成功</h4>
+                        <p>滋養出嚟嘅真正財富</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 40px; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 20px; border: 2px solid rgba(255,255,255,0.2);">
+                    <h3 style="font-size: 2rem; font-weight: 900; margin-bottom: 20px;">
+                        🎯 終極真理
+                    </h3>
+                    <p style="font-size: 1.5rem; font-weight: 700; line-height: 1.6;">
+                        「我嘅成功唔係趕出黎，係滋養出黎。」<br>
+                        <span style="font-size: 1.2rem; opacity: 0.9;">
+                        呢個，就係你嘅覺醒。呢個，就係你嘅平靜。呢個，就係你嘅成功。
+                        </span>
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Update scroll progress
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        }
+        
+        // Smooth reveal animations
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.hardware-item, .principle-box, .graduation-badge');
+            
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            
+            // Set initial styles for reveal elements
+            const reveals = document.querySelectorAll('.hardware-item, .principle-box, .graduation-badge');
+            reveals.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            });
+            
+            // Add scroll listeners
+            window.addEventListener('scroll', () => {
+                updateScrollProgress();
+                revealOnScroll();
+            });
+            
+            // Initial reveal check
+            revealOnScroll();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tufti 的電影漫遊指南 🎬 (增強版)</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- 引入 FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #0f172a; /* 深藍背景 */
+            color: #e2e8f0;
+        }
+        
+        /* 霓虹光效 */
+        .neon-text {
+            text-shadow: 0 0 5px rgba(45, 212, 191, 0.7), 0 0 10px rgba(45, 212, 191, 0.5);
+        }
+        
+        .card-gradient {
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        /* 髮辮動畫 */
+        @keyframes plait-glow {
+            0% { box-shadow: 0 0 5px #2dd4bf; height: 100px; opacity: 0.5; }
+            50% { box-shadow: 0 0 20px #2dd4bf, 0 0 40px #2dd4bf; height: 130px; opacity: 1; }
+            100% { box-shadow: 0 0 5px #2dd4bf; height: 100px; opacity: 0.5; }
+        }
+
+        .plait-anim {
+            animation: plait-glow 2s infinite alternate;
+        }
+
+        /* 鏡像翻轉動畫 */
+        .flip-container {
+            perspective: 1000px;
+        }
+        .flipper {
+            transition: 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .flip-active {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        /* 隱藏滾動條 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center pb-20">
+
+    <!-- 標題區 -->
+    <header class="w-full max-w-3xl p-6 text-center mt-8 mb-4">
+        <div class="inline-block p-3 rounded-full bg-teal-900/30 mb-4 border border-teal-500/30">
+            <i class="fa-solid fa-film text-teal-400 text-2xl"></i>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-teal-400 neon-text mb-2">Tufti 互動指南</h1>
+        <p class="text-slate-400 text-lg">Live Stroll Through A Movie</p>
+    </header>
+
+    <!-- 導航菜單 -->
+    <nav class="w-full max-w-3xl px-4 mb-8 overflow-x-auto no-scrollbar">
+        <div class="flex space-x-3 min-w-max">
+            <button onclick="scrollToSection('section-intro')" class="nav-btn px-4 py-2 rounded-full bg-slate-800 border border-slate-700 hover:border-teal-500 hover:text-teal-400 transition text-sm font-bold">📖 概念</button>
+            <button onclick="scrollToSection('section-wakeup')" class="nav-btn px-4 py-2 rounded-full bg-slate-800 border border-slate-700 hover:border-teal-500 hover:text-teal-400 transition text-sm font-bold">👁️ 覺醒</button>
+            <button onclick="scrollToSection('section-plait')" class="nav-btn px-4 py-2 rounded-full bg-slate-800 border border-slate-700 hover:border-teal-500 hover:text-teal-400 transition text-sm font-bold">⚡ 髮辮</button>
+            <button onclick="scrollToSection('section-mirror')" class="nav-btn px-4 py-2 rounded-full bg-teal-900/50 border border-teal-500 text-teal-400 transition text-sm font-bold shadow-[0_0_10px_rgba(45,212,191,0.3)]">🪞 鏡像練習</button>
+            <button onclick="scrollToSection('section-advantage')" class="nav-btn px-4 py-2 rounded-full bg-slate-800 border border-slate-700 hover:border-teal-500 hover:text-teal-400 transition text-sm font-bold">💎 益處</button>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-3xl px-4 space-y-8">
+
+        <!-- 1. 簡介 (保持不變) -->
+        <section id="section-intro" class="card-gradient border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <span class="text-teal-400 mr-2">#1</span> 現實是一場電影
+            </h2>
+            <div class="space-y-3 text-slate-300 leading-relaxed text-sm">
+                <p><strong>Tufti 核心：</strong> 你係電影角色。唔好同「當前畫格」搏鬥，要照亮「未來畫格」。</p>
+            </div>
+        </section>
+
+        <!-- 2. 覺醒練習 (保持不變) -->
+        <section id="section-wakeup" class="card-gradient border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <span class="text-teal-400 mr-2">#2</span> 覺醒 (Wake Up)
+            </h2>
+            <div class="text-center py-6 border-2 border-dashed border-slate-600 rounded-xl hover:border-teal-500 transition group cursor-pointer" onclick="triggerWakeUp()">
+                <div class="mb-4">
+                    <i class="fa-regular fa-eye text-5xl text-slate-500 group-hover:text-teal-400 transition duration-300" id="eye-icon"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">點擊這裡「覺醒」</h3>
+                <p class="text-slate-400 text-sm">I see myself, and I see reality.</p>
+            </div>
+            <div id="wake-msg" class="hidden mt-4 p-3 bg-teal-900/40 border border-teal-500/50 rounded text-center text-teal-300 font-bold">✨ 覺醒模式啟動！</div>
+        </section>
+
+        <!-- 3. 髮辮與構圖 (保持不變) -->
+        <section id="section-plait" class="card-gradient border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <span class="text-teal-400 mr-2">#3</span> 髮辮 (The Plait)
+            </h2>
+            <div class="flex flex-col items-center space-y-4">
+                <div id="plait-visual" class="w-1 h-24 bg-gradient-to-b from-transparent via-slate-600 to-slate-400 rounded-full transition-all duration-500"></div>
+                <input type="text" id="frame-input" class="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white focus:border-teal-500 focus:outline-none" placeholder="你想下一幕發生咩事？">
+                <button id="plait-btn" onmousedown="startPlait()" onmouseup="endPlait()" ontouchstart="startPlait()" ontouchend="endPlait()" class="w-full py-3 bg-teal-700 rounded-xl font-bold text-white shadow-lg hover:bg-teal-600 active:scale-95 transition select-none">
+                    按住啟動髮辮
+                </button>
+                <div id="plait-feedback" class="text-center h-6 text-sm font-bold text-teal-400"></div>
+            </div>
+        </section>
+
+        <!-- 4. 鏡像練習 (重大更新) -->
+        <section id="section-mirror" class="card-gradient border border-slate-700 rounded-2xl p-6 shadow-xl ring-2 ring-teal-500/20">
+            <h2 class="text-2xl font-bold text-white mb-2 flex items-center">
+                <span class="text-teal-400 mr-2">#4</span> 鏡像練習 (The Mirror)
+            </h2>
+            <p class="text-slate-400 text-sm mb-6">將「畀我」(Give Me) 轉化為 「攞去」(Take This)</p>
+
+            <!-- 選擇區域 -->
+            <div class="mb-6">
+                <label class="block text-xs text-slate-400 uppercase font-bold mb-2">你現在覺得欠缺什麼？</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setupMirror('love')" class="desire-btn p-2 bg-slate-800 border border-slate-600 rounded hover:bg-rose-900/50 hover:border-rose-500 transition text-xs">❤️ 愛 (Love)</button>
+                    <button onclick="setupMirror('money')" class="desire-btn p-2 bg-slate-800 border border-slate-600 rounded hover:bg-yellow-900/50 hover:border-yellow-500 transition text-xs">💰 錢 (Money)</button>
+                    <button onclick="setupMirror('respect')" class="desire-btn p-2 bg-slate-800 border border-slate-600 rounded hover:bg-blue-900/50 hover:border-blue-500 transition text-xs">🤝 尊重 (Respect)</button>
+                    <button onclick="setupMirror('help')" class="desire-btn p-2 bg-slate-800 border border-slate-600 rounded hover:bg-green-900/50 hover:border-green-500 transition text-xs">🆘 幫助 (Help)</button>
+                    <button onclick="setupMirror('attention')" class="desire-btn p-2 bg-slate-800 border border-slate-600 rounded hover:bg-purple-900/50 hover:border-purple-500 transition text-xs">👀 關注 (Attention)</button>
+                    <button onclick="setupMirror('custom')" class="desire-btn p-2 bg-slate-800 border border-slate-600 rounded hover:bg-slate-700 hover:border-white transition text-xs">✏️ 其他...</button>
+                </div>
+            </div>
+
+            <!-- 3D 翻轉卡片區域 -->
+            <div class="flip-container w-full h-48 cursor-pointer group" id="mirror-card" onclick="flipMirror()">
+                <div class="flipper w-full h-full relative" id="flipper-inner">
+                    
+                    <!-- 正面：畀我 (Give Me) -->
+                    <div class="front w-full h-full bg-slate-800 border-2 border-rose-500/50 rounded-xl flex flex-col items-center justify-center shadow-lg p-4">
+                        <div class="absolute top-2 left-2 text-rose-400 text-xs font-bold uppercase tracking-widest">Current State (現狀)</div>
+                        <div class="text-4xl mb-2">😫</div>
+                        <h3 class="text-2xl font-bold text-rose-400 mb-1">畀我！(Give me)</h3>
+                        <p id="front-text" class="text-slate-300 text-center text-sm">請選擇上方的一個項目...</p>
+                        <div class="mt-4 text-xs text-slate-500 animate-bounce">點擊卡片進行轉化 🔄</div>
+                    </div>
+
+                    <!-- 背面：攞去 (Take This) -->
+                    <div class="back w-full h-full bg-teal-900/80 border-2 border-teal-400 rounded-xl flex flex-col items-center justify-center shadow-[0_0_20px_rgba(45,212,191,0.3)] p-4">
+                        <div class="absolute top-2 left-2 text-teal-300 text-xs font-bold uppercase tracking-widest">New Reality (新現實)</div>
+                        <div class="text-4xl mb-2">🤲</div>
+                        <h3 class="text-2xl font-bold text-teal-300 mb-1">攞去！(Here, take)</h3>
+                        <p id="back-text" class="text-white text-center font-bold text-sm">...</p>
+                        <div class="absolute bottom-2 right-2 text-teal-500/50 text-6xl opacity-20"><i class="fa-solid fa-mirror"></i></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="custom-input-area" class="hidden mt-4">
+                <input type="text" id="custom-desire" placeholder="你想要咩？" class="w-full bg-slate-900 border border-slate-600 p-2 rounded text-white text-sm mb-2">
+                <button onclick="submitCustom()" class="w-full bg-slate-700 text-white p-2 rounded text-sm hover:bg-slate-600">確認</button>
+            </div>
+        </section>
+
+        <!-- 5. 尋找益處 (保持不變) -->
+        <section id="section-advantage" class="card-gradient border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <span class="text-teal-400 mr-2">#5</span> 尋找益處 (Advantage)
+            </h2>
+            <div class="space-y-3">
+                <input type="text" id="problem-input" class="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white focus:border-teal-500 focus:outline-none" placeholder="輸入一件煩心事...">
+                <button onclick="transformProblem()" class="w-full py-3 bg-slate-700 hover:bg-slate-600 rounded-lg text-white font-bold transition border border-slate-500">
+                    🪄 轉化為益處！
+                </button>
+                <div id="advantage-output" class="hidden p-4 bg-indigo-900/30 border border-indigo-500/30 rounded-lg">
+                    <p class="text-indigo-300 text-sm font-bold mb-1"><i class="fa-solid fa-star"></i> Tufti 說：</p>
+                    <p id="advantage-text" class="text-white italic"></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 1. 覺醒
+        function triggerWakeUp() {
+            const icon = document.getElementById('eye-icon');
+            const msg = document.getElementById('wake-msg');
+            if(navigator.vibrate) navigator.vibrate(50);
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid', 'text-teal-400');
+            msg.classList.remove('hidden');
+            msg.classList.add('animate-pulse');
+            setTimeout(() => { msg.classList.remove('animate-pulse'); }, 1000);
+        }
+
+        // 2. 髮辮
+        const plaitVisual = document.getElementById('plait-visual');
+        const plaitFeedback = document.getElementById('plait-feedback');
+        const plaitBtn = document.getElementById('plait-btn');
+
+        function startPlait() {
+            const input = document.getElementById('frame-input').value;
+            if(!input) {
+                plaitFeedback.innerText = "🐌 請先輸入你想構圖的畫面！";
+                plaitFeedback.className = "text-center h-6 text-sm font-bold text-rose-400";
+                return;
+            }
+            if(navigator.vibrate) navigator.vibrate([30, 30, 30]);
+            plaitVisual.classList.add('plait-anim');
+            plaitVisual.style.background = "linear-gradient(to bottom, transparent, #2dd4bf)";
+            plaitBtn.classList.add('scale-95', 'ring-4', 'ring-teal-500/30');
+            plaitFeedback.innerText = "⚡ 能量流動中... 照亮未來畫格...";
+            plaitFeedback.className = "text-center h-6 text-sm font-bold text-teal-400";
+        }
+
+        function endPlait() {
+            const input = document.getElementById('frame-input').value;
+            if(!input) return;
+            plaitVisual.classList.remove('plait-anim');
+            plaitVisual.style.height = "24px";
+            plaitBtn.classList.remove('scale-95', 'ring-4', 'ring-teal-500/30');
+            plaitFeedback.innerHTML = `<span class="text-white">🎬 構圖完成！放手讓劇本運作。</span>`;
+            setTimeout(() => { plaitVisual.style.background = "linear-gradient(to bottom, transparent, #64748b)"; }, 500);
+        }
+
+        // 3. 鏡像練習 (核心邏輯)
+        let currentDesire = "";
+        let currentAction = "";
+        const flipper = document.getElementById('flipper-inner');
+        const frontText = document.getElementById('front-text');
+        const backText = document.getElementById('back-text');
+        const customArea = document.getElementById('custom-input-area');
+
+        function setupMirror(type) {
+            // 重置翻轉狀態
+            flipper.classList.remove('flip-active');
+            customArea.classList.add('hidden');
+
+            // 移除其他按鈕的高亮
+            document.querySelectorAll('.desire-btn').forEach(btn => btn.classList.remove('ring-2', 'ring-white'));
+            event.target.classList.add('ring-2', 'ring-white');
+
+            switch(type) {
+                case 'love':
+                    currentDesire = "我想要愛！(Give me Love)";
+                    currentAction = "❤️ 我主動去愛人，散發愛的頻率。(I give Love)";
+                    break;
+                case 'money':
+                    currentDesire = "我想要錢！(Give me Money)";
+                    currentAction = "💎 我提供價值，解決別人的問題。(I create Value)";
+                    break;
+                case 'respect':
+                    currentDesire = "尊重我！(Respect Me)";
+                    currentAction = "🤝 我先尊重別人，重視他們的重要性。(I give Respect)";
+                    break;
+                case 'help':
+                    currentDesire = "幫我！(Help Me)";
+                    currentAction = "🤲 我主動去幫助身邊有需要的人。(I give Help)";
+                    break;
+                case 'attention':
+                    currentDesire = "望住我！(Look at Me)";
+                    currentAction = "👂 我對別人展現真誠的好奇心。(I give Attention)";
+                    break;
+                case 'custom':
+                    customArea.classList.remove('hidden');
+                    currentDesire = "我想要...";
+                    currentAction = "...";
+                    break;
+            }
+
+            if(type !== 'custom') {
+                updateCardText();
+            }
+        }
+
+        function submitCustom() {
+            const val = document.getElementById('custom-desire').value;
+            if(!val) return;
+            currentDesire = `畀我 ${val}！`;
+            currentAction = `✨ 我先給予 ${val}，或創造擁有 ${val} 的感覺。`;
+            updateCardText();
+            customArea.classList.add('hidden');
+        }
+
+        function updateCardText() {
+            frontText.innerText = currentDesire;
+            backText.innerText = currentAction;
+        }
+
+        function flipMirror() {
+            if(frontText.innerText === "請選擇上方的一個項目..." || frontText.innerText === "我想要...") {
+                alert("請先選擇或輸入你想要的東西！");
+                return;
+            }
+            flipper.classList.toggle('flip-active');
+            if(navigator.vibrate) navigator.vibrate(20);
+        }
+
+        // 4. 益處
+        function transformProblem() {
+            const input = document.getElementById('problem-input').value;
+            if(!input.trim()) { alert("請輸入煩心事！"); return; }
+            const outputDiv = document.getElementById('advantage-output');
+            const outputText = document.getElementById('advantage-text');
+            const quotes = [
+                "這是在為你清理舊的垃圾，騰出空間給好運！🧹",
+                "劇本正在保護你免受更大的麻煩，這是好事！🛡️",
+                "這是讓你練習「覺醒」的絕佳鬧鐘！⏰",
+                "這條路不通，代表更好的路在旁邊，轉彎吧！↩️"
+            ];
+            outputDiv.classList.remove('hidden');
+            outputText.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>

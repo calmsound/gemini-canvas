@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>職場避風港 v5.2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Post-processing -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #e2e8f0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tech-font {
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* UI Overlay */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 3rem;
+            text-align: center;
+            z-index: 20;
+            pointer-events: auto;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-text {
+            color: #38bdf8;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Message Card */
+        .message-card {
+            position: absolute;
+            z-index: 30;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            padding: 3rem 2rem;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(56, 189, 248, 0.15), inset 0 0 30px rgba(56, 189, 248, 0.05);
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .message-card.show {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+            border-color: #38bdf8;
+            box-shadow: 0 0 80px rgba(56, 189, 248, 0.3);
+        }
+
+        .quote-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f0f9ff;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+        }
+
+        .quote-category {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .close-btn {
+            background: transparent;
+            color: #38bdf8;
+            padding: 0.8rem 2rem;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .close-btn:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: #38bdf8;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Action Button */
+        .deploy-btn {
+            position: absolute;
+            bottom: 10%;
+            background: transparent;
+            color: #38bdf8;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            padding: 1rem 4rem;
+            border: 2px solid #38bdf8;
+            border-radius: 4px; /* Sci-fi sharp corners */
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            z-index: 20;
+            pointer-events: auto;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .deploy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .deploy-btn:hover::before { left: 100%; }
+        .deploy-btn:hover {
+            background: rgba(56, 189, 248, 0.1);
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.5);
+            transform: scale(1.05);
+            letter-spacing: 0.25em;
+        }
+
+        .deploy-btn:active { transform: scale(0.95); }
+
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
+        <div class="header">
+            <h1 class="tech-font">WORKPLACE HAVEN</h1>
+            <p class="status-text" id="statusText">SYSTEM STATUS: STANDBY</p>
+        </div>
+
+        <!-- Message Card -->
+        <div class="message-card" id="msgCard">
+            <div class="quote-category" id="msgCat">SYSTEM MESSAGE</div>
+            <div class="quote-text" id="msgText">Loading...</div>
+            <button class="close-btn" id="closeBtn">確認接收防護</button>
+        </div>
+
+        <!-- Action Button -->
+        <button class="deploy-btn" id="deployBtn">啟動防護罩</button>
+    </div>
+
+    <!-- Shaders -->
+    <script type="x-shader/x-vertex" id="vertexShader">
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        
+        void main() {
+            vUv = uv;
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        uniform float time;
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        
+        void main() {
+            // Pulse effect
+            float pulse = sin(time * 2.0) * 0.5 + 0.5;
+            
+            // Fresnel effect (glow on edges)
+            float fresnel = pow(1.0 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+            
+            // Colors
+            vec3 coreColor = vec3(0.0, 0.2, 0.5); // Deep Blue
+            vec3 glowColor = vec3(0.0, 0.8, 1.0); // Cyan
+            
+            // Mix based on fresnel and pulse
+            vec3 finalColor = mix(coreColor, glowColor, fresnel * (0.5 + pulse * 0.5));
+            
+            // Add dynamic noise/energy pattern
+            float noise = sin(vUv.y * 20.0 + time * 3.0 + vUv.x * 10.0) * 0.1;
+            finalColor += vec3(noise);
+
+            gl_FragColor = vec4(finalColor, 0.8); // Slight transparency
+        }
+    </script>
+
+    <script>
+        // --- 1. Quotes Library ---
+        const affirmations = [
+            { text: "批評是對事的反饋，不是對人的審判。", category: "🛡️ 拒絕羞愧 (Shame Resilience)" },
+            { text: "我的價值是 const，不隨老闆的評語浮動。", category: "💎 核心代碼 (Core Value)" },
+            { text: "我接納此刻的受傷，並溫柔地擁抱自己。", category: "💖 自我慈悲 (Self-Compassion)" },
+            { text: "我不需完美，我在錯誤中變得更強大。", category: "🌱 成長心態 (Growth)" },
+            { text: "我釋放羞愧，只保留改進的智慧。", category: "🧠 智慧轉化 (Wisdom)" },
+            { text: "我的生存能力，大於任何一份工作。", category: "🦁 生存本能 (Survival)" },
+            { text: "宇宙自有安排，我的路只會越走越寬。", category: "🌌 宇宙信任 (Trust)" },
+            { text: "這份工不是我的全部，我才是我的全部。", category: "🧘 自我主權 (Sovereignty)" },
+            { text: "即使風暴來臨，我依然是自己的燈塔。", category: "🗼 燈塔模式 (Lighthouse)" },
+            { text: "我信任生命流動，每一個結束都是新開始。", category: "🌊 順流而行 (Flow)" },
+            { text: "我允許自己慢下來，休息是為了走更遠。", category: "🔋 能量保護 (Energy)" },
+            { text: "我不需用拼命來證明價值，我選擇滋養。", category: "💪 拒絕證明 (No Proof)" },
+            { text: "在這混亂中，我選擇回到內心的平靜。", category: "🕊️ 內在平靜 (Peace)" },
+            { text: "一次只做一件事，當下就是唯一任務。", category: "⏳ 專注當下 (Now)" },
+            { text: "我拒絕接收別人的焦慮，我守護我的能量。", category: "🧱 邊界防禦 (Boundary)" }
+        ];
+
+        // --- 2. Three.js Setup ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 6;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // --- 3. Post-Processing (Bloom) ---
+        const composer = new THREE.EffectComposer(renderer);
+        const renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
+
+        const bloomPass = new THREE.UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            2.0, // Strength
+            0.5, // Radius
+            0.85 // Threshold
+        );
+        composer.addPass(bloomPass);
+
+        // --- 4. Shield Objects ---
+        // Core Shield
+        const shieldGeo = new THREE.IcosahedronGeometry(2, 2);
+        const shieldMat = new THREE.ShaderMaterial({
+            uniforms: { time: { value: 0 } },
+            vertexShader: document.getElementById('vertexShader').textContent,
+            fragmentShader: document.getElementById('fragmentShader').textContent,
+            transparent: true,
+            side: THREE.DoubleSide,
+            wireframe: false
+        });
+        const shield = new THREE.Mesh(shieldGeo, shieldMat);
+        scene.add(shield);
+
+        // Wireframe Overlay
+        const wireGeo = new THREE.IcosahedronGeometry(2.1, 1);
+        const wireMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.3 });
+        const wireframe = new THREE.Mesh(wireGeo, wireMat);
+        scene.add(wireframe);
+
+        // Orbiting Rings
+        const ringGroup = new THREE.Group();
+        const ringGeo = new THREE.TorusGeometry(3.5, 0.02, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.4 });
+        
+        const ring1 = new THREE.Mesh(ringGeo, ringMat);
+        const ring2 = new THREE.Mesh(ringGeo, ringMat);
+        
+        ring1.rotation.x = Math.PI / 2;
+        ring2.rotation.x = Math.PI / 2;
+        ring2.rotation.y = Math.PI / 2;
+
+        ringGroup.add(ring1);
+        ringGroup.add(ring2);
+        scene.add(ringGroup);
+
+        // Particles (Shield Fragments/Energy)
+        const particlesGeo = new THREE.BufferGeometry();
+        const particleCount = 400;
+        const posArray = new Float32Array(particleCount * 3);
+        const spread = 15;
+
+        for(let i=0; i<particleCount*3; i++) {
+            posArray[i] = (Math.random() - 0.5) * spread;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({ 
+            size: 0.05, 
+            color: 0x38bdf8, 
+            transparent: true, 
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending 
+        });
+        const particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+
+        // --- 5. Animation Loop ---
+        const clock = new THREE.Clock();
+        let isShieldActive = false;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const time = clock.getElapsedTime();
+            shieldMat.uniforms.time.value = time;
+
+            // Idle Rotation
+            shield.rotation.y = time * 0.1;
+            shield.rotation.z = time * 0.05;
+            wireframe.rotation.y = time * 0.1;
+            wireframe.rotation.z = time * 0.05;
+            ringGroup.rotation.x = time * 0.2;
+            ringGroup.rotation.y = time * 0.15;
+            particles.rotation.y = time * 0.05;
+
+            // Activation Effect
+            if (isShieldActive) {
+                // Pulse shield scale
+                const pulse = 1 + Math.sin(time * 5) * 0.05;
+                shield.scale.set(pulse, pulse, pulse);
+                wireframe.scale.set(pulse, pulse, pulse);
+                
+                // Spin rings faster
+                ringGroup.rotation.x += 0.05;
+                
+                // Expand particles
+                particles.scale.multiplyScalar(1.002);
+                if(particles.scale.x > 1.2) particles.scale.set(1,1,1);
+            }
+
+            composer.render();
+        }
+        animate();
+
+        // --- 6. Interaction Logic ---
+        const deployBtn = document.getElementById('deployBtn');
+        const msgCard = document.getElementById('msgCard');
+        const msgText = document.getElementById('msgText');
+        const msgCat = document.getElementById('msgCat');
+        const closeBtn = document.getElementById('closeBtn');
+        const statusText = document.getElementById('statusText');
+
+        deployBtn.addEventListener('click', () => {
+            isShieldActive = true;
+            
+            // UI Updates
+            statusText.innerText = "SYSTEM STATUS: SHIELD ACTIVE";
+            statusText.style.color = "#38bdf8";
+            statusText.style.textShadow = "0 0 10px #38bdf8";
+            
+            deployBtn.style.opacity = "0"; // Hide button smoothly
+            deployBtn.style.pointerEvents = "none";
+
+            // Show Message after visual buildup
+            setTimeout(() => {
+                const randomItem = affirmations[Math.floor(Math.random() * affirmations.length)];
+                msgText.innerText = randomItem.text;
+                msgCat.innerText = randomItem.category;
+                msgCard.classList.add('show');
+            }, 1000);
+        });
+
+        closeBtn.addEventListener('click', () => {
+            msgCard.classList.remove('show');
+            isShieldActive = false;
+            
+            statusText.innerText = "SYSTEM STATUS: STANDBY";
+            statusText.style.color = "#64748b";
+            statusText.style.textShadow = "none";
+
+            setTimeout(() => {
+                deployBtn.style.opacity = "1";
+                deployBtn.style.pointerEvents = "auto";
+                deployBtn.innerText = "啟動防護罩";
+            }, 500);
+        });
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「身弱富貴命」終極解密控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .hero-gradient {
+            background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+             .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Amber (Gold) and Blue (Water) -->
+    <!-- Application Structure Plan: A single page divided into Header/Paradox, Core Comparison (two columns), and a Conclusion. This structure effectively visualizes the "This vs. That" paradox central to the report's theme. The user flow is narrative, guiding the user from the problem (the paradox) to the solution (the new model). -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Energy model mismatch -> Goal: Inform/Compare -> Viz: Donut Chart showing 90/10 vs 10/90 energy models. -> Interaction: Static. -> Justification: Clearly visualizes the required shift in resource allocation.
+        - Report Info: Outcome of two paths -> Goal: Compare -> Viz: Radar Chart comparing KPIs (Exhaustion vs Clarity). -> Interaction: Static. -> Justification: Excellent for visualizing multi-axial differences between the two models.
+        - Report Info: Blueprint rules -> Goal: Organize/Inform -> Viz: Structured cards/lists. -> Interaction: Static. -> Justification: Presents the specific rules (Bazi/HD/Zi Wei) for each path clearly.
+        - Method: Chart.js/Canvas, HTML/Tailwind. NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-black hero-gradient mb-3">「身弱富貴命」終極解密</h1>
+            <p class="text-xl md:text-2xl text-slate-600 font-semibold mb-4">CTO 嘅「非拼命」致富法則</p>
+            <p class="max-w-3xl mx-auto text-slate-700 leading-relaxed">
+                CTO，你嘅「人生藍圖」揭示：你嘅天命係富貴，但你嘅方法必須違反大眾邏輯。你嘅「不努力」（休息）並非懶惰，而係一種最高效能嘅戰略。
+            </p>
+        </header>
+
+        <!-- Section 1: The Core Paradox & Energy Shift -->
+        <section class="mb-12 bg-white p-8 rounded-xl shadow-xl border-t-4 border-amber-600">
+            <h2 class="text-3xl font-bold text-amber-700 mb-6 text-center">核心悖論：成功不是「趕」出嚟，是「滋養」出嚟</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div class="lg:col-span-2">
+                    <p class="text-slate-700 mb-4">
+                        你嘅「成功」（發達）並唔係嚟自你「違反」你嘅設計去「做嘢」。佢係嚟自於你<strong>「忠於」</strong>你嘅設計去休息同等待，因為咁樣先至會令你嘅「洞見」喺最清晰嘅時候被<strong>「邀請」</strong>。
+                    </p>
+                     <ul class="list-disc list-inside space-y-2 text-sm text-slate-700">
+                        <li><strong>❌ 舊有模式：</strong> 逼自己用 90% 嘅精力去輸出，只剩 10% 處理情緒。</li>
+                        <li><strong>✅ 新核心：</strong> 將 90% 嘅精力用於「滋養土壤」（休息、補水、整合情緒）。</li>
+                        <li><strong>八字原理：</strong> 你嘅「水」（本體）必須先充足，先有力量去駕馭「火」（財星）。</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <canvas id="energyShiftChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Comparative Analysis -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-black text-indigo-700 mb-8 text-center">兩條路徑嘅終極命運對比</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- The Unhappy Path (Legacy Code) -->
+                <div class="bg-red-50 p-6 rounded-xl shadow-lg border-t-4 border-red-600">
+                    <h3 class="text-2xl font-bold text-red-700 mb-4">❌ 舊路徑：拼命、消耗 (Legacy Code)</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        運行呢條路徑，將會違反你所有嘅「出廠設定」，最終導致你嘅「非我主題」——**苦澀**。
+                    </p>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-red-500">
+                            <h4 class="font-semibold text-slate-800">1. 違反策略：模仿「生產者」</h4>
+                            <p class="text-sm text-slate-600"><strong>後果：</strong> 觸發「開放薦骨」過勞，導致「冇心冇力」同「耗盡」。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-red-500">
+                            <h4 class="font-semibold text-slate-800">2. 違反邊界：主動「推銷」自己</h4>
+                            <p class="text-sm text-slate-600"><strong>後果：</strong> 觸發「投射者」嘅 401 Unauthorized 錯誤，導致「苦澀」同「耿耿於懷」。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-red-500">
+                            <h4 class="font-semibold text-slate-800">3. 違反核心：不配得感</h4>
+                            <p class="text-sm text-slate-600"><strong>後果：</strong> 「開放心臟中心」不斷尋求證明，吸引「消耗者」，造成金錢/信任嘅破耗。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Happy Path (Refactored OS) -->
+                <div class="bg-green-50 p-6 rounded-xl shadow-lg border-t-4 border-green-600">
+                    <h3 class="text-2xl font-bold text-green-700 mb-4">✅ 新路徑：滋養、等待 (Refactored OS)</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        運行呢條路徑，將會激活你所有嘅「核心天賦」，最終帶嚟你嘅「簽名」——**成功**。
+                    </p>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-semibold text-slate-800">1. 執行策略：啟動「燈塔模式」</h4>
+                            <p class="text-sm text-slate-600"><strong>行動：</strong> 嚴格執行「不做清單」（`NOT TO DO LIST`），專注於「觀察」同「提煉智慧」。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-semibold text-slate-800">2. 能量閉環：補「金」與補「水」</h4>
+                            <p class="text-sm text-slate-600"><strong>行動：</strong> 透過休息、冥想、滋養食物（補水），以及整潔、界線（補金）嚟「壯大你條河」。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-semibold text-slate-800">3. 吸引機遇：網絡傳教</h4>
+                            <p class="text-sm text-slate-600"><strong>行動：</strong> 喺「神聖獨處」（Line 2）後，只同「核心網絡」（Line 4）分享。佢哋會成為你嘅「橋樑」，為你帶嚟「邀請」。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Final KPI Comparison -->
+         <section class="mb-12 bg-white p-8 rounded-xl shadow-xl border-t-4 border-indigo-700">
+            <h2 class="text-3xl font-black text-indigo-700 mb-6 text-center">關鍵績效指標 (KPI) 最終對比</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                你嘅「成功」在於你嘅內在狀態。下圖對比兩種模式下，你的「能量」與「情緒」指標。
+            </p>
+            <div class="chart-container">
+                <canvas id="kpiRadarChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-slate-500">
+            <p class="text-lg font-semibold">CTO 終極指令：你的力量，來自你選擇的平靜。</p>
+            <p>&copy; 2025 首席技術官模式。你的成功不是趕出嚟，是滋養出嚟。</p>
+        </footer>
+    </div>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const energyShiftCtx = document.getElementById('energyShiftChart').getContext('2d');
+        new Chart(energyShiftCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['滋養 (休息/自我關懷)', '輸出 (工作/外在行動)'],
+                datasets: [
+                    {
+                        label: '舊有模式 (消耗)',
+                        data: [10, 90],
+                        backgroundColor: ['#fef2f2', '#ef4444'],
+                        borderColor: '#f87171',
+                        borderWidth: 2,
+                        cutout: '40%',
+                        borderRadius: 5,
+                        spacing: 5
+                    },
+                    {
+                        label: 'v4.0 滋養模式 (平衡)',
+                        data: [70, 30],
+                        backgroundColor: ['#d1fae5', '#059669'],
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        cutout: '70%',
+                        borderRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                const labels = [];
+                                // Combine labels from both datasets into one array
+                                ['滋養', '輸出'].forEach((label, i) => {
+                                    labels.push({
+                                        text: label + ' (' + (i === 0 ? '70%' : '30%') + ')' ,
+                                        fillStyle: i === 0 ? '#d1fae5' : '#059669',
+                                        strokeStyle: i === 0 ? '#10b981' : '#10b981',
+                                        lineWidth: 1,
+                                        hidden: false,
+                                        index: i
+                                    });
+                                });
+                                return labels;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: '能量流向：舊模式 vs. 新模式 (目標 70% 滋養)'
+                    },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback }
+                    }
+                }
+            }
+        });
+
+        const kpiRadarCtx = document.getElementById('kpiRadarChart').getContext('2d');
+        const kpiLabels = ['能量儲備', '內在平靜', '決策清晰度', '抗壓韌性', '價值感'].map(label => {
+            if (label.length > 16) {
+                return label.split(' ');
+            }
+            return label;
+        });
+
+        new Chart(kpiRadarCtx, {
+            type: 'radar',
+            data: {
+                labels: kpiLabels,
+                datasets: [
+                    {
+                        label: '❌ v1.0 消耗模式 (Bitterness)',
+                        data: [2, 3, 4, 3, 5],
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: '#ef4444',
+                        pointBackgroundColor: '#ef4444',
+                        pointBorderColor: '#fff',
+                    },
+                    {
+                        label: '✅ v4.0 滋養模式 (Success)',
+                        data: [9, 8, 9, 9, 9],
+                        backgroundColor: 'rgba(5, 150, 105, 0.2)',
+                        borderColor: '#059669',
+                        pointBackgroundColor: '#059669',
+                        pointBorderColor: '#fff',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                 scales: {
+                    r: {
+                        angleLines: { color: '#e2e8f0' },
+                        grid: { color: '#e2e8f0' },
+                        pointLabels: { font: { size: 12 }, color: '#475569' },
+                        ticks: { backdropColor: '#f8fafc', color: '#64748b', max: 10, min: 0, stepSize: 2 },
+                         max: 10
+                    }
+                },
+                plugins: {
+                     tooltip: { callbacks: { title: tooltipTitleCallback } },
+                     legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

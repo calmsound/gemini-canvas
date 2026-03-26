@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心靈重構指揮中心 | 第二期工程</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc; /* Tailwind's gray-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #F15BB5;
+            border-color: #F15BB5;
+            background-color: #fdf2f8;
+        }
+        .content-pane {
+            display: none;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .card-expanded .details-content {
+             border-top: 1px solid #f1f5f9;
+             padding-top: 1rem;
+        }
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+        .card-expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Chosen Palette: Energetic & Playful (Adapted for a calm, professional feel) -->
+    <!-- Application Structure Plan: A tab-based SPA dashboard was chosen over a linear infographic. This structure transforms the "plan" into an interactive "toolkit" or "command center". Users can directly navigate to the strategy, habit, or experiment they need in the moment, reinforcing the application's role as a functional tool for daily practice. The user flow is non-linear, centered around user intent (e.g., "I need to review my daily habits"). This is more usable for a personal development plan than a narrative scroll. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: 70/30 Rule -> Goal: Inform/Compare -> Viz: Doughnut Chart -> Interaction: Hover for details -> Justification: Best for part-to-whole ratio -> Library: Chart.js/Canvas. NO SVG.
+        - Report Info: Safety First Protocol -> Goal: Organize -> Viz: Styled HTML Flowchart -> Interaction: Static -> Justification: Clear process visualization without proscribed libraries -> Method: Tailwind CSS. NO SVG/Mermaid.
+        - Report Info: Daily Habits & Experiments -> Goal: Organize/Inform -> Viz: Interactive Cards -> Interaction: Click to expand/collapse details -> Justification: Hides complexity, provides clean overview, promotes focused exploration -> Method: JS/Tailwind. NO SVG.
+        - Report Info: Core Affirmations -> Goal: Inform -> Viz: Styled Blockquotes -> Interaction: Static/Hover -> Justification: Gives weight and clarity to foundational principles -> Method: HTML/Tailwind. NO SVG.
+        - Report Info: Overall Progress -> Goal: Compare -> Viz: Radar Chart -> Interaction: Hover for scores -> Justification: Excellent for multi-axial comparison of current vs. goal states -> Library: Chart.js/Canvas. NO SVG.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:px-6 md:py-12">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#F15BB5] mb-2">心靈重構指揮中心</h1>
+            <p class="text-lg md:text-xl text-[#45B7D1]">Project Refactor: Phase 2 Dashboard</p>
+            <p class="max-w-3xl mx-auto mt-4 text-slate-600">
+                歡迎來到「中央公園」建設計劃的互動指揮中心。此儀表板是你每日實踐、探索和鞏固內心平靜的動態工具。點擊下方分頁以瀏覽不同工程模組。
+            </p>
+        </header>
+
+        <nav class="flex justify-center mb-8 border-b border-slate-200">
+            <div class="flex flex-wrap justify-center -mb-px">
+                <button class="tab-button active text-sm md:text-base font-medium py-3 px-4 md:px-6 border-b-2" data-tab="strategy">總覽 & 戰略</button>
+                <button class="tab-button text-sm md:text-base font-medium py-3 px-4 md:px-6 border-b-2 border-transparent hover:border-slate-300 hover:text-slate-600" data-tab="habits">每日心靈習慣</button>
+                <button class="tab-button text-sm md:text-base font-medium py-3 px-4 md:px-6 border-b-2 border-transparent hover:border-slate-300 hover:text-slate-600" data-tab="experiments">心靈戰術實驗</button>
+                <button class="tab-button text-sm md:text-base font-medium py-3 px-4 md:px-6 border-b-2 border-transparent hover:border-slate-300 hover:text-slate-600" data-tab="code">核心肯定句</button>
+            </div>
+        </nav>
+
+        <main id="main-content">
+            <div id="strategy" class="content-pane active">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#4ECDC4]">「七三法則」能量分配</h3>
+                        <div class="chart-container">
+                            <canvas id="strategyChart"></canvas>
+                        </div>
+                        <p class="mt-6 text-center text-slate-600">
+                            我們的首要任務是「滋養平靜」。將主要心靈能量 (70%) 投入於「建設」工作（如休息、滋養），剩餘的 (30%) 則用以應對舊有創傷。
+                        </p>
+                    </div>
+                     <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#F15BB5]">二期工程進度目標</h3>
+                        <div class="chart-container">
+                            <canvas id="progressChart"></canvas>
+                        </div>
+                        <p class="mt-6 text-center text-slate-600">
+                           此雷達圖展示了我們從當前狀態向二期目標邁進的核心指標，專注於提升平靜、慈悲與界線感。
+                        </p>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-center mb-6 text-[#FF6B6B]">「安全第一」施工守則</h3>
+                        <div class="flex flex-col md:flex-row justify-center items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+                            <div class="text-center bg-[#FF6B6B]/10 p-4 rounded-lg w-full md:w-1/3">
+                                <p class="font-bold text-lg text-[#FF6B6B]">1. 觸發事件</p>
+                                <p class="text-sm mt-1 text-slate-600">偵測到「十號風球」(舊記憶、壓力源浮現)</p>
+                            </div>
+                            <div class="flex justify-center items-center text-3xl text-[#4ECDC4] transform md:rotate-0 rotate-90 font-mono">&rarr;</div>
+                            <div class="text-center bg-[#4ECDC4]/10 p-4 rounded-lg w-full md:w-1/3">
+                                <p class="font-bold text-lg text-[#4ECDC4]">2. 緊急應變</p>
+                                <p class="text-sm mt-1 text-slate-600">立即啟動「心靈急救包」(承認、轉移、落地)</p>
+                            </div>
+                            <div class="flex justify-center items-center text-3xl text-[#45B7D1] transform md:rotate-0 rotate-90 font-mono">&rarr;</div>
+                            <div class="text-center bg-[#45B7D1]/10 p-4 rounded-lg w-full md:w-1/3">
+                                <p class="font-bold text-lg text-[#45B7D1]">3. 安全撤退</p>
+                                <p class="text-sm mt-1 text-slate-600">回到「中央公園」(內心平靜)，先求安穩</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="habits" class="content-pane">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="interactive-card bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center cursor-pointer">
+                            <h3 class="text-xl font-bold text-[#4ECDC4]">「公園長凳」靜心</h3>
+                            <div class="expand-icon text-2xl text-[#4ECDC4]">+</div>
+                        </div>
+                        <div class="details-content mt-4 text-slate-600">
+                            <p class="mb-4">每日為你的「中央公園」舉行溫柔的剪綵儀式，只需三分鐘，專注於「感受」，而非「解決」。</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>時間:</strong> 每日三分鐘，早晨或需要喘息時。</li>
+                                <li><strong>做法:</strong> 靜坐，想像自己坐在大阪那片陽光普照的草地上 (你的「靈魂肖像畫」)。</li>
+                                <li><strong>任務:</strong> 純粹感受想像中的陽光、微風與草地，不帶任何批判或目標。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="interactive-card bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center cursor-pointer">
+                            <h3 class="text-xl font-bold text-[#F7B801]">「灌溉花朵」日誌</h3>
+                             <div class="expand-icon text-2xl text-[#F7B801]">+</div>
+                        </div>
+                        <div class="details-content mt-4 text-slate-600">
+                            <p class="mb-4">每日主動記錄並肯定所有能滋養你的來源，無論多麼微小，為你的內在花園淋水。</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>時間:</strong> 每日臨睡前一分鐘。</li>
+                                <li><strong>做法:</strong> 回答問題：「今日，我為我的花園，淋了啲咩『水』？」</li>
+                                <li><strong>例子:</strong> 一杯咖啡、一首歌、一次溫暖的交流，或僅僅是看一張旅行的照片。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="experiments" class="content-pane">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="interactive-card bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center cursor-pointer">
+                            <h3 class="text-xl font-bold text-[#45B7D1]">「鷹架巡視」實驗</h3>
+                            <div class="expand-icon text-2xl text-[#45B7D1]">+</div>
+                        </div>
+                        <div class="details-content mt-4 text-slate-600">
+                           <p class="mb-4">以安全距離觀察舊創傷記憶，目的僅為收集數據，熟悉觸發模式，而非進行拆卸。</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                 <li><strong>對象:</strong> 突然勾起的「唔開心既記憶,畫面」。</li>
+                                 <li><strong>方法:</strong> 想像自己是工程師，在安全距離外觀察「危樓」的外部結構，感受其引發的情緒。</li>
+                                 <li><strong>機制:</strong> 一旦感到危險，立即啟動「心靈急救包」安全撤退。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="interactive-card bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex justify-between items-center cursor-pointer">
+                            <h3 class="text-xl font-bold text-[#FF6B6B]">「社區花園」實驗</h3>
+                             <div class="expand-icon text-2xl text-[#FF6B6B]">+</div>
+                        </div>
+                        <div class="details-content mt-4 text-slate-600">
+                            <p class="mb-4">為社交土壤進行溫和的「鬆土」，在人群中感受安全感，而不強迫自己進行交流。</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>對象:</strong> 你的「社交恐懼」。</li>
+                                <li><strong>方法:</strong> 每週進行一次「平行社交」。</li>
+                                <li><strong>行動:</strong> 帶著書或耳機，在喜歡的咖啡店坐一小時，身處人群但無需互動。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="code" class="content-pane">
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                     <h3 class="text-xl font-bold text-center mb-6 text-slate-700">核心肯定句：內在作業系統的基石</h3>
+                    <div class="space-y-6 max-w-2xl mx-auto">
+                        <blockquote class="p-5 bg-slate-50 border-l-4 border-[#4ECDC4] text-slate-700 italic text-center text-lg">
+                            "我嘅任務唔係要夷平所有舊建築，而係要喺已清理嘅土地上，種出最美麗嘅花園。"
+                        </blockquote>
+                        <blockquote class="p-5 bg-slate-50 border-l-4 border-[#F7B801] text-slate-700 italic text-center text-lg">
+                            "拆除係過去嘅課題，建設係而家嘅選擇。"
+                        </blockquote>
+                        <blockquote class="p-5 bg-slate-50 border-l-4 border-[#F15BB5] text-slate-700 italic text-center text-lg">
+                            "我嘅平靜，比我嘅完美，更加重要。"
+                        </blockquote>
+                         <blockquote class="p-5 bg-slate-800 border-l-4 border-[#45B7D1] text-white font-mono text-center text-lg">
+                            const myPriority = 'BuildMyPeace';
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席架構師模式。你的「中央公園」正在建設中。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.content-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetPane = document.getElementById(tab.dataset.tab);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+
+            const interactiveCards = document.querySelectorAll('.interactive-card');
+            interactiveCards.forEach(card => {
+                const header = card.querySelector('.cursor-pointer');
+                const content = card.querySelector('.details-content');
+                const icon = card.querySelector('.expand-icon');
+
+                header.addEventListener('click', () => {
+                    const isExpanded = card.classList.contains('card-expanded');
+                    
+                    document.querySelectorAll('.interactive-card').forEach(otherCard => {
+                        if (otherCard !== card) {
+                           otherCard.querySelector('.details-content').style.maxHeight = '0px';
+                           otherCard.classList.remove('card-expanded');
+                        }
+                    });
+
+                    if (isExpanded) {
+                        content.style.maxHeight = '0px';
+                        card.classList.remove('card-expanded');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        card.classList.add('card-expanded');
+                    }
+                });
+            });
+
+            const wrapLabel = (label) => {
+                if (typeof label === 'string' && label.length > 16) {
+                    const words = label.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                        if ((currentLine + word).length > 16) {
+                            lines.push(currentLine.trim());
+                            currentLine = '';
+                        }
+                        currentLine += word + ' ';
+                    });
+                    lines.push(currentLine.trim());
+                    return lines;
+                }
+                return label;
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            };
+            
+            const strategyCtx = document.getElementById('strategyChart')?.getContext('2d');
+            if (strategyCtx) {
+                new Chart(strategyCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['建設工作 (滋養平靜)', '維護工作 (應對危樓)'],
+                        datasets: [{
+                            label: '能量分配',
+                            data: [70, 30],
+                            backgroundColor: ['#4ECDC4', '#FF6B6B'],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%',
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: { callbacks: { title: tooltipTitleCallback } }
+                        }
+                    }
+                });
+            }
+
+            const progressCtx = document.getElementById('progressChart')?.getContext('2d');
+            if (progressCtx) {
+                const progressLabels = ['平靜', '自我慈悲', '能量', '界線感', '活在當下'].map(wrapLabel);
+                new Chart(progressCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: progressLabels,
+                        datasets: [
+                            {
+                                label: '當前狀態',
+                                data: [4, 3, 4, 3, 5],
+                                backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                                borderColor: '#FF6B6B',
+                                pointBackgroundColor: '#FF6B6B',
+                            },
+                            {
+                                label: '二期工程目標',
+                                data: [8, 9, 7, 8, 8],
+                                backgroundColor: 'rgba(78, 205, 196, 0.2)',
+                                borderColor: '#4ECDC4',
+                                pointBackgroundColor: '#4ECDC4',
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                         scales: {
+                            r: {
+                                angleLines: { color: '#e2e8f0' },
+                                grid: { color: '#e2e8f0' },
+                                pointLabels: { font: { size: 12 }, color: '#475569' },
+                                ticks: { backdropColor: '#f8fafc', color: '#64748b' },
+                                 min: 0,
+                                 max: 10
+                            }
+                        },
+                        plugins: {
+                             tooltip: { callbacks: { title: tooltipTitleCallback } },
+                             legend: { position: 'bottom' }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

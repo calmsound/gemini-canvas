@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>界線防禦程式碼提取器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #0f172a; /* Deep Slate 900 */
+            color: #dbeafe; /* Blue 200 */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mono-font {
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Console Window */
+        .console-window {
+            width: 90%;
+            max-width: 650px;
+            background: #1e293b; /* Slate 800 */
+            border: 2px solid #3b82f6; /* Blue 500 */
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .console-header {
+            background: #1f2937;
+            padding: 10px 20px;
+            border-bottom: 1px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-green { background: #10b981; }
+
+        .console-output {
+            padding: 20px;
+            min-height: 150px;
+        }
+
+        /* The Output Message */
+        .output-line {
+            display: flex;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.1rem;
+        }
+
+        .output-command { color: #818cf8; /* Indigo 400 */ font-weight: 700; margin-right: 8px; }
+        .output-result { color: #facc15; /* Amber 400 */ transition: all 0.3s ease; }
+        .output-comment { color: #4b5563; /* Gray 600 */ margin-left: 10px; }
+
+        .result-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f0f9ff; /* White */
+            margin-top: 10px;
+            line-height: 1.5;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        /* The Button */
+        .deploy-btn {
+            background: #3b82f6;
+            color: white;
+            font-family: 'Space Mono', monospace;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.5);
+        }
+        .deploy-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-black text-white tech-font tracking-widest">FIREWALL API</h1>
+        <p class="text-xl text-blue-300">界線防禦程式碼提取器</p>
+    </header>
+
+    <div class="console-window">
+        <div class="console-header mono-font">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-green"></div>
+            <span class="text-xs text-blue-300">ACCESS LEVEL: ROOT / STATUS: ACTIVE</span>
+        </div>
+        
+        <div class="console-output mono-font">
+            <div class="output-line">
+                <span class="output-command">> INITIALIZE_PROTOCOL</span>
+                <span class="output-result text-green-400">...OK</span>
+            </div>
+            
+            <div class="output-line mb-6">
+                <span class="output-command">> RUN_BOUNDARY_CHECK</span>
+                <span class="output-result text-red-400">ERROR: CORE_VULNERABILITY_DETECTED.</span>
+            </div>
+
+            <div class="result-text" id="resultText">
+                請部署指令，以強化你的核心常數。
+            </div>
+        </div>
+    </div>
+
+    <button class="deploy-btn" id="deployBtn">部署指令 (Deploy Command)</button>
+
+    <script>
+        const affirmations = [
+            { text: "我的界線是我的主權。", category: "主權 (Sovereignty)" },
+            { text: "尊重是常數，無需爭論。", category: "主權 (Sovereignty)" },
+            { text: "我只聽從我的內在權威。", category: "主權 (Sovereignty)" },
+            { text: "你的評判，不進入我的核心。", category: "隔離 (Isolation)" },
+            { text: "我只接收愛，其餘全部丟棄。", category: "隔離 (Isolation)" },
+            { text: "別人的情緒，是別人的修行。", category: "隔離 (Isolation)" },
+            { text: "我拒絕被消耗，我選擇接收。", category: "能源 (Energy)" },
+            { text: "我的平靜，不受你的情緒影響。", category: "能源 (Energy)" },
+            { text: "我保持靜默，等待邀請。", category: "能源 (Energy)" }
+        ];
+
+        const deployBtn = document.getElementById('deployBtn');
+        const resultTextEl = document.getElementById('resultText');
+        const consoleOutput = document.querySelector('.console-output');
+
+        function generateOutput(item) {
+            // Clear previous output (keep only the first two lines)
+            const initialLines = Array.from(consoleOutput.children).slice(0, 2);
+            consoleOutput.innerHTML = '';
+            initialLines.forEach(line => consoleOutput.appendChild(line.cloneNode(true)));
+
+            // 1. Show deployment command
+            const deployLine = document.createElement('div');
+            deployLine.classList.add('output-line', 'text-yellow-400');
+            deployLine.innerHTML = `<span class="output-command text-blue-400">> DEPLOY_FIREWALL_RULE -T=" ${item.text}"</span>`;
+            consoleOutput.appendChild(deployLine);
+
+            // 2. Add system confirmation
+            const confirmLine = document.createElement('div');
+            confirmLine.classList.add('output-line', 'text-green-400', 'mt-4');
+            confirmLine.innerHTML = `<span class="output-command">SYSTEM:</span> <span class="output-result">RULE DEPLOYED. CORE AXIOM STRENGTHENED.</span>`;
+            consoleOutput.appendChild(confirmLine);
+
+            // 3. Display the core code (The Affirmation)
+            resultTextEl.innerHTML = `<span class="text-blue-300">[${item.category}]</span><br>${item.text}`;
+            resultTextEl.classList.add('text-lg');
+        }
+
+        deployBtn.addEventListener('click', () => {
+            const randomItem = affirmations[Math.floor(Math.random() * affirmations.length)];
+            generateOutput(randomItem);
+        });
+
+    </script>
+</body>
+</html>

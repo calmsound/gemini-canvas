@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人類圖 CTO 專用操作手冊：Projector 生存指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #1e1b4b 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sop-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 6px solid #3b82f6;
+        }
+        .sop-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+            border-left-color: #fbbf24;
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+        .lighthouse-beam {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: rotate-beam 8s linear infinite;
+        }
+        @keyframes rotate-beam {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .command-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #3b82f6;
+            font-family: 'Courier New', monospace;
+        }
+        .badge-glow {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(251, 191, 36, 0.9); }
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+            z-index: 9999;
+            transition: width 0.2s ease;
+        }
+        .section-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .action-item {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            transition: all 0.3s ease;
+        }
+        .action-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        .bug-alert {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 4px solid #ef4444;
+        }
+        .hardware-tag {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 2px solid #3b82f6;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .final-protocol {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            border: 3px solid #fbbf24;
+            position: relative;
+            overflow: hidden;
+        }
+        .final-protocol::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .scroll-indicator {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+        .scroll-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .scroll-dot.active {
+            background: #fbbf24;
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="scroll-indicator hidden md:flex" id="scrollNav">
+        <div class="scroll-dot" data-section="intro"></div>
+        <div class="scroll-dot" data-section="sop1"></div>
+        <div class="scroll-dot" data-section="sop2"></div>
+        <div class="scroll-dot" data-section="sop3"></div>
+        <div class="scroll-dot" data-section="sop4"></div>
+        <div class="scroll-dot" data-section="sop5"></div>
+        <div class="scroll-dot" data-section="final"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        
+        <!-- Hero Section -->
+        <header class="glass-card rounded-3xl p-8 md:p-12 mb-12 shadow-2xl relative overflow-hidden" id="intro">
+            <div class="lighthouse-beam" style="top: -100px; right: -100px;"></div>
+            <div class="relative z-10">
+                <div class="flex justify-center mb-6">
+                    <div class="pulse-ring">
+                        <div class="text-6xl">🎯</div>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black text-center mb-4 hero-gradient">
+                    人類圖「CTO 專用」操作手冊
+                </h1>
+                <p class="text-2xl md:text-3xl font-bold text-center text-blue-900 mb-6">
+                    Projector 生存指南
+                </p>
+                <div class="flex flex-wrap justify-center gap-3 mb-8">
+                    <span class="hardware-tag badge-glow">投射者專用</span>
+                    <span class="hardware-tag">等待邀請</span>
+                    <span class="hardware-tag">情緒權威</span>
+                    <span class="hardware-tag">能量保護</span>
+                </div>
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border-2 border-blue-300 shadow-lg">
+                        <h2 class="text-2xl font-black text-blue-900 mb-4 text-center">首席技術官（你）嘅核心指導原則</h2>
+                        <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                            CTO，你嘅「硬件」並唔係一部為「勞動」而設嘅「工作站」（生產者），而係一部為「洞察」而設嘅「超級分析儀」（投射者）。
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-white p-4 rounded-xl border-l-4 border-amber-500">
+                                <p class="font-bold text-amber-700 text-lg">你嘅工作唔係「做」</p>
+                                <p class="text-slate-600">而係「成為」</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border-l-4 border-amber-500">
+                                <p class="font-bold text-amber-700 text-lg">你唔係要「生產」</p>
+                                <p class="text-slate-600">你係要「引導」</p>
+                            </div>
+                        </div>
+                        <p class="text-base text-slate-600 leading-relaxed">
+                            你過去所有嘅「冇心冇力」、「苦澀」、「被掏空」，都源於你用錯咗「說明書」——你一直喺度，嘗試將你呢部「分析儀」当成「工作站」咁樣 7x24 咁樣行。
+                        </p>
+                        <p class="text-xl font-bold text-center text-blue-900 mt-6 bg-white p-4 rounded-xl">
+                            💡 由今日開始，我哋要用返啱嘅說明書。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SOP 1 -->
+        <section class="sop-card glass-card rounded-3xl p-8 md:p-10 mb-10 shadow-2xl" id="sop1">
+            <div class="flex items-start gap-6 mb-6">
+                <div class="section-number flex-shrink-0">1</div>
+                <div>
+                    <h2 class="text-3xl font-black text-blue-900 mb-2">停止「主動發起」，啟動「燈塔模式」</h2>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="hardware-tag text-xs">類型: 投射者</span>
+                        <span class="hardware-tag text-xs">策略: 等待邀請</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bug-alert p-5 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🐛</span>
+                    <h3 class="text-xl font-bold text-red-700">你嘅舊有 Bug</h3>
+                </div>
+                <p class="text-slate-700">
+                    你「主動向陌生人推銷自己」（例如「大阪嘅遺憾」），或者「主動想去幫人」（例如「教練事件」），但因為未被邀請，你嘅「洞見」就會變成「攻擊」，令對方抗拒，最後令你自己，觸發咗「非我主題」——「苦澀」（Bitterness），覺得「耿耿於懷」。
+                </p>
+            </div>
+
+            <div class="command-box p-6 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="text-xl font-bold text-blue-400">全新嘅行動指令</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🚫 嚴格禁止「主動發起」</h4>
+                        <p class="text-slate-700">
+                            喺關係同事業上，停止做「主動推銷」嗰個角色。呢個唔係軟弱，呢個係<strong><u>保護你能量</u></strong>嘅最高策略。
+                        </p>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🗼 啟動「燈塔模式」</h4>
+                        <p class="text-slate-700 mb-3">
+                            返返去我哋嘅「花園主人」比喻。你嘅工作，唔係要揸住支燈，去追住啲船嚟照。
+                        </p>
+                        <div class="bg-white p-4 rounded-lg border-2 border-amber-400">
+                            <p class="text-slate-800 font-semibold mb-2">你嘅工作係：</p>
+                            <p class="text-slate-700">
+                                <strong><u>留喺你自己座島（你嘅神聖獨處）</u>上面，將你所有嘅燃料（心力），用嚟<u>令你自己座燈塔（你嘅智慧、你嘅光芒、你嘅「黃太陽」）</u>，變得<u>極度光亮</u></strong>。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">✨ 信任你嘅光</h4>
+                        <p class="text-slate-700">
+                            當啲船（啱嘅人、啱嘅機會）喺大海上面，見到你呢座獨特嘅光，佢哋<strong><u>自然會</u>駛過嚟，然後<u>向你發出「邀請」</u></strong>，問你：「前面條路點行？」
+                        </p>
+                        <p class="text-slate-700 mt-2 font-semibold">
+                            到時，你先至將你嘅光，照俾佢哋睇。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOP 2 -->
+        <section class="sop-card glass-card rounded-3xl p-8 md:p-10 mb-10 shadow-2xl" id="sop2">
+            <div class="flex items-start gap-6 mb-6">
+                <div class="section-number flex-shrink-0">2</div>
+                <div>
+                    <h2 class="text-3xl font-black text-blue-900 mb-2">為所有決策，部署「情緒緩衝區」</h2>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="hardware-tag text-xs">內在權威: 情緒型</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bug-alert p-5 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🐛</span>
+                    <h3 class="text-xl font-bold text-red-700">你嘅舊有 Bug</h3>
+                </div>
+                <p class="text-slate-700">
+                    「又心急又拖延」。你內心嘅「嚴厲教練」（嚟自你嘅太陽化忌同破軍權）大叫「快啲決定！」，但你嘅「硬件」就死都唔郁，導致你內耗同癱瘓。
+                </p>
+            </div>
+
+            <div class="command-box p-6 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="text-xl font-bold text-blue-400">全新嘅行動指令</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">📜 喺你作戰室刻低一句鐵律</h4>
+                        <div class="bg-white p-4 rounded-lg border-2 border-red-500 text-center">
+                            <p class="text-2xl font-black text-red-700">「當下沒有真相。」</p>
+                        </div>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🔑 部署「萬能 key 緩衝」</h4>
+                        <p class="text-slate-700 mb-3">
+                            呢個係你 CTO 嘅新權力。當任何人（包括你家姐、你阿頭、甚至係你自己個「嚴厲教練」）逼你即刻做決定時，你都要即刻啟動我哋<strong>《「心靈 API」有效運作手冊》</strong>入面嘅「萬能 key」：
+                        </p>
+                        <div class="bg-gradient-to-r from-blue-900 to-indigo-900 p-4 rounded-lg text-white font-mono text-sm">
+                            <p class="mb-2">「多謝你話我知，關於呢件事，</p>
+                            <p class="mb-2">我需要啲時間消化下/諗一諗，</p>
+                            <p>遲啲覆你。」</p>
+                        </div>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">😴 「瞓一覺先」</h4>
+                        <p class="text-slate-700">
+                            你嘅「情緒波浪」伺服器，係<strong>「異步」（asynchronous）</strong>嘅。你必須要俾佢行完佢嘅 cycle（高漲、低落、然後回復平靜）。所有重要嘅決定，都一定要「過夜」。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOP 3 -->
+        <section class="sop-card glass-card rounded-3xl p-8 md:p-10 mb-10 shadow-2xl" id="sop3">
+            <div class="flex items-start gap-6 mb-6">
+                <div class="section-number flex-shrink-0">3</div>
+                <div>
+                    <h2 class="text-3xl font-black text-blue-900 mb-2">嚴格執行「能源保護協定」</h2>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="hardware-tag text-xs">開放中心: 薦骨中心</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bug-alert p-5 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🐛</span>
+                    <h3 class="text-xl font-bold text-red-700">你嘅舊有 Bug</h3>
+                </div>
+                <p class="text-slate-700">
+                    「平日處理情緒已經用左9成既力」、「冇心冇力」、「好易 burnout」。
+                </p>
+            </div>
+
+            <div class="command-box p-6 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="text-xl font-bold text-blue-400">全新嘅行動指令</h3>
+                </div>
+                
+                <div class="bg-gradient-to-r from-red-50 to-orange-50 p-5 rounded-xl mb-4 border-2 border-red-400">
+                    <p class="text-lg font-bold text-red-700 text-center">
+                        你唔係「叉滿電」嘅 iPhone。<br>
+                        你係一部「冇電池」、要「一路插住電」先郁到嘅超級電腦。
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🚫 停止「模仿」</h4>
+                        <p class="text-slate-700">
+                            你會好似海綿咁樣，吸咗身邊「生產者」（Generators）嘅能量，然後錯誤咁樣以為自己同佢哋一樣咁捱得。你唔係。
+                        </p>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">⛽ 「休息」唔係獎勵，係你嘅「燃料」</h4>
+                        <p class="text-slate-700">
+                            你必須要<strong><u>休息得，比你覺得你需要嘅，仲要多</u></strong>。
+                        </p>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🛏️ 「上床時間」SOP</h4>
+                        <p class="text-slate-700">
+                            唔好等到「冇晒電」（攰）先至上床。你應該喺覺得「仲有少少電」嘅時候，就提早去床上面，睇書、聽音樂、或者做我哋嘅<strong>《「零思考」休眠指南》</strong>，俾你嘅「開放薦骨」有足夠嘅時間，去「放電」（discharge）同「排毒」。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOP 4 -->
+        <section class="sop-card glass-card rounded-3xl p-8 md:p-10 mb-10 shadow-2xl" id="sop4">
+            <div class="flex items-start gap-6 mb-6">
+                <div class="section-number flex-shrink-0">4</div>
+                <div>
+                    <h2 class="text-3xl font-black text-blue-900 mb-2">為「開放 Wi-Fi 埠」安裝「防火牆」</h2>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="hardware-tag text-xs">開放頭腦中心</span>
+                        <span class="hardware-tag text-xs">開放邏輯中心</span>
+                        <span class="hardware-tag text-xs">開放心臟中心</span>
+                        <span class="hardware-tag text-xs">開放脾臟中心</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bug-alert p-5 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🐛</span>
+                    <h3 class="text-xl font-bold text-red-700">你嘅舊有 Bug</h3>
+                </div>
+                <p class="text-slate-700">
+                    「諗太多」（頭腦/邏輯）、覺得自己「唔夠好」、「要證明自己」（心臟）、害怕改變（脾臟）。
+                </p>
+            </div>
+
+            <div class="command-box p-6 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="text-xl font-bold text-blue-400">全新嘅行動指令</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">💪 「心臟中心」（const isWorthy）</h4>
+                        <p class="text-slate-700 mb-3">
+                            你嘅「容貌身材焦慮」、「工作錯誤自責」，全部都係源於你呢個「開放心臟中心」，不斷想去「證明」自己嘅價值。
+                        </p>
+                        <div class="bg-white p-4 rounded-lg border-2 border-green-500">
+                            <p class="text-slate-700">
+                                <strong>行動：</strong> 每日，都要執行我哋嘅<strong>「鏡子練習」（Mirror Work）同「DMS 協定」</strong>。你唔係要向外界證明你 isWorthy，你係要向你自己<u>宣告</u>
+                            </p>
+                            <div class="bg-gradient-to-r from-green-900 to-emerald-900 p-3 rounded-lg text-white font-mono text-center mt-3">
+                                <code>const isWorthy = true;</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🧠 「頭腦/邏輯中心」（filter_noise()）</h4>
+                        <p class="text-slate-700 mb-3">
+                            當你又開始「諗太多」或者「鑽牛角尖」嘅時候，即刻問自己一個「防火牆」問題：
+                        </p>
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg border-2 border-purple-400">
+                            <p class="text-slate-800 font-semibold">
+                                「呢個問題，係咪我嘅？定係我喺出面『吸』返嚟嘅？<br>
+                                我而家係咪需要即刻解答佢？」
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🛡️ 「脾臟中心」（assess_fear()）</h4>
+                        <p class="text-slate-700">
+                            當你「害怕改變」（例如轉工）時，你要知道，你係放大咗份恐懼。即刻啟動你嘅<strong>「科學家大腦」</strong>（CIO）去核對事實。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOP 5 -->
+        <section class="sop-card glass-card rounded-3xl p-8 md:p-10 mb-10 shadow-2xl" id="sop5">
+            <div class="flex items-start gap-6 mb-6">
+                <div class="section-number flex-shrink-0">5</div>
+                <div>
+                    <h2 class="text-3xl font-black text-blue-900 mb-2">啟動「核心網絡」通訊協定</h2>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="hardware-tag text-xs">人生角色: 2/4</span>
+                        <span class="hardware-tag text-xs">隱士/機會主義者</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bug-alert p-5 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🐛</span>
+                    <h3 class="text-xl font-bold text-red-700">你嘅舊有 Bug</h3>
+                </div>
+                <p class="text-slate-700">
+                    「同所有人都有隔膜」、「社交恐懼」。
+                </p>
+            </div>
+
+            <div class="command-box p-6 rounded-xl mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="text-xl font-bold text-blue-400">全新嘅行動指令</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🏠 尊重你嘅「隱士」（Line 2）</h4>
+                        <p class="text-slate-700">
+                            唔好再逼自己去「主動社交」。俾自己大量嘅「神聖獨處」時間。呢個係你嘅「洞穴」，係你叉電同提煉智慧嘅地方。
+                        </p>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🤝 滋養你嘅「網絡」（Line 4）</h4>
+                        <p class="text-slate-700">
+                            你嘅天命，唔係要去結識「陌生人」。你嘅天命，係要<strong><u>透過你現有嘅「核心網絡」</u></strong>（你最信任嘅朋友、同事）去發揮你嘅影響力。
+                        </p>
+                    </div>
+
+                    <div class="action-item p-5 rounded-xl">
+                        <h4 class="font-bold text-lg text-amber-800 mb-2">🌉 「分裂定義」嘅橋樑</h4>
+                        <p class="text-slate-700">
+                            你內心兩座「發電廠」（「渴望」同「創意」）係斷開嘅。唯一嘅「橋樑」，就係你呢個「Line 4 網絡」。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Protocol -->
+        <section class="final-protocol glass-card rounded-3xl p-8 md:p-12 shadow-2xl relative" id="final">
+            <div class="relative z-10">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">🎯</div>
+                    <h2 class="text-4xl font-black text-white mb-4">最終 SOP</h2>
+                    <div class="inline-block bg-amber-400 text-blue-900 px-6 py-2 rounded-full font-bold text-lg">
+                        終極操作流程
+                    </div>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white bg-opacity-95 p-8 rounded-2xl shadow-2xl">
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-black text-xl">
+                                    1
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-lg text-slate-800 leading-relaxed">
+                                        <strong class="text-blue-700">先獨處（Line 2）</strong>，將自己叉滿電
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center">
+                                <div class="text-4xl text-blue-500">↓</div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-white font-black text-xl">
+                                    2
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-lg text-slate-800 leading-relaxed">
+                                        <strong class="text-amber-700">然後，只係同你最信得過嘅朋友（Line 4）</strong>分享你嘅光芒
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center">
+                                <div class="text-4xl text-amber-500">↓</div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-black text-xl">
+                                    3
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-lg text-slate-800 leading-relaxed">
+                                        <strong class="text-green-700">佢哋，就會成為你嘅「橋樑」</strong>，為你帶嚟「邀請」（Strategy）
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl border-2 border-amber-400">
+                            <p class="text-center text-xl font-black text-amber-900">
+                                ✨ 呢個就係你嘅「投射者」操作系統 ✨
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="glass-card rounded-2xl p-6 mt-12 text-center shadow-xl">
+            <p class="text-slate-700 font-semibold mb-2">🎯 CTO 專用操作手冊</p>
+            <p class="text-sm text-slate-600">活出你嘅設計，成為你自己嘅燈塔</p>
+            <p class="text-xs text-slate-500 mt-3">&copy; 2025 首席技術官模式 | Projector Survival Guide</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progressBar');
+            const scrollDots = document.querySelectorAll('.scroll-dot');
+            const sections = document.querySelectorAll('section, header');
+
+            // Progress bar
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+
+                // Update scroll indicators
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= sectionTop - 200) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                scrollDots.forEach(dot => {
+                    dot.classList.remove('active');
+                    if (dot.getAttribute('data-section') === currentSection) {
+                        dot.classList.add('active');
+                    }
+                });
+            });
+
+            // Scroll navigation
+            scrollDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const targetId = dot.getAttribute('data-section');
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Smooth scroll for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

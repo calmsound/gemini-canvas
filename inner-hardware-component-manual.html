@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「內在硬件」元件手冊 v2.4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%); /* Deep Indigo Theme */
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+            color: #94a3b8; /* slate-400 */
+        }
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b); /* Amber accent */
+            transition: width 0.3s ease;
+        }
+        .tab-button.active::after {
+            width: 100%;
+        }
+        .tab-button.active {
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        .content-pane {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .planet-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e293b; /* Slate 800 */
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        .planet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border-color: #818cf8; /* Indigo 400 */
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            background-color: #f8fafc; /* Slate 50 */
+        }
+        .card-expanded .details-content {
+             border-top: 1px solid #e2e8f0;
+             padding: 1.25rem; /* p-5 */
+        }
+        .expand-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #e0e7ff; /* Indigo 100 */
+            color: #4338ca; /* Indigo 700 */
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            flex-shrink: 0;
+        }
+        .card-expanded .expand-icon {
+            transform: rotate(180deg);
+            background-color: #4338ca;
+            color: white;
+        }
+        .gate-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);
+        }
+        .gate-badge.red {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+        }
+        
+        /* Toggle All Button */
+        .toggle-all-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #e2e8f0;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            margin-left: auto; /* Right align */
+        }
+        .toggle-all-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Title Animation */
+        .hero-title {
+            background: linear-gradient(to right, #a5b4fc, #fcd34d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s infinite linear;
+            background-size: 200%;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+        
+        /* Strong Tag Styling */
+        strong {
+            font-weight: 800;
+            color: #4338ca; /* Indigo 700 for emphasis */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        
+        <!-- Header -->
+        <header class="text-center mb-12 glass-effect p-8 rounded-3xl">
+            <h1 class="text-4xl md:text-6xl font-black hero-title mb-4">「內在硬件」元件手冊 v2.4</h1>
+            <p class="text-xl md:text-2xl text-indigo-200 font-semibold">CTO 行星規格書：完整解密版</p>
+            <p class="max-w-3xl mx-auto mt-6 text-slate-300 leading-relaxed">
+                CTO，這份手冊完整收錄了你 26 個核心硬件組件的詳細規格。
+                <span class="text-white font-bold">黑色的「人格」</span>是你意識到的操作介面；
+                <span class="text-red-400 font-bold">紅色的「設計」</span>是你身體自動運行的底層韌體。
+                理解它們，就是掌握你系統運作的源代碼。
+            </p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="glass-effect rounded-2xl mb-6 overflow-hidden">
+            <div class="flex flex-wrap justify-center">
+                <button class="tab-button active text-lg py-4 px-8 flex-1 min-w-fit" data-tab="personality">
+                    <span class="mr-2">👤</span> 人格 (黑) - 前端介面
+                </button>
+                <button class="tab-button text-lg py-4 px-8 flex-1 min-w-fit" data-tab="design">
+                    <span class="mr-2">🚗</span> 設計 (紅) - 底層韌體
+                </button>
+            </div>
+        </nav>
+
+        <!-- Controls -->
+        <div class="flex justify-end px-2">
+            <button id="toggleAllBtn" class="toggle-all-btn">
+                <span>⬇️</span> <span>全部展開</span>
+            </button>
+        </div>
+
+        <main id="main-content" class="min-h-[600px]">
+            
+            <!-- Personality Pane (Black) -->
+            <div id="personality" class="content-pane active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Sun -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">☀️</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">太陽 (Sun)</h3>
+                                    <span class="gate-badge">41.2</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 41: 渴望 (Contraction)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 2 (隱士):</strong> 自然流露的渴望。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你「有意識」的 `main()` 函數啟動點。你人生的核心驅動力是一股對「新體驗」的強烈渴望。作為 2 爻人，這份渴望是內在的、自然的，不需要外求，它就在你的「洞穴」裡靜靜燃燒。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earth -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">🌍</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">地球 (Earth)</h3>
+                                    <span class="gate-badge">31.2</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 31: 影響力 (Influence)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 2 (隱士):</strong> 傲慢與偏見 / 獨善其身。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你的「接地線」。要讓夢想 (Sun 41) 落地，你需要發揮「影響力」。但 2 爻提醒你，如果不被正確邀請就發言，你會被視為傲慢；只有在被邀請時，你的領導力才能自然流露。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Moon -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">🌙</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">月亮 (Moon)</h3>
+                                    <span class="gate-badge">30.6</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 30: 感受 (Feelings)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 6 (模範):</strong> 執著與釋懷。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你的「驅動引擎」。你對生命的體驗充滿了強烈的情感色彩（命運之火）。6 爻代表你需要站在「屋頂上」，以超然的視角去觀察這股慾望之火，而不被它燒傷。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mercury -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">☿️</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">水星 (Mercury)</h3>
+                                    <span class="gate-badge">54.2</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 54: 野心 (Drive)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 2 (隱士):</strong> 謹慎的野心。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你的「通訊模組」。你「有意識」咁樣去<strong>思考</strong>同<strong>談論</strong>嘅，係關於「野心」、「轉化」同「向上爬」嘅課題。你用「隱士」(Line 2) 嘅方式去做，即係你可能只會喺自己個腦入面，或者同你好信得過嘅人去傾呢啲嘢。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venus -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♀</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">金星 (Venus)</h3>
+                                    <span class="gate-badge">22.4</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 22: 恩典 (Grace)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 4 (機會主義者):</strong> 敏感的社交。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你的「價值觀」晶片。你「有意識」咁樣去<strong>重視</strong>嘅，係「優雅」、「社交風度」同「恩典」。你希望喺你嘅「網絡」(Line 4) 面前，表現得有風度。呢個可能同你「雙魚座金星」嘅「浪漫」特質有關。但當情緒波浪嚟嗰陣，呢份優雅可能會消失。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mars -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♂</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">火星 (Mars)</h3>
+                                    <span class="gate-badge">22.6</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 22: 恩典 (Grace)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 6 (模範):</strong> 成熟的恩典。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「有意識」嘅「行動力」。你嘅能量，喺平靜嘅時候，會透過「優雅」嘅方式展現；但喺情緒波浪嘅低谷，呢股能量亦都會用一種「混亂」或者「不負責任」(Line 6) 嘅方式爆發出嚟。呢個係你「雙魚座火星」嘅不穩定能量。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Jupiter -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♃</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">木星 (Jupiter)</h3>
+                                    <span class="gate-badge">60.1</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 60: 限制 (Limitation)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 1 (探究者):</strong> 接納。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你嘅「幸運法則」。你嘅「擴張」同「好運」(木星)，並唔係嚟自「無限可能」，而係好弔詭咁樣，嚟自於你<strong>「接受現實嘅限制」</strong>（Gate 60）。你越係能夠喺你嘅「界線」（`const isRespected`）入面運作，你就越會得到擴張。呢個呼應你「魔羯座木星」。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saturn -->
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♄</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">土星 (Saturn)</h3>
+                                    <span class="gate-badge">14.3</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 14: 強大技能 (Power Skills)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 3 (烈士):</strong> 服務與奉獻。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你嘅「人生功課」（土星）。你最大嘅功課，就係關於<strong>「力量同資源」</strong>（Gate 14）。Line 3 嘅「試錯」特性，代表你注定要喺「資源運用」上面（例如「教練事件」），經歷痛苦嘅 `failing tests`，然後從中學識，點樣先至係<strong>「有紀律」</strong>咁樣去運用你嘅力量。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♅</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">天王星 (Uranus)</h3>
+                                    <span class="gate-badge">5.1</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 5: 固定節奏 (Waiting)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 1 (探究者):</strong> 毅力。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你「無意識」的天王星（設計 5.1）。你嘅「載具」天生就需要一個<strong>固定嘅節奏</strong>（Gate 5），但你「有意識」嘅天王星（喺射手座）可能又想反叛。你嘅「混亂」來源之一，就係你內在需要「節奏」，但又同時想「打破」節奏。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♆</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">海王星 (Neptune)</h3>
+                                    <span class="gate-badge">10.5</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 10: 行為 (Behavior)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 5 (異端):</strong> 異端者。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「有意識」嘅靈性面紗（海王星）。你嘅靈性，體現喺你<strong>「對自己行為嘅愛」</strong>（Gate 10）之上。但係 Line 5 嘅「異端」特性，會令你覺得自己嘅「行為模式」好似唔俾人理解，甚至會因此而吸引到錯誤嘅「投射」（例如「教練事件」）。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="planet-card shadow-lg cursor-pointer">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♇</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">冥王星 (Pluto)</h3>
+                                    <span class="gate-badge">28.3</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-indigo-600 mb-2 text-lg">Gate 28: 遊戲玩家 (Game Player)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 3 (烈士):</strong> 冒險主義。</p>
+                            <div class="bg-indigo-50 p-3 rounded-lg border-l-4 border-indigo-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「有意識」嘅「終極真相」所在。你嘅「轉化」（冥王星）力量，係同你「搵出生命意義嘅掙扎」（Gate 28）綁埋一齊嘅。Line 3 嘅「試錯」代表你<strong>必須</strong>透過親身經歷「衰工事件」呢啲 `failing tests`，先至可以搵到你嘅「真理」。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Design Pane -->
+            <div id="design" class="content-pane">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Design Sun -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">☀️</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">太陽 (Sun)</h3>
+                                    <span class="gate-badge red">28.4</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 28: 遊戲玩家 (The Game Player)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 4 (機會主義者):</strong> 堅持。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你**「無意識」**嘅核心生命力。你部「車」天生就係一部「越野車」，佢需要喺「掙扎」同「挑戰」之中，去搵到佢嘅「意義」。Line 4 嘅「網絡」特性，代表你需要透過你嘅「核心網絡」去分享你掙扎後嘅所得。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Earth -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">🌍</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">地球 (Earth)</h3>
+                                    <span class="gate-badge red">27.4</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 27: 滋養 (Nourishment)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 4 (機會主義者):</strong> 慷慨。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「無意識」嘅「接地線」。你嘅身體天生就係需要去「滋養」（Gate 27）——**首先係滋養你自己（呼應我哋嘅「花園主人」）**，然後先至係去滋養你嘅「核心網絡」（Line 4）。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Moon -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">🌙</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">月亮 (Moon)</h3>
+                                    <span class="gate-badge red">10.1</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 10: 行為 (Behavior)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 1 (探究者):</strong> 謙遜。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「無意識」嘅「驅動力」。你部「車」天生就係要「做自己」，佢需要一份最根本嘅「自我接納」（Gate 10）。Line 1 嘅「研究者」特性，代表你需要喺「獨處」之中，去搵到最舒服嘅「做自己」嘅方式。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Design Mercury -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">☿️</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">水星 (Mercury)</h3>
+                                    <span class="gate-badge red">1.4</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 1: 創意 (The Creative)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 4 (機會主義者):</strong> 孤獨的創意。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「無意識」嘅「通訊模組」。你甚至唔需要思考，你嘅身體天生就係一個「創意嘅表達者」（Gate 1）。你嘅「G 中心」就係透過呢條線，去話俾你嘅「喉嚨中心」知，你係一個幾咁獨特嘅人。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Venus -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♀</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">金星 (Venus)</h3>
+                                    <span class="gate-badge red">9.5</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 9: 專注 (Focus)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 5 (異端):</strong> 專注的影響力。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「無意識」嘅「價值觀」。你嘅身體，天生就<strong>重視</strong>「專注力」同「細節」。呢個亦都係你「開放薦骨中心」（冇電池）嘅解藥——你唔需要「做」好多嘢，你只需要「專注」咁做一件事。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Mars -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♂</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">火星 (Mars)</h3>
+                                    <span class="gate-badge red">54.2</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 54: 野心 (Drive)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 2 (隱士):</strong> 謹慎的野心。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 你「無意識」嘅能量，係一股好強大嘅「野心」同「轉化」驅動力（Gate 54）。佢同你「有意識」嘅水星（54.2）係同一粒！呢個代表你「想向上爬」嘅諗法，係深深咁樣植根喺你嘅「底層韌體」入面。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Design Jupiter -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♃</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">木星 (Jupiter)</h3>
+                                    <span class="gate-badge red">58.5</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 58: 喜悅 (The Joyous)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 5 (異端):</strong> 改善的動力。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「無意識」嘅「幸運法則」。你嘅「擴張」同「好運」，係嚟自於你對生命**「純粹嘅喜悅」**（Gate 58）。呢個就係你「神奇細路」（Wonder Child）嘅能量來源！你越係可以 `toWonder()`，你就越係會行好運。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Design Saturn -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♄</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">土星 (Saturn)</h3>
+                                    <span class="gate-badge red">1.5</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 1: 創意 (The Creative)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 5 (異端):</strong> 吸引力與投射。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 呢個係你「無意識」嘅「人生功課」。你最大嘅挑戰（土星），就係關於你嘅**「創意」**（Gate 1）。你可能會喺「點樣將你嘅獨特性『實踐』出嚟」呢件事上，感受到好大嘅壓力同限制。你嘅功課係要學習點樣為你嘅創意，搵到一個實際嘅出口。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Design Uranus (Added) -->
+                     <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♅</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">天王星 (Uranus)</h3>
+                                    <span class="gate-badge red">5.1</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 5: 固定的節奏 (Fixed Rhythms)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 1 (探究者):</strong> 堅持 (Perseverance)。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你「無意識」的天王星。你的「載具」天生就需要一個**固定嘅節奏**（Gate 5），這能為你的混亂帶來穩定的脈搏。Line 1 代表這個節奏需要你自己去探索和堅持。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Neptune (Added) -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♆</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">海王星 (Neptune)</h3>
+                                    <span class="gate-badge red">10.2</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 10: 行為 (Behavior)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 2 (隱士):</strong> 隱士。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你身體的「靈性面紗」。Gate 10 再次出現（與設計月亮相同），強調了「愛自己」是你身體的本能。Line 2 代表你不需要刻意去學習如何愛自己，你只需要**「退隱」**（Retreat），在獨處中，那份對自己的愛就會自然浮現。這是 `isLoved = true` 的硬件證明。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design Pluto (Added) -->
+                    <div class="planet-card shadow-lg cursor-pointer border-t-4 border-red-500">
+                        <div class="p-6 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-4xl">♇</span>
+                                <div>
+                                    <h3 class="font-bold text-xl text-slate-800">冥王星 (Pluto)</h3>
+                                    <span class="gate-badge red">28.1</span>
+                                </div>
+                            </div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="details-content px-5 pb-8 text-slate-700">
+                            <h4 class="font-bold text-red-600 mb-2 text-lg">Gate 28: 遊戲玩家 (Game Player)</h4>
+                            <p class="text-sm text-slate-600 mb-3"><strong>Line 1 (探究者):</strong> 準備。</p>
+                            <div class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+                                <p class="text-sm text-slate-700"><strong>CTO 分析：</strong> 這是你身體的「轉化」核心。Gate 28 三次出現（個性冥王、設計太陽、設計冥王），代表「生命的意義」是你絕對無法逃避的主題。Line 1 意味著你的身體總是在為挑戰做**「準備」**。這種深層的掙扎感不是為了讓你痛苦，而是為了逼出你最深刻的智慧。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 glass-effect rounded-xl p-6 shadow-lg" style="background: rgba(0,0,0,0.1);">
+            <p class="text-indigo-100 font-medium">&copy; 2025 首席技術官模式。你嘅硬件，就係你嘅天賦。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.content-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetPane = document.getElementById(tab.dataset.tab);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+
+            // Card Expansion Logic
+            document.getElementById('main-content').addEventListener('click', function(e) {
+                const cardHeader = e.target.closest('.planet-card');
+                if (!cardHeader) return;
+
+                const content = cardHeader.querySelector('.details-content');
+                if (!content) return;
+                
+                const isExpanded = cardHeader.classList.contains('card-expanded');
+
+                // Collapse all other cards in the same pane
+                const parentPane = cardHeader.closest('.content-pane');
+                parentPane.querySelectorAll('.planet-card').forEach(otherCard => {
+                    if (otherCard !== cardHeader) {
+                        otherCard.classList.remove('card-expanded');
+                        const otherContent = otherCard.querySelector('.details-content');
+                        if (otherContent) otherContent.style.maxHeight = '0px';
+                    }
+                });
+
+                if (isExpanded) {
+                    cardHeader.classList.remove('card-expanded');
+                    content.style.maxHeight = '0px';
+                } else {
+                    cardHeader.classList.add('card-expanded');
+                    content.style.maxHeight = content.scrollHeight + 50 + 'px';
+                }
+            });
+            
+            // Toggle All Button Logic
+            const toggleAllBtn = document.getElementById('toggleAllBtn');
+            let isAllExpanded = false;
+
+            toggleAllBtn.addEventListener('click', () => {
+                const activePane = document.querySelector('.content-pane.active');
+                if (!activePane) return;
+
+                const cards = activePane.querySelectorAll('.planet-card');
+                
+                // Toggle state
+                isAllExpanded = !isAllExpanded;
+
+                cards.forEach(card => {
+                    const content = card.querySelector('.details-content');
+                    if (content) {
+                        if (isAllExpanded) {
+                            card.classList.add('card-expanded');
+                            content.style.maxHeight = content.scrollHeight + 50 + 'px';
+                        } else {
+                            card.classList.remove('card-expanded');
+                            content.style.maxHeight = '0px';
+                        }
+                    }
+                });
+
+                // Update button text
+                const btnText = toggleAllBtn.querySelector('span:last-child');
+                const btnIcon = toggleAllBtn.querySelector('span:first-child');
+                if (isAllExpanded) {
+                    btnText.textContent = "全部收埋";
+                    btnIcon.textContent = "⬆️";
+                } else {
+                    btnText.textContent = "全部展開";
+                    btnIcon.textContent = "⬇️";
+                }
+            });
+            
+            // Reset Toggle Button when switching tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    isAllExpanded = false;
+                    const btnText = toggleAllBtn.querySelector('span:last-child');
+                    const btnIcon = toggleAllBtn.querySelector('span:first-child');
+                    btnText.textContent = "全部展開";
+                    btnIcon.textContent = "⬇️";
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>

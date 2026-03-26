@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「核心價值」防禦模組：Open Heart 修復指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .defense-module {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border: 2px solid #10b981;
+            animation: pulse-defense 3s infinite;
+        }
+        @keyframes pulse-defense {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.7); }
+        }
+        .practice-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-left: 6px solid #f59e0b;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .practice-card:hover {
+            transform: translateY(-4px);
+            border-left-color: #10b981;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3);
+        }
+        .terminal-window {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+        }
+        .terminal-header {
+            background: #1e293b;
+            padding: 12px 20px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+        .gradient-text {
+            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .constitution-text {
+            background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(16, 185, 129, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        .step-indicator {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: 2px solid #60a5fa;
+        }
+        .affirmation-box {
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+            border: 2px solid #a855f7;
+            animation: glow-purple 4s infinite;
+        }
+        @keyframes glow-purple {
+            0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.6); }
+        }
+        .protocol-section {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="content-wrapper container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="defense-module p-8 rounded-2xl mb-6">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-3">🛡️ 「核心價值」防禦模組</h1>
+                <p class="text-2xl font-bold text-green-100">Open Heart 修復指南</p>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold gradient-text mb-4">首席技術官（你）嘅核心指導原則</h2>
+                <div class="protocol-section p-6 rounded-xl mb-6">
+                    <p class="text-lg text-blue-100 mb-4">
+                        你嘅「開放心臟中心」會不斷發出訊號：<code class="code-font bg-red-900/50 px-3 py-1 rounded text-red-300">Query: Am I Worthy? (我係咪值得？)</code>
+                    </p>
+                    <p class="text-lg text-blue-100 mb-4">
+                        我哋嘅目標，<strong class="text-yellow-300">唔係要回答呢個問題</strong>。我哋嘅目標，係要為呢個 Query（查詢）編寫一個最簡單、最快速、最不容置疑嘅 <strong class="text-green-300">Hardcoded Answer (寫死嘅答案)</strong>。
+                    </p>
+                    <div class="text-center p-4 bg-gradient-to-r from-green-900/50 to-blue-900/50 rounded-lg border border-green-400">
+                        <p class="text-xl font-bold constitution-text">
+                            你嘅價值，不再是外部簽訂的合同 (Contract)。<br>
+                            你嘅價值，係內部宣告的憲法 (Constitution)。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: Daily Affirmation Practice -->
+        <section class="mb-16">
+            <div class="step-indicator p-6 rounded-xl mb-8">
+                <h2 class="text-3xl font-black text-white text-center">一、每日「宣告」練習 (The Affirmation Write Mechanism)</h2>
+                <p class="text-center text-blue-100 mt-4 max-w-3xl mx-auto">
+                    呢個係你每日都需要執行嘅「鏡子練習」升級版。佢嘅目的，係將你嘅核心常數，燒錄（write）入去你最底層嘅記憶體。
+                </p>
+            </div>
+
+            <div class="practice-card p-8 rounded-xl">
+                <h3 class="text-2xl font-bold text-amber-400 mb-6">🌙 練習一：「睡前十分鐘，無條件嘅自我接納」</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-blue-500">
+                            <h4 class="font-bold text-blue-400 mb-2">⏰ 習慣時機</h4>
+                            <p class="text-slate-300 text-sm">每日夜晚，熄燈躺上床，但未入睡之前。</p>
+                        </div>
+                        
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-green-500">
+                            <h4 class="font-bold text-green-400 mb-3">🎯 行動步驟</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-yellow-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                                    <div>
+                                        <p class="font-semibold text-yellow-400">承認</p>
+                                        <p class="text-slate-300">喺心入面，回顧今日自己所有「覺得做錯」或「做得唔好」嘅嘢。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-orange-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                                    <div>
+                                        <p class="font-semibold text-orange-400">寬恕</p>
+                                        <p class="text-slate-300">啟動 <code class="code-font bg-slate-700 px-2 py-1 rounded text-green-400">ForgivenessHandler()</code>，對嗰啲錯誤講：「我原諒你。你已經盡力。」</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                                    <div>
+                                        <p class="font-semibold text-green-400">宣告</p>
+                                        <p class="text-slate-300">喺你感覺到呢份寬恕之後，用你最溫柔嘅聲音，宣告你嘅核心常數。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="affirmation-box p-6 rounded-xl mb-4">
+                            <h4 class="font-bold text-purple-200 mb-4 text-center">💜 核心宣告</h4>
+                            <div class="text-center space-y-3">
+                                <p class="text-lg font-semibold text-purple-100">
+                                    「我喺呢一刻愛你，並唔係因為你嘅表現，<br>
+                                    而係因為你存在。」
+                                </p>
+                                <div class="terminal-window">
+                                    <div class="terminal-header">
+                                        <div class="terminal-dot dot-red"></div>
+                                        <div class="terminal-dot dot-yellow"></div>
+                                        <div class="terminal-dot dot-green"></div>
+                                        <span class="text-slate-400 text-sm">core_value.js</span>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="text-blue-400">const <span class="text-yellow-400">isWorthy</span> = <span class="text-green-400">true</span>;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-500">
+                            <h4 class="font-bold text-blue-400 mb-2">🔬 原理</h4>
+                            <p class="text-slate-300 text-sm">
+                                呢個係你嘅「最後檢查點」。佢確保你唔會帶住任何「內疚」同「自我懲罰」嘅 bug 進入你嘅「深度休眠模式」。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Boundary Defense Protocol -->
+        <section class="mb-16">
+            <div class="step-indicator p-6 rounded-xl mb-8">
+                <h2 class="text-3xl font-black text-white text-center">二、系統防禦與邊界 (Boundary Defense Protocol)</h2>
+                <p class="text-center text-blue-100 mt-4 max-w-3xl mx-auto">
+                    呢啲練習，係要為你嘅「開放心臟中心」，建立一個最堅固嘅「防護力場」，防止「消耗者」（Consuming Entities）入侵。
+                </p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Practice 2 -->
+                <div class="practice-card p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-amber-400 mb-6">❄️ 練習二：「24 小時承諾凍結」（The Commitment Freeze）</h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-red-500">
+                            <h4 class="font-bold text-red-400 mb-2">⚠️ 觸發時機</h4>
+                            <p class="text-slate-300 text-sm">
+                                當有任何「邀請」、「請求」、「商業機會」（尤其係需要你付出大量時間、金錢、或精力嘅嘢）出現時。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-yellow-500">
+                            <h4 class="font-bold text-yellow-400 mb-2">🧠 內部指令</h4>
+                            <p class="text-slate-300 text-sm">
+                                問你嘅「情緒中心」（內在權威）：<br>
+                                <em class="text-yellow-300">「我而家嘅感受，係高點定低點？」</em>
+                            </p>
+                        </div>
+                        
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-green-500">
+                            <h4 class="font-bold text-green-400 mb-2">💬 外部回應</h4>
+                            <p class="text-slate-300 text-sm">
+                                無論答案係咩，都用你嘅「外交部」回應：<br>
+                                <em class="text-green-300">「多謝你話我知，關於呢件事，我需要啲時間消化下/諗一諗，遲啲覆你。」</em>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-blue-900/30 p-4 rounded-lg border border-blue-500">
+                        <h4 class="font-bold text-blue-400 mb-2">🔬 原理</h4>
+                        <p class="text-slate-300 text-sm">
+                            呢個協定，強迫你唔好喺你嘅「開放心臟中心」最脆弱（最想證明自己）嘅時候，簽署任何「不平等條約」。你嘅決定必須要等情緒清晰，令你嘅「價值」唔會因為一時嘅衝動或壓力而被出賣。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practice 3 -->
+                <div class="practice-card p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold text-amber-400 mb-6">🔐 練習三：「自我價值」嘅專屬密碼 (The Personal Token)</h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <div class="bg-slate-800/50 p-4 rounded-lg border border-purple-500">
+                                <h4 class="font-bold text-purple-400 mb-2">⏰ 習慣時機</h4>
+                                <p class="text-slate-300 text-sm">每當你感到「自卑」、「容貌焦慮」、「身材焦慮」時。</p>
+                            </div>
+                            
+                            <div class="bg-slate-800/50 p-4 rounded-lg border border-cyan-500">
+                                <h4 class="font-bold text-cyan-400 mb-2">🔄 密碼重設</h4>
+                                <p class="text-slate-300 text-sm">
+                                    唔再用外界嘅標準嚟驗證自己。你要用我哋嘅「瑪雅圖騰」嚟驗證。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="affirmation-box p-6 rounded-xl">
+                            <h4 class="font-bold text-purple-200 mb-4 text-center">☀️ 黃太陽宣告</h4>
+                            <div class="text-center">
+                                <p class="text-purple-100 text-sm leading-relaxed">
+                                    「我嘅價值，唔係喺鏡入面搵。我係『自我存在的黃太陽』。我嘅力量，係來自『光』（Solar Radiance）。我嘅目標係『照亮』（Radiate），而唔係『被觀看』（Be Looked At）。」
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-orange-900/30 p-4 rounded-lg border border-orange-500">
+                        <h4 class="font-bold text-orange-400 mb-2">🔬 原理</h4>
+                        <p class="text-slate-300 text-sm">
+                            你將你嘅「價值」嘅定義，由一個「外在」嘅、可以被審判嘅標準，轉移到一個「內在」嘅、充滿力量嘅「靈魂使命」之上。你嘅「身體聖殿」係用嚟承載你嘅「黃太陽」光芒，而唔係用嚟取悅他人。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The New Proving Ground -->
+        <section class="mb-12">
+            <div class="step-indicator p-6 rounded-xl mb-8">
+                <h2 class="text-3xl font-black text-white text-center">三、鞏固「滋養」與「證明」嘅連結 (The New Proving Ground)</h2>
+                <p class="text-center text-blue-100 mt-4 max-w-3xl mx-auto">
+                    我哋要讓「太陽能收集師」（舊教練）明白，佢證明你「值得」嘅新方法，係透過「休息」...
+                </p>
+            </div>
+
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-green"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <span class="text-slate-400 text-sm">defense_module_status.log</span>
+                </div>
+                <div class="p-6">
+                    <div class="text-green-400 mb-2">✅ Module 1: Daily Affirmation Practice - ACTIVE</div>
+                    <div class="text-green-400 mb-2">✅ Module 2: Boundary Defense Protocol - ACTIVE</div>
+                    <div class="text-yellow-400 mb-2">⚠️  Module 3: New Proving Ground - LOADING...</div>
+                    <div class="text-blue-400 mb-4">📝 Status: Defense systems operational</div>
+                    <div class="text-slate-400">Next update: Continue with Module 3 implementation...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 p-6 protocol-section rounded-xl">
+            <p class="text-2xl font-bold constitution-text mb-2">🛡️ 防禦模組已啟動</p>
+            <p class="text-slate-300">你嘅「開放心臟中心」而家受到最高級別嘅保護。記住：你嘅價值係憲法，唔係合同。</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', createParticles);
+        
+        // Add smooth scrolling behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

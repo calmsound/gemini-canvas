@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <!-- Chosen Palette: Teal, Blue, Slate (Water/Calm Energy) -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>身體聖殿深度充電控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(135deg, #f0fdfa 0%, #d1fae5 100%); /* Light Teal/Mint Background */
+            color: #064e3b; /* Deep Teal Text */
+            min-height: 100vh;
+        }
+        .main-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            border: 2px solid #34d399; /* Emerald 400 */
+            transition: transform 0.3s ease;
+        }
+        .main-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(52, 211, 153, 0.3);
+        }
+        .recharge-btn {
+            background-color: #064e3b; /* Deep Teal */
+            transition: all 0.2s ease;
+        }
+        .recharge-btn:hover {
+            background-color: #047857; /* Darker Teal */
+            box-shadow: 0 5px 15px rgba(6, 78, 59, 0.4);
+            transform: translateY(-2px);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+            height: 300px;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Project Narrative Summary -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-emerald-700 mb-2">🌿 身體聖殿深度充電控制台</h1>
+            <p class="text-lg md:text-xl text-emerald-500 font-semibold">健康與平靜的 v4.0 核心肯定</p>
+        </header>
+
+        <main class="main-card shadow-2xl p-6 md:p-10">
+            
+            <!-- Section 1: The Core Conflict (Visual) -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-center text-slate-800">系統診斷：能量消耗 vs. 儲備</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+                    你的「開放薦骨」與「壬水身弱」配置，決定了你的能源模型。當你「拼命」（輸出）時，能量被放大並耗盡。必須主動「休息」（儲備）才能恢復核心電力。
+                </p>
+                <div class="chart-container">
+                    <canvas id="energyBalanceChart"></canvas>
+                </div>
+            </section>
+            
+            <!-- Section 2: The Affirmation Module -->
+            <section class="mb-12 border-t pt-8 border-slate-200">
+                <h2 class="text-3xl font-black text-emerald-600 mb-6 text-center">🔋 立即提取你的「身體修復指令」</h2>
+                <p class="text-center text-slate-600 mb-8">
+                    每次點擊，都會隨機顯示一句專門針對你命格嘅肯定句，用嚟中和你嘅「過勞」與「不配得感」。
+                </p>
+
+                <div class="max-w-xl mx-auto bg-slate-50 p-8 rounded-xl shadow-inner border border-slate-200">
+                    <div class="text-center">
+                        <div class="text-4xl mb-4" id="affirmationIcon">✨</div>
+                        <p class="text-sm font-semibold text-slate-500 mb-3" id="affirmationCategory">準備接收能量...</p>
+                        <p class="text-2xl md:text-3xl font-serif font-bold text-slate-800 leading-relaxed min-h-[80px]" id="affirmationText">
+                            點擊下方按鈕，提取今日的平靜。
+                        </p>
+                        <button class="recharge-btn text-white px-8 py-3 rounded-full font-bold mt-6" id="generateBtn">
+                            啟動深度充電 (Deep Recharge)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Section 3: Core Strategy (Reminder) -->
+             <section class="border-t pt-8 border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 text-center">🛠️ 核心維護指南：休息是燃料</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="p-4 bg-teal-100 rounded-lg border border-teal-300">
+                        <p class="font-bold text-teal-700">你的設備</p>
+                        <p class="text-sm">開放薦骨 (無電池) + 壬水身弱</p>
+                    </div>
+                    <div class="p-4 bg-teal-100 rounded-lg border border-teal-300">
+                         <p class="font-bold text-teal-700">錯誤操作</p>
+                        <p class="text-sm">「拼命」= 消耗 & 蒸發</p>
+                    </div>
+                    <div class="p-4 bg-teal-100 rounded-lg border border-teal-300">
+                         <p class="font-bold text-teal-700">正確指令</p>
+                        <p class="text-sm">「休息」= 補水 & 能源儲備</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-12 text-slate-500">
+            <p>&copy; 2025 首席技術官模式。你的健康，由你的慈悲心決定。</p>
+        </footer>
+    </div>
+
+    <script>
+        const affirmations = [
+            { text: "休息是我的燃料，而非我的獎勵。", category: "🔋 能量儲備" },
+            { text: "我是穩定之水，療癒從深處開始。", category: "💧 補水之道" },
+            { text: "我放慢腳步，能量自然流向我。", category: "🧘🏻‍♀️ 慢活法則" },
+            { text: "我的身體聖殿，值得被溫柔對待。", category: "🛡️ 自我保護" },
+            { text: "我是太陽發電廠，靜止就是充電。", category: "☀️ 核心充電" },
+            { text: "我允許自己放鬆，因為我值得被溫柔對待。", category: "🛋️ 無條件價值" },
+            { text: "喝下這杯水，壯大我的生命之河。", category: "💧 補水之道" },
+            { text: "我無須追逐，滋養即是最大的生產力。", category: "💪 慢活法則" },
+            // New Additions v2.1
+            { text: "我的價值不需用忙碌證明，我在靜中更有力量。", category: "🚫 拒絕焦慮" },
+            { text: "我以水為媒介，沖走所有不屬於我的情緒。", category: "💧 補水升級" },
+            { text: "我允許所有感受流動，情緒不決定我的真相。", category: "🌊 情緒波浪" },
+            { text: "慢即是快，我的精準洞見來自深度休息。", category: "⏱️ 效率重構" },
+            { text: "我就是光，我的健康是愛自己的顯化。", category: "✨ 核心本質" },
+            { text: "我停止推銷自己，我安住在我的光芒中。", category: "🗼 投射者策略" },
+            { text: "我珍視我的洞見，只分享給懂得珍惜的人。", category: "👀 投射者策略" }
+        ];
+
+        const generateBtn = document.getElementById('generateBtn');
+        const affirmationTextEl = document.getElementById('affirmationText');
+        const affirmationCategoryEl = document.getElementById('affirmationCategory');
+        const affirmationIconEl = document.getElementById('affirmationIcon');
+
+        const iconsMap = {
+            '🔋': '⚡', '💧': '💧', '🧘🏻‍♀️': '🧘', '🛡️': '🛡️', '☀️': '🌞', '🛋️': '🛌', '💪': '💪',
+            '🚫': '❌', '🌊': '🌊', '⏱️': '⏱️', '✨': '🌟', '🗼': '🗼', '👀': '👁️'
+        };
+
+        let currentChart;
+
+        function showAffirmation() {
+            const randomItem = affirmations[Math.floor(Math.random() * affirmations.length)];
+            
+            affirmationTextEl.classList.remove('animate-pulse');
+            affirmationTextEl.style.opacity = '0';
+            
+            setTimeout(() => {
+                affirmationTextEl.innerText = randomItem.text;
+                affirmationCategoryEl.innerText = randomItem.category;
+                const iconPrefix = randomItem.category.split(' ')[0];
+                affirmationIconEl.innerText = iconsMap[iconPrefix] || '✨';
+                
+                affirmationTextEl.style.opacity = '1';
+                affirmationTextEl.classList.add('animate-pulse');
+                
+                setTimeout(() => {
+                    affirmationTextEl.classList.remove('animate-pulse');
+                }, 1000);
+                
+            }, 300);
+        }
+        
+        // Ensure initial text is styled correctly
+        affirmationTextEl.style.opacity = '1';
+
+        generateBtn.addEventListener('click', showAffirmation);
+        
+        // --- Chart Logic ---
+        const energyCtx = document.getElementById('energyBalanceChart').getContext('2d');
+        const chartData = {
+            labels: ['實際儲備 (Projector)', '外部消耗 (Open Sacral)'],
+            datasets: [
+                {
+                    label: '能量分配',
+                    data: [30, 70],
+                    backgroundColor: ['#3b82f6', '#ef4444'], 
+                    borderColor: '#ffffff',
+                    borderWidth: 4
+                }
+            ]
+        };
+
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Zen Maru Gothic' },
+                        color: '#475569'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: '能量流向：Projector / 消耗模型 (v1.0)',
+                    font: { size: 18, weight: 'bold', family: 'Noto Serif TC' },
+                    color: '#0e7490'
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return tooltipItems[0].label;
+                        }
+                    }
+                }
+            }
+        };
+
+        currentChart = new Chart(energyCtx, {
+            type: 'doughnut',
+            data: chartData,
+            options: chartOptions
+        });
+    </script>
+</body>
+</html>

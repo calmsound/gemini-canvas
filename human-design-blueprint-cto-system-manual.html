@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人類圖設計藍圖：CTO 系統手冊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+        .tab-button.active::after {
+            width: 100%;
+        }
+        .tab-button.active {
+            color: #4338ca;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        }
+        .content-pane {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        .content-pane.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .def-center {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 2px solid #6366f1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .def-center:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+        .open-center {
+            background: #ffffff;
+            border: 2px dashed #94a3b8;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .open-center:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(148, 163, 184, 0.2);
+        }
+        .hero-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .circuit-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #6366f1;
+        }
+        .circuit-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+        .mission-card {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 3px solid #6366f1;
+            position: relative;
+            overflow: hidden;
+        }
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .stat-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10 glass-effect rounded-2xl p-8 shadow-2xl">
+            <div class="flex justify-center mb-4">
+                <span class="pulse-dot"></span>
+                <span class="text-sm text-slate-600 font-medium">系統已啟動 | System Online</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black hero-title mb-3">人類圖設計藍圖</h1>
+            <p class="text-xl md:text-2xl text-slate-600 font-semibold mb-4">CTO 嘅「內在網絡架構」說明書</p>
+            <div class="flex flex-wrap justify-center gap-2 mb-4">
+                <span class="stat-badge">投射者 Projector</span>
+                <span class="stat-badge">2/4 Profile</span>
+                <span class="stat-badge">情緒權威</span>
+                <span class="stat-badge">分裂定義</span>
+            </div>
+            <p class="max-w-3xl mx-auto mt-6 text-slate-700 leading-relaxed">
+                CTO，呢份係你「內在超級電腦」最詳細嘅「能量流動圖」。佢揭示咗你嘅能量「硬件」係點樣被「佈線」，邊啲係你穩定嘅「內部伺服器」，邊啲係你嘅「開放 Wi-Fi 埠」，以及你嘅「最佳操作策略」。
+            </p>
+        </header>
+
+        <nav class="glass-effect rounded-xl mb-10 shadow-xl overflow-hidden">
+            <div class="flex flex-wrap justify-center">
+                <button class="tab-button active text-sm font-semibold py-4 px-6 flex-1 min-w-fit" data-tab="specs">
+                    <span class="block">🎯</span>
+                    <span>核心規格</span>
+                </button>
+                <button class="tab-button text-sm font-semibold py-4 px-6 flex-1 min-w-fit" data-tab="defined">
+                    <span class="block">🖥️</span>
+                    <span>已定義中心</span>
+                </button>
+                <button class="tab-button text-sm font-semibold py-4 px-6 flex-1 min-w-fit" data-tab="open">
+                    <span class="block">📡</span>
+                    <span>開放中心</span>
+                </button>
+                <button class="tab-button text-sm font-semibold py-4 px-6 flex-1 min-w-fit" data-tab="circuits">
+                    <span class="block">⚡</span>
+                    <span>核心電路</span>
+                </button>
+                <button class="tab-button text-sm font-semibold py-4 px-6 flex-1 min-w-fit" data-tab="mission">
+                    <span class="block">🌟</span>
+                    <span>人生使命</span>
+                </button>
+            </div>
+        </nav>
+
+        <main id="main-content" class="glass-effect rounded-2xl shadow-2xl p-6 md:p-10 min-h-[500px]">
+
+            <div id="specs" class="content-pane active">
+                <h2 class="text-3xl font-black text-indigo-700 mb-8 text-center">🎯 核心規格 (Quick Start Guide)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="def-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">👤</span>
+                            <h3 class="font-bold text-xl">類型: 投射者</h3>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 你唔係「伺服器主機」(Manifestor) 或「工作站」(Generator)，你係<strong>「首席系統架構師」</strong>或<strong>「顧問」</strong>。你嘅天職唔係去「做」，而係去「引導」同「看見」。</p>
+                        <p class="text-sm mt-3 bg-white p-3 rounded-lg border-l-4 border-indigo-500"><strong>💡 呼應：</strong> 完美對應我哋嘅「CTO / 首席架構師」身份！</p>
+                    </div>
+                    <div class="def-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">⏳</span>
+                            <h3 class="font-bold text-xl">策略: 等待邀請</h3>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 作為「顧問」，你唔可以衝入會議室鬧人。你嘅「洞見」只有喺被對方（客戶）<strong>正式邀請</strong>之後，先至會被真正聽見同吸收。</p>
+                        <p class="text-sm mt-3 bg-white p-3 rounded-lg border-l-4 border-indigo-500"><strong>💡 呼應：</strong> 解釋咗你「社交隔膜」嘅需要，以及「教練事件」同「大阪遺憾」中，因為冇被正確邀請而受傷嘅根源。</p>
+                    </div>
+                    <div class="open-center p-6 rounded-xl shadow-lg bg-red-50 border-red-300">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">⚠️</span>
+                            <h3 class="font-bold text-xl text-red-700">非我主題: 苦澀</h3>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 呢個係你嘅核心 <code class="bg-red-200 px-2 py-1 rounded">Error Message</code>。當你主動推銷你嘅「洞見」（<code class="bg-red-200 px-2 py-1 rounded">push</code> 你嘅 <code class="bg-red-200 px-2 py-1 rounded">commit</code>）但未被邀請，結果就係 <code class="bg-red-200 px-2 py-1 rounded">Exception: 401 Unauthorized</code>。呢種被拒絕嘅感覺，就係「苦澀」。</p>
+                    </div>
+                    <div class="open-center p-6 rounded-xl shadow-lg bg-green-50 border-green-300">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">✅</span>
+                            <h3 class="font-bold text-xl text-green-700">簽名: 成功</h3>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 呢個係你嘅 <code class="bg-green-200 px-2 py-1 rounded">Status: 200 OK</code>。當你被正確邀請，你嘅「架構建議」被採納，並且成功優化咗對方嘅系統時，你就會感受到呢份獨特嘅「成功」感。</p>
+                    </div>
+                    <div class="def-center p-6 rounded-xl shadow-lg md:col-span-2">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🌊</span>
+                            <h3 class="font-bold text-xl">內在權威: 情緒型 (Solar Plexus)</h3>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 你嘅「決策處理器」係<strong>「異步」</strong>嘅 (<code class="bg-indigo-100 px-2 py-1 rounded">asynchronous</code>)。佢需要時間去行完一整個「情緒波浪」。</p>
+                        <p class="text-sm mt-3 bg-white p-3 rounded-lg border-l-4 border-indigo-500"><strong>💡 呼應：</strong> 呢個係你<strong>「又心急又拖延」</strong>嘅終極答案！你嘅「嚴厲教練」想你即刻做決定，但你嘅「硬件」設計<strong><u>必須</u></strong>等待情緒清晰。<strong>「當下沒有真相」</strong>係你嘅鐵律！</p>
+                    </div>
+                    <div class="def-center p-6 rounded-xl shadow-lg md:col-span-2">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🎭</span>
+                            <h3 class="font-bold text-xl">人生角色: 2/4 (隱士/機會主義者)</h3>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 你嘅「用戶介面」(UI/UX)。</p>
+                        <div class="grid md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-indigo-700 mb-2">🏠 第 2 爻 (隱士)</h4>
+                                <p class="text-sm">你嘅「底層代碼」需要大量「神聖獨處」時間（<code class="bg-slate-100 px-2 py-1 rounded">cave time</code>）嚟充電同整合。你唔鍾意俾人打搞。</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-indigo-700 mb-2">🤝 第 4 爻 (機會主義者)</h4>
+                                <p class="text-sm">你嘅「前端介面」係一個「網絡連結者」。你嘅機會同影響力，係嚟自你<strong>現有嘅、信任嘅網絡</strong>（朋友、舊同事），而<strong>唔係</strong>陌生人。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="defined" class="content-pane">
+                <h2 class="text-3xl font-black text-indigo-700 mb-8 text-center">🖥️ 已定義中心 (Your Internal Servers)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    呢啲係你內部 24/7 全天候運作、穩定輸出能量嘅「伺服器」。呢啲係你「俾」人哋嘅能量，係你最可靠嘅天賦。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="def-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🗣️</span>
+                            <h3 class="font-bold text-lg">喉嚨中心</h3>
+                        </div>
+                        <p class="text-xs text-indigo-600 font-semibold mb-2">「執行與發言」伺服器</p>
+                        <p class="text-sm mt-2 text-slate-700">你有穩定嘅能力去「表達」同「行動」。你嘅設計係要<strong>將你嘅身份同理念（嚟自 G 中心）轉化為語言同行動</strong>。但記住：一定要配合你嘅「策略」（等待邀請）先至用。</p>
+                    </div>
+                    <div class="def-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🧭</span>
+                            <h3 class="font-bold text-lg">G 中心</h3>
+                        </div>
+                        <p class="text-xs text-indigo-600 font-semibold mb-2">「身份與方向」伺服器</p>
+                        <p class="text-sm mt-2 text-slate-700">你有一個穩定、固定嘅「自我」同「人生方向」。呢個就係我哋 <code class="bg-indigo-100 px-2 py-1 rounded">const isWorthy = true</code> 嘅「硬件基礎」！就算你有時會迷惘（受「開放中心」影響），但你嘅「GPS 核心」其實一直都喺度。</p>
+                    </div>
+                     <div class="def-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🌊</span>
+                            <h3 class="font-bold text-lg">情緒中心</h3>
+                        </div>
+                        <p class="text-xs text-indigo-600 font-semibold mb-2">「情緒波浪」伺服器</p>
+                        <p class="text-sm mt-2 text-slate-700">呢個係你嘅「內在權威」。你嘅情緒係穩定而強大嘅，但佢係以「波浪」形式運作。你天生就係一個情感豐富嘅人，你嘅情緒唔係「問題」，而係你<strong>「決策嘅工具」</strong>。你需要學習去駕馭呢個波浪，而唔係被佢淹沒。</p>
+                    </div>
+                    <div class="def-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">⚡</span>
+                            <h3 class="font-bold text-lg">根部中心</h3>
+                        </div>
+                        <p class="text-xs text-indigo-600 font-semibold mb-2">「壓力與驅動」伺服器</p>
+                        <p class="text-sm mt-2 text-slate-700">你有穩定嘅「壓力」去驅動自己。呢個係一股強大嘅「腎上腺素」能量。呢個係你「破軍化權」嘅能量來源之一，但如果唔識得用，亦都會成為你「心急焦慮」嘅源頭。你需要學習將呢股壓力，導向有意義嘅「掙扎」上。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="open" class="content-pane">
+                <h2 class="text-3xl font-black text-indigo-700 mb-8 text-center">📡 開放中心 (Your "Wi-Fi" Ports)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    呢啲係你嘅「開放 Wi-Fi 埠」，亦都係你「內在委員會」<code class="bg-slate-100 px-2 py-1 rounded">legacy code</code> 嘅主要來源。你喺呢啲地方接收同「放大」外界嘅能量，係你最易「受傷」嘅地方，亦都係你最終可以提煉出「大智慧」嘅地方。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="open-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🧠</span>
+                            <h3 class="font-bold text-lg">頭腦中心</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold mb-2">開放嘅「靈感」埠</p>
+                        <p class="text-sm mt-2 text-slate-700">你會接收同放大其他人嘅「問題」同「困惑」。</p>
+                        <div class="bg-red-50 p-3 rounded-lg mt-3 border-l-4 border-red-400">
+                            <p class="text-sm text-red-700"><strong>⚠️ 挑戰：</strong> 成日「諗太多」，不斷去思考一啲根本唔關你事嘅問題。</p>
+                        </div>
+                    </div>
+                     <div class="open-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">💭</span>
+                            <h3 class="font-bold text-lg">邏輯中心</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold mb-2">開放嘅「思想」埠</p>
+                        <p class="text-sm mt-2 text-slate-700">你會接收同放大其他人嘅「信念」同「觀點」。</p>
+                        <div class="bg-red-50 p-3 rounded-lg mt-3 border-l-4 border-red-400">
+                            <p class="text-sm text-red-700"><strong>⚠️ 挑戰：</strong> 過度需要「思想上嘅確定性」，容易「鑽牛角尖」。呢個就係你「科學家大腦」嘅基地！</p>
+                        </div>
+                    </div>
+                    <div class="open-center p-6 rounded-xl shadow-lg border-red-400">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">💪</span>
+                            <h3 class="font-bold text-lg">心臟中心</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold mb-2">開放嘅「意志力」埠 ⭐</p>
+                        <p class="text-sm mt-2 text-slate-700">呢個係<strong>最關鍵</strong>嘅一個！你會接收同放大其他人嘅「意志力」。</p>
+                        <div class="bg-red-50 p-3 rounded-lg mt-3 border-l-4 border-red-400">
+                            <p class="text-sm text-red-700"><strong>⚠️ 挑戰：</strong> 覺得自己「唔夠好」，不斷想去「證明」自己嘅價值。呢個就係你「嚴厲教練」嘅基地，亦都係「教練事件」中，你覺得要不斷「證明」自己嘅根源！</p>
+                        </div>
+                    </div>
+                    <div class="open-center p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🛡️</span>
+                            <h3 class="font-bold text-lg">脾臟中心</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold mb-2">開放嘅「直覺/恐懼」埠</p>
+                        <p class="text-sm mt-2 text-slate-700">你會接收同放大其他人嘅「恐懼」。</p>
+                        <div class="bg-red-50 p-3 rounded-lg mt-3 border-l-4 border-red-400">
+                            <p class="text-sm text-red-700"><strong>⚠️ 挑戰：</strong> 害怕改變、害怕未來，容易「死攬」住一啲對你唔健康嘅嘢（例如「衰工」），因為你放大咗「冇咗佢會點算」嘅恐懼。</p>
+                        </div>
+                    </div>
+                    <div class="open-center p-6 rounded-xl shadow-lg border-red-400 md:col-span-2 lg:col-span-1">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🔋</span>
+                            <h3 class="font-bold text-lg">薦骨中心</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold mb-2">開放嘅「生命力」埠 ⭐⭐</p>
+                        <p class="text-sm mt-2 text-slate-700">呢個係<strong>最關鍵</strong>嘅第二個！你冇穩定嘅「電池」去應付 9-to-5 工作。</p>
+                        <div class="bg-red-50 p-3 rounded-lg mt-3 border-l-4 border-red-400">
+                            <p class="text-sm text-red-700"><strong>⚠️ 挑戰：</strong> 容易「過勞」！你會好似海綿咁樣，吸咗身邊「生產者」嘅能量，然後錯誤咁樣以為自己可以不斷做落去，結果就係「耗盡」同「burnout」。呢個就係你「冇心冇力」、極度需要「花園主人」模式（休息）嘅硬件證明！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="circuits" class="content-pane">
+                 <h2 class="text-3xl font-black text-indigo-700 mb-8 text-center">⚡ 核心電路 (Your Defined Channels)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    呢啲係你系統入面，最穩定、最可靠嘅「專線」。佢哋係你「硬件」嘅核心天賦，亦都係你「分裂定義」嘅來源。
+                </p>
+                <div class="space-y-6">
+                    <div class="circuit-card bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">🔥</span>
+                            <h3 class="font-bold text-xl">電路一：41-30 辨識的通道</h3>
+                        </div>
+                        <p class="text-xs text-indigo-600 font-semibold mb-3">Channel of Recognition</p>
+                        <div class="bg-indigo-50 p-4 rounded-lg mb-3">
+                            <p class="text-sm"><strong>🔌 佈線：</strong> 根部中心 (Gate 41) → 情緒中心 (Gate 30)</p>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 你嘅<strong>「渴望引擎」</strong>或<strong>「夢想啟動器」</strong>。呢個係一股極之強大、充滿情感同慾望嘅「火」能量。佢令你天生就充滿住對新體驗、新感覺嘅「渴望」同「期待」。</p>
+                        <div class="bg-green-50 p-4 rounded-lg mt-3 border-l-4 border-green-500">
+                            <p class="text-sm text-green-800"><strong>💡 呼應：</strong> 呢個就係你「好想拍拖」、「好想改變」嘅動力來源！但因為佢係情緒型嘅，所以佢嘅「渴望」係以「波浪」形式出現，有時會好高漲，有時會好低落。</p>
+                        </div>
+                    </div>
+                     <div class="circuit-card bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">💡</span>
+                            <h3 class="font-bold text-xl">電路二：1-8 靈感的通道</h3>
+                        </div>
+                        <p class="text-xs text-indigo-600 font-semibold mb-3">Channel of Inspiration</p>
+                        <div class="bg-indigo-50 p-4 rounded-lg mb-3">
+                            <p class="text-sm"><strong>🔌 佈線：</strong> G 中心 (Gate 1) → 喉嚨中心 (Gate 8)</p>
+                        </div>
+                        <p class="text-sm mt-2 text-slate-700"><strong>系統比喻：</strong> 你嘅<strong>「個人品牌」</strong>或<strong>「創意擴音器」</strong>。你天生就係一個「創意嘅自我表達者」（Gate 1），並且需要將你嘅獨特貢獻（Gate 8）分享俾世界。</p>
+                        <div class="bg-green-50 p-4 rounded-lg mt-3 border-l-4 border-green-500">
+                            <p class="text-sm text-green-800"><strong>💡 呼應：</strong> 呢個就係你「黃太陽」同「燈塔」天命嘅執行方式！你嘅工作，就係要活出你獨特嘅自己，然後（喺被邀請時）將你嘅洞見<strong>「講出嚟」</strong>（喉嚨中心），去<strong>影響</strong>他人（人生十字 Gate 31）。</p>
+                        </div>
+                    </div>
+                     <div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-xl shadow-lg border-2 border-red-400">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-3">⚠️</span>
+                            <h3 class="font-bold text-xl text-red-700">關鍵問題：分裂定義</h3>
+                        </div>
+                        <p class="text-xs text-red-600 font-semibold mb-3">Split Definition</p>
+                        <p class="text-sm mt-2 text-slate-700">CTO，呢個係你「拉扯感」嘅終極答案。你睇，你嘅「渴望引擎」(41-30) 同你嘅「創意擴音器」(1-8) <strong>喺你嘅藍圖入面，係冇接駁埋一齊㗎！</strong></p>
+                        <p class="text-sm mt-3 text-slate-700">你內心有兩座獨立運作嘅「發電廠」，但佢哋之間條電纜斷咗。呢個就係你嘅「分裂定義」。你要點樣將佢哋接駁返埋一齊？就係要透過你嗰啲<strong>「開放中心」</strong>——尤其係你嘅 <strong>4 號爻（機會主義者）</strong>，你需要<strong>「其他人」</strong>（你嘅網絡）嚟做嗰條「橋樑」，去幫助你將你嘅渴望，轉化為你嘅身份認同同表達。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mission" class="content-pane">
+                 <h2 class="text-3xl font-black text-indigo-700 mb-8 text-center">🌟 人生使命 (Your Incarnation Cross)</h2>
+                <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    呢個係你今生最核心嘅「靈魂合約」，係你所有硬件、軟件、電路，最終要共同去完成嘅「終極任務」。
+                </p>
+                <div class="mission-card p-8 md:p-12 rounded-2xl shadow-2xl text-center relative">
+                    <div class="relative z-10">
+                        <div class="text-6xl mb-4">✨</div>
+                        <h3 class="text-2xl md:text-3xl font-black text-indigo-800 mb-2">The Right Angle Cross of The Unexpected</h3>
+                        <p class="text-xl md:text-2xl font-bold text-indigo-700 mb-4">(41/31 | 28/27)</p>
+                        <h3 class="text-2xl md:text-3xl font-black text-indigo-800 mb-6">「出乎意料」嘅直角十字</h3>
+                        <div class="max-w-3xl mx-auto space-y-4">
+                            <p class="text-lg font-semibold text-slate-800 bg-white bg-opacity-80 p-4 rounded-lg shadow">
+                                CTO，你嘅人生使命，就係要成為一個<strong>「變革嘅催化劑」</strong>。
+                            </p>
+                            <p class="text-base text-slate-700 bg-white bg-opacity-70 p-4 rounded-lg">
+                                你嘅靈魂合約，就係要透過你強大嘅「渴望引擎」（Gate 41 - 萬物嘅起始密碼子），去<strong>「開始」</strong>一啲全新嘅、<strong>「出乎意料」</strong>嘅體驗同循環。
+                            </p>
+                            <p class="text-base text-slate-700 bg-white bg-opacity-70 p-4 rounded-lg">
+                                喺呢個過程入面，你注定要行一條充滿<strong>「掙扎」</strong>（Gate 28 - 遊戲玩家）嘅路，唔係因為宇宙要懲罰你，而係要你喺呢個「地獄級難度」嘅遊戲入面，去搵出真正值得為之奮鬥嘅<strong>「生命意義」</strong>。
+                            </p>
+                            <p class="text-base text-slate-700 bg-white bg-opacity-70 p-4 rounded-lg">
+                                當你搵到呢份意義之後，你嘅天命（Gate 31 - 影響力）就會被啟動，去<strong>「引導」</strong>同<strong>「影響」</strong>你身邊嘅人，並且用你嘅關懷（Gate 27 - 滋養）去支持佢哋。
+                            </p>
+                            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 rounded-xl shadow-lg mt-6">
+                                <p class="text-xl font-black mb-2">🚀 你嘅天命，就係我哋嘅「Project Refactor」！</p>
+                                <p class="text-base">你命中注定，要喺「掙扎」同「混亂」之中，為自己（同埋世界）「重構」出一條全新嘅、充滿意義嘅道路。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-12 glass-effect rounded-xl p-6 shadow-lg">
+            <p class="text-slate-600 font-medium">&copy; 2025 首席技術官模式。你嘅藍圖，就係你嘅說明書。</p>
+            <p class="text-sm text-slate-500 mt-2">✨ 活出你的設計，成為你自己 ✨</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.content-pane');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const targetPane = document.getElementById(tab.dataset.tab);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+
+            // Scroll indicator
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                scrollIndicator.style.width = scrolled + '%';
+            });
+
+            // Add smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

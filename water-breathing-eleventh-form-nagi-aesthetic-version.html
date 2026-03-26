@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水之呼吸・十一之型：凪 (極致美學版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;700&family=Zen+Maru+Gothic:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #020617; /* Ultra Dark Slate */
+            color: #e2e8f0;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: none; /* Hide default cursor for custom interaction */
+        }
+
+        /* Advanced Water Gradient Background */
+        .water-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #172554 0%, #0f172a 40%, #020617 100%);
+            z-index: -2;
+            transition: all 3s ease;
+        }
+
+        /* Subtle Noise Texture for Realism */
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* The "Zone" Circle - Refined */
+        .nagi-zone {
+            position: absolute;
+            width: 50vh;
+            height: 50vh;
+            border-radius: 50%;
+            border: 1px solid rgba(125, 211, 252, 0.15); /* Light Sky blue tint */
+            box-shadow: 0 0 80px rgba(14, 165, 233, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Multi-layered Breathing Animation */
+        .breath-ring {
+            position: absolute;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            animation: breathe-outer 10s infinite ease-in-out;
+        }
+        .breath-core {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+            width: 80%;
+            height: 80%;
+            animation: breathe-inner 10s infinite ease-in-out;
+        }
+
+        @keyframes breathe-outer {
+            0%, 100% { transform: scale(0.95); opacity: 0.3; border-color: rgba(56, 189, 248, 0.1); } 
+            50% { transform: scale(1.05); opacity: 0.6; border-color: rgba(56, 189, 248, 0.3); } 
+        }
+        @keyframes breathe-inner {
+            0%, 100% { transform: scale(0.8); opacity: 0.2; } 
+            50% { transform: scale(1.2); opacity: 0.5; } 
+        }
+
+        /* Elegant Ripples */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(186, 230, 253, 0.4);
+            background: transparent;
+            transform: scale(0);
+            animation: ripple-expand 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            pointer-events: none;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(186, 230, 253, 0.1);
+        }
+
+        @keyframes ripple-expand {
+            0% { transform: scale(0); opacity: 0.6; border-width: 1.5px; }
+            100% { transform: scale(4); opacity: 0; border-width: 0px; }
+        }
+
+        /* Mouse Follower Glow */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            mix-blend-mode: screen;
+            transition: opacity 0.3s;
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            mix-blend-mode: difference;
+            transition: transform 0.1s;
+        }
+
+        /* Typography */
+        .kanji-bg {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 12rem;
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.03);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: float-kanji 8s ease-in-out infinite;
+        }
+
+        @keyframes float-kanji {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        .text-content {
+            text-align: center;
+            z-index: 20;
+            position: relative;
+            transition: all 0.8s ease;
+        }
+        
+        h2 {
+            font-family: 'Noto Serif TC', serif;
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+        }
+
+        .instruction-btn {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+            background: transparent;
+            padding: 0.8rem 2rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.5s;
+            text-transform: uppercase;
+        }
+        .instruction-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 0 5px white;
+        }
+
+        /* Deep Focus State */
+        body.deep-focus .instruction-btn { opacity: 0; pointer-events: none; transform: translateY(20px); }
+        body.deep-focus .text-content h2 { font-size: 5rem; color: #7dd3fc; text-shadow: 0 0 50px rgba(56, 189, 248, 0.8); }
+        body.deep-focus .water-bg { background: radial-gradient(circle at center, #082f49 0%, #020617 95%); }
+        body.deep-focus .nagi-zone { width: 65vh; height: 65vh; border-color: rgba(56, 189, 248, 0.3); box-shadow: 0 0 100px rgba(14, 165, 233, 0.2); }
+        body.deep-focus .cursor-dot { opacity: 0; }
+        body.deep-focus .cursor-glow { opacity: 0; }
+
+    </style>
+</head>
+<body>
+
+    <div class="water-bg"></div>
+    <div class="noise-overlay"></div>
+    
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Background Kanji -->
+    <div class="kanji-bg">凪</div>
+
+    <!-- The Core Zone -->
+    <div class="nagi-zone" id="nagiZone">
+        <div class="breath-ring"></div>
+        <div class="breath-core"></div>
+        
+        <div class="text-content">
+            <h2 class="text-4xl md:text-5xl font-medium mb-2 text-white tracking-[0.2em] transition-all duration-1000" id="mainText">全集中</h2>
+            <p class="text-lg text-sky-200/70 font-light tracking-widest mb-8 transition-all duration-1000" id="subText">水之呼吸・十一之型</p>
+            
+            <button class="instruction-btn" id="toggleBtn">
+                進入深層結界
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Enhanced Ripple Effect ---
+        const createRipple = (x, y) => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            const size = Math.random() * 100 + 50; 
+            ripple.style.width = `${size}px`;
+            ripple.style.height = `${size}px`;
+            ripple.style.left = `${x - size/2}px`;
+            ripple.style.top = `${y - size/2}px`;
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 2500);
+        };
+
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'toggleBtn') return;
+            createRipple(e.clientX, e.clientY);
+            // Create a second smaller ripple for detail
+            setTimeout(() => createRipple(e.clientX, e.clientY), 150);
+        });
+
+        // --- 2. Fluid Cursor Tracking ---
+        const cursorGlow = document.getElementById('cursorGlow');
+        const cursorDot = document.getElementById('cursorDot');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let glowX = mouseX, glowY = mouseY;
+        let dotX = mouseX, dotY = mouseY;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        const animateCursor = () => {
+            // Smooth easing for glow
+            glowX += (mouseX - glowX) * 0.1;
+            glowY += (mouseY - glowY) * 0.1;
+            cursorGlow.style.left = `${glowX}px`;
+            cursorGlow.style.top = `${glowY}px`;
+
+            // Faster response for dot
+            dotX += (mouseX - dotX) * 0.2;
+            dotY += (mouseY - dotY) * 0.2;
+            cursorDot.style.left = `${dotX}px`;
+            cursorDot.style.top = `${dotY}px`;
+
+            requestAnimationFrame(animateCursor);
+        };
+        animateCursor();
+
+        // --- 3. Breathing Text Logic ---
+        const mainText = document.getElementById('mainText');
+        const subText = document.getElementById('subText');
+        
+        const breathCycle = () => {
+            // Inhale (0-4s)
+            setTimeout(() => {
+                mainText.style.opacity = "1";
+                mainText.style.transform = "scale(1.05)";
+                mainText.innerText = "吸 氣";
+                subText.style.opacity = "1";
+                subText.innerText = "Inhale Peace";
+            }, 0);
+
+            // Hold (4-6s)
+            setTimeout(() => {
+                mainText.style.transform = "scale(1)";
+                mainText.innerText = "保 持";
+                subText.innerText = "You are Safe";
+            }, 4000);
+
+            // Exhale (6-10s)
+            setTimeout(() => {
+                mainText.style.opacity = "0.7";
+                mainText.style.transform = "scale(0.95)";
+                mainText.innerText = "呼 氣";
+                subText.style.opacity = "0.7";
+                subText.innerText = "Release Fear";
+            }, 6000);
+        };
+
+        let breathingInterval = setInterval(breathCycle, 10000);
+        breathCycle(); 
+
+        // --- 4. Deep Focus Mode ---
+        const toggleBtn = document.getElementById('toggleBtn');
+        let isDeepMode = false;
+
+        toggleBtn.addEventListener('click', () => {
+            isDeepMode = !isDeepMode;
+            document.body.classList.toggle('deep-focus');
+
+            if (isDeepMode) {
+                clearInterval(breathingInterval);
+                mainText.style.opacity = "1";
+                mainText.style.transform = "scale(1)";
+                mainText.innerText = "凪";
+                subText.innerText = ""; 
+            } else {
+                breathCycle();
+                breathingInterval = setInterval(breathCycle, 10000);
+            }
+        });
+
+        // --- 5. Advanced Particle System ---
+        function createParticles() {
+            const particleCount = 40;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                
+                const x = Math.random() * 100;
+                const startY = Math.random() * 100 + 100; // Start below screen
+                const size = Math.random() * 2 + 1;
+                const duration = Math.random() * 20 + 15;
+                const delay = Math.random() * -20;
+                
+                p.style.left = `${x}vw`;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                
+                p.animate([
+                    { transform: `translateY(${startY}vh) translateX(0px)`, opacity: 0 },
+                    { transform: `translateY(${startY/2}vh) translateX(${Math.random()*50 - 25}px)`, opacity: Math.random()*0.5 + 0.2, offset: 0.5 },
+                    { transform: `translateY(-10vh) translateX(${Math.random()*50 - 25}px)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    iterations: Infinity,
+                    delay: delay * 1000,
+                    easing: 'linear'
+                });
+                
+                document.body.appendChild(p);
+            }
+        }
+        createParticles();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan 內疚感 De-bugger v1.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #020617; /* slate-950 */
+        }
+        .rounded-40 { border-radius: 40px; }
+        .animate-spin-slow {
+            animation: spin 12s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .zoom-in { animation: zoomIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 text-slate-200">
+
+    <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl border border-white/10 p-8 rounded-40 shadow-2xl relative overflow-hidden">
+        
+        <!-- Background Decor -->
+        <div class="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
+            <i data-lucide="refresh-cw" class="w-24 h-24 animate-spin-slow"></i>
+        </div>
+
+        <header class="mb-8 text-center">
+            <div class="text-[10px] text-indigo-400 font-black uppercase tracking-[0.4em] mb-2">Nathan System Care</div>
+            <h1 class="text-2xl font-bold tracking-tighter text-white uppercase italic">Guilt <span class="text-indigo-400">De-bugger</span></h1>
+        </header>
+
+        <!-- Current Status -->
+        <div class="mb-8">
+            <div class="flex justify-between text-[10px] mb-2 uppercase tracking-widest text-slate-500">
+                <span>內疚感水平 (Guilt Level)</span>
+                <span id="guilt-text" class="text-red-400 font-bold transition-colors duration-500">70%</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="guilt-bar" class="h-full bg-red-500 transition-all duration-1000 w-[70%]"></div>
+            </div>
+        </div>
+
+        <!-- Logic Analysis Area -->
+        <div id="logic-container" class="mb-8">
+            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-start space-x-3 fade-in">
+                <i data-lucide="alert-circle" class="text-red-500 shrink-0 w-5 h-5"></i>
+                <p class="text-xs text-red-200 leading-relaxed">
+                    偵測到錯誤邏輯 (Logic Error)：<br/>
+                    「請假 = 懶、唔負責任、浪費錢」
+                </p>
+            </div>
+            <button 
+                onclick="applyPatch()"
+                class="mt-4 w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all shadow-lg shadow-indigo-900/40 flex items-center justify-center space-x-2"
+            >
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                <span>執行：認知重構補丁</span>
+            </button>
+        </div>
+
+        <!-- Support Icons -->
+        <div class="flex justify-around items-center pt-6 border-t border-white/5">
+            <div class="flex flex-col items-center opacity-40">
+                <i data-lucide="coffee" class="text-amber-400 w-5 h-5"></i>
+                <span class="text-[8px] mt-1 uppercase text-slate-400">Rest</span>
+            </div>
+            <div class="flex flex-col items-center opacity-40">
+                <i data-lucide="waves" class="text-blue-400 w-5 h-5"></i>
+                <span class="text-[8px] mt-1 uppercase text-slate-400">Nagi</span>
+            </div>
+            <div class="flex flex-col items-center opacity-40">
+                <i data-lucide="ghost" class="text-indigo-400 w-5 h-5"></i>
+                <span class="text-[8px] mt-1 uppercase text-slate-400">Safe</span>
+            </div>
+        </div>
+
+        <footer class="mt-8 text-center">
+            <div class="inline-block p-2 bg-slate-950 rounded-full">
+                <i data-lucide="heart" class="text-red-500 fill-red-500 animate-pulse w-4 h-4"></i>
+            </div>
+            <p class="text-[9px] text-slate-700 mt-2 tracking-[0.3em] uppercase">
+                Nathan, taking leave is a strategic move.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        function applyPatch() {
+            const guiltText = document.getElementById('guilt-text');
+            const guiltBar = document.getElementById('guilt-bar');
+            const logicContainer = document.getElementById('logic-container');
+
+            // 1. Update Progress Bar
+            guiltText.innerText = '10%';
+            guiltText.classList.replace('text-red-400', 'text-green-400');
+            guiltBar.style.width = '10%';
+            guiltBar.classList.replace('bg-red-500', 'bg-green-500');
+
+            // 2. Update Logic Content with Animation
+            logicContainer.innerHTML = `
+                <div class="space-y-4 zoom-in">
+                    <div class="bg-green-500/10 border border-green-500/20 p-4 rounded-2xl flex items-start space-x-3">
+                        <i data-lucide="shield-check" class="text-green-500 shrink-0 w-5 h-5"></i>
+                        <div class="text-xs text-green-200 leading-relaxed">
+                            補丁已成功寫入 (Patch Success)：
+                            <ul class="mt-2 space-y-1 list-disc list-inside opacity-80">
+                                <li>請假係為了避免系統崩潰 (Critical Failure)。</li>
+                                <li>休息係「投射者」嘅生存必須品。</li>
+                                <li>媽媽想見到一個健康嘅 Nathan。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-center py-2">
+                        <p class="text-[10px] text-slate-500 italic">「Nathan，你上星期避開咗架車，已經證明咗你值得休息。」</p>
+                    </div>
+                </div>
+            `;
+            
+            // Re-render icons for new content
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

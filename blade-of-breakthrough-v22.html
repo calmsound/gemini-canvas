@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>突破之刃 v2.2：極致動感版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Post-processing -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #000000;
+            color: #e2e8f0;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tech-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* UI Overlay */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2rem;
+        }
+
+        .header-content {
+            text-align: center;
+            pointer-events: auto;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Slash Effect Overlay */
+        .slash-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 4px;
+            background: #fff;
+            transform: translate(-50%, -50%) rotate(-45deg) scaleX(0);
+            box-shadow: 0 0 30px #facc15, 0 0 60px #facc15;
+            z-index: 20;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .slash-animate {
+            animation: slash-cut 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes slash-cut {
+            0% { transform: translate(-50%, -50%) rotate(-45deg) scaleX(0); opacity: 1; }
+            50% { transform: translate(-50%, -50%) rotate(-45deg) scaleX(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(-45deg) scaleX(1); opacity: 0; }
+        }
+
+        /* Result Card - Cyberpunk Style */
+        .result-card {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #0ea5e9;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 
+                0 0 50px rgba(14, 165, 233, 0.3),
+                inset 0 0 20px rgba(14, 165, 233, 0.1);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 30;
+            pointer-events: auto;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #0ea5e9, transparent);
+            animation: scan-line 2s linear infinite;
+        }
+
+        @keyframes scan-line {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .result-card.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .result-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f0f9ff;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .result-category {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .action-btn {
+            background: transparent;
+            color: #38bdf8;
+            padding: 0.8rem 3rem;
+            border: 1px solid #38bdf8;
+            border-radius: 4px; /* Sharp corners */
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn:hover {
+            background: rgba(56, 189, 248, 0.1);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: 10%;
+            width: 100%;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            pointer-events: none;
+            animation: pulse-text 2s infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <div class="slash-overlay" id="slash"></div>
+
+    <div class="ui-layer">
+        <div class="header-content mt-8">
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-2 tech-font tracking-wider">突破之刃</h1>
+            <p class="text-sky-300 text-sm tracking-[0.3em] uppercase font-bold">System Override: v2.0</p>
+        </div>
+        
+        <div class="instruction" id="instructionText">
+            點擊核心斬斷阻力
+        </div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="result-card" id="resultCard">
+        <div class="result-category" id="resCategory">SYSTEM MESSAGE</div>
+        <div class="result-text" id="resText">Loading...</div>
+        <button class="action-btn" id="resetBtn">再次突破</button>
+    </div>
+
+    <!-- Shaders -->
+    <script type="x-shader/x-vertex" id="vertexShader">
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        
+        void main() {
+            vUv = uv;
+            vNormal = normalize(normalMatrix * normal);
+            vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        uniform float time;
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        
+        void main() {
+            // Create a pulsing energy effect
+            float noise = sin(vUv.y * 20.0 + time * 2.0) * 0.5 + 0.5;
+            float fresnel = pow(1.0 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.0);
+            
+            // Base color (Dark Core)
+            vec3 baseColor = vec3(0.1, 0.1, 0.2);
+            
+            // Energy veins (Blue/Cyan)
+            vec3 veinColor = vec3(0.0, 0.8, 1.0);
+            
+            // Mix
+            vec3 finalColor = mix(baseColor, veinColor, noise * fresnel + 0.2);
+            
+            // Add glow
+            finalColor += veinColor * fresnel * 1.5;
+
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+    </script>
+
+    <script>
+        // --- 1. Enhanced Quotes Library ---
+        const quotes = [
+            // Action & Procrastination
+            { text: "我不需完美才開始，微小一步就是勝利。", category: "🔥 啟動引擎 (Action)" },
+            { text: "當下就是最好時刻，我擁抱不完美的進展。", category: "⏳ 時間重構 (Time)" },
+            { text: "我專注過程而非結果，行動本身就是獎勵。", category: "⚙️ 流程專注 (Process)" },
+            { text: "我允許自己笨拙地開始，這是我成長的證明。", category: "🚀 破除阻力 (Growth)" },
+            { text: "不做也是一種選擇，我在為下一次爆發儲能。", category: "🧘 戰略性休息 (Strategy)" },
+            
+            // Self-Criticism & Worthiness
+            { text: "我是自己的盟友，我拒絕與自己為敵。", category: "🛡️ 核心防禦 (Defense)" },
+            { text: "無論做得如何，我都值得被愛與尊重。", category: "💖 無條件接納 (Acceptance)" },
+            { text: "錯誤是數據，不是失敗，我在學習中進化。", category: "🌱 成長視角 (Learning)" },
+            { text: "我無需證明價值，我的存在本身就是光。", category: "☀️ 光之本質 (Essence)" },
+            
+            // New Additions (v2.0)
+            { text: "我的價值由 `const` 定義，不隨表現浮動。", category: "💎 創世源代碼 (Core)" },
+            { text: "我原諒過去的自己，他只是想保護我。", category: "🌊 寬恕協定 (Forgiveness)" },
+            { text: "我不需取悅世界，我只需忠於自己。", category: "🦁 獅子之心 (Courage)" },
+            { text: "每一個「現在」，都是全新的開始。", category: "✨ 當下力量 (Now)" },
+            { text: "夠好，就已經是最好。", category: "⚖️ 平衡法則 (Balance)" },
+            
+            // New Additions (v2.3)
+            { text: "完美是幻覺，行動是真實。", category: "✨ 完美重構 (Focus)" },
+            { text: "我的脆弱，是我力量的起點。", category: "🌱 成長視角 (Learning)" },
+            { text: "每一次呼吸，都讓舊的恐懼流走。", category: "🌊 寬恕協定 (Forgiveness)" },
+            { text: "我專注這一步，其餘的留給宇宙。", category: "🧘 戰略性休息 (Strategy)" },
+            { text: "我值得這份放鬆，因為我已奮戰過。", category: "💖 無條件接納 (Acceptance)" }
+        ];
+
+        // --- 2. Three.js Setup ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // --- 3. Post-Processing (Bloom) ---
+        const composer = new THREE.EffectComposer(renderer);
+        const renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
+
+        const bloomPass = new THREE.UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            2.5, // Strength (High for energy look)
+            0.4, // Radius
+            0.85 // Threshold
+        );
+        composer.addPass(bloomPass);
+
+        // --- 4. The Energy Orb (Custom Shader) ---
+        const geometry = new THREE.IcosahedronGeometry(1.5, 4); // Detailed sphere
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 }
+            },
+            vertexShader: document.getElementById('vertexShader').textContent,
+            fragmentShader: document.getElementById('fragmentShader').textContent
+        });
+
+        const orb = new THREE.Mesh(geometry, material);
+        scene.add(orb);
+
+        // Orbit rings
+        const ringGeo = new THREE.TorusGeometry(2.2, 0.02, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.5 });
+        
+        const ring1 = new THREE.Mesh(ringGeo, ringMat);
+        const ring2 = new THREE.Mesh(ringGeo, ringMat);
+        const ring3 = new THREE.Mesh(ringGeo, ringMat);
+        
+        ring1.rotation.x = Math.PI / 2;
+        ring2.rotation.x = Math.PI / 2;
+        ring2.rotation.y = Math.PI / 3;
+        ring3.rotation.x = Math.PI / 2;
+        ring3.rotation.y = -Math.PI / 3;
+
+        const orbGroup = new THREE.Group();
+        orbGroup.add(orb);
+        orbGroup.add(ring1);
+        orbGroup.add(ring2);
+        orbGroup.add(ring3);
+        scene.add(orbGroup);
+
+        // Particles (Background Stars)
+        const particlesGeo = new THREE.BufferGeometry();
+        const particleCount = 500;
+        const posArray = new Float32Array(particleCount * 3);
+        
+        for(let i=0; i<particleCount*3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 20;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({ size: 0.02, color: 0xffffff, transparent: true, opacity: 0.5 });
+        const starField = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(starField);
+
+        // --- 5. Animation Loop ---
+        const clock = new THREE.Clock();
+        let isExploding = false;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const time = clock.getElapsedTime();
+            material.uniforms.time.value = time;
+
+            // Idle Animation
+            if (!isExploding) {
+                orbGroup.rotation.y = time * 0.2;
+                orbGroup.rotation.z = Math.sin(time * 0.5) * 0.1;
+                
+                // Pulse scale
+                const scale = 1 + Math.sin(time * 2) * 0.05;
+                orb.scale.set(scale, scale, scale);
+                
+                // Rings rotation
+                ring1.rotation.z = time * 0.3;
+                ring2.rotation.z = time * -0.2;
+                ring3.rotation.z = time * 0.1;
+            } else {
+                // Explosion effect (Expansion)
+                orb.scale.multiplyScalar(1.1);
+                orb.rotation.y += 0.2;
+                
+                if (orb.scale.x > 20) {
+                    orb.visible = false;
+                }
+            }
+
+            // Starfield movement
+            starField.rotation.y = time * 0.05;
+
+            composer.render();
+        }
+        animate();
+
+        // --- 6. Interaction Logic ---
+        const slash = document.getElementById('slash');
+        const resultCard = document.getElementById('resultCard');
+        const resText = document.getElementById('resText');
+        const resCategory = document.getElementById('resCategory');
+        const resetBtn = document.getElementById('resetBtn');
+        const instructionText = document.getElementById('instructionText');
+
+        // Raycaster for click detection
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        window.addEventListener('mousedown', onDocumentMouseDown, false);
+
+        function onDocumentMouseDown(event) {
+            if (isExploding) return; // Prevent double clicks
+
+            // Normalize mouse coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects([orb]);
+
+            if (intersects.length > 0) {
+                triggerBreakthrough();
+            }
+        }
+
+        function triggerBreakthrough() {
+            isExploding = true;
+            instructionText.style.opacity = '0';
+
+            // Slash Animation
+            slash.classList.remove('slash-animate');
+            void slash.offsetWidth;
+            slash.classList.add('slash-animate');
+
+            // Flash effect via body background
+            document.body.style.backgroundColor = '#ffffff';
+            setTimeout(() => {
+                document.body.style.backgroundColor = '#000000';
+            }, 100);
+
+            // Show Result after short delay
+            setTimeout(() => {
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                resText.innerText = randomQuote.text;
+                resCategory.innerText = randomQuote.category;
+                resultCard.classList.add('show');
+            }, 600);
+        }
+
+        resetBtn.addEventListener('click', () => {
+            resultCard.classList.remove('show');
+            instructionText.style.opacity = '1';
+            
+            // Reset Orb
+            setTimeout(() => {
+                orb.visible = true;
+                orb.scale.set(1, 1, 1);
+                isExploding = false;
+            }, 500);
+        });
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
